@@ -2,3 +2,5 @@ numpy
 pandas
 watermark
 tqdm
+matplotlib
+seanborn
