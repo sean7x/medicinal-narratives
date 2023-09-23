@@ -3,4 +3,7 @@ pandas
 watermark
 tqdm
 matplotlib
-seanborn
+seaborn
+html
+sklearn
+dvclive
