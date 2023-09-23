@@ -8,3 +8,4 @@ scikit-learn
 dvclive
 TextBlob
 nltk
+wordcloud
