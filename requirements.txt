@@ -4,6 +4,5 @@ watermark
 tqdm
 matplotlib
 seaborn
-html
-sklearn
+scikit-learn
 dvclive
