@@ -1,0 +1,3 @@
+extract_sample:
+  fraction: 0.2
+  stratify_column: 'rating'

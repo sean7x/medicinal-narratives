@@ -1,10 +1,13 @@
 stages:
   extract_sample:
     cmd: python src/extract_sample.py --input_path data/raw/lewtun-drug-reviews/train.jsonl
-      --output_path data/raw/sample_train.csv --fraction
-      ${extract_sample.fraction} --stratify_column ${extract_sample.stratify_column}
+      --output_path data/raw/lewtun-drug-reviews/sample_train.csv --fraction ${extract_sample.fration}
+      --stratify_column ${extract_sample.stratify_column}
     deps:
     - data/raw/lewtun-drug-reviews/train.jsonl
     - src/extract_sample.py
+    params:
+    - extract_sample.fraction
+    - extract_sample.stratify_column
     outs:
-    - data/raw/sample_train.csv
+    - data/raw/lewtun-drug-reviews/sample_train.csv
