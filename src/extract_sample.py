@@ -3,7 +3,17 @@ import pandas as pd
 
 
 def extract_stratified_sample(input_path, output_path, fraction, stratify_column):
-    df = pd.read_csv(input_path)
+    if input_path.suffix == ".csv":
+        df = pd.read_csv(input_path)
+    elif input_path.suffix == '.jsonl':
+        df = pd.read_json(input_path, lines=True)
+    elif input_path.suffix == '.parquet':
+        df = pd.read_parquet(input_path)
+    elif input_path.suffix == '.feather':
+        df = pd.read_feather(input_path)
+    else:
+        raise ValueError(f"Unknown file type: {input_path.suffix}")
+    
     _, sample_df = train_test_split(df, test_size=fraction, stratify=df[stratify_column])
 
     sample_df.to_csv(output_path, index=False)
