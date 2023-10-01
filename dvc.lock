@@ -1,0 +1,24 @@
+schema: '2.0'
+stages:
+  extract_sample:
+    cmd: python src/extract_sample.py --input_path data/raw/lewtun-drug-reviews/train.jsonl
+      --output_path data/raw/lewtun-drug-reviews/sample_train.csv --fraction 0.2 --stratify_column
+      rating
+    deps:
+    - path: data/raw/lewtun-drug-reviews/train.jsonl
+      hash: md5
+      md5: 5bfa955b0f63f5c91db7c77ee4d14d95
+      size: 97686013
+    - path: src/extract_sample.py
+      hash: md5
+      md5: ba8e8916435b08b5c0e176374c8652af
+      size: 1614
+    params:
+      params.yaml:
+        extract_sample.fraction: 0.2
+        extract_sample.stratify_column: rating
+    outs:
+    - path: data/raw/lewtun-drug-reviews/sample_train.csv
+      hash: md5
+      md5: 588b18bdeddb55ce72802f69b4680946
+      size: 16555274
