@@ -11,3 +11,11 @@ stages:
     - extract_sample.stratify_column
     outs:
     - data/raw/lewtun-drug-reviews/sample_train.csv
+  preprocess:
+    cmd: python src/preprocessing.py --input_path data/raw/lewtun-drug-reviews/sample_train.csv
+      --output_path data/preprocessed/lewtun-drug-reviews/procd_sample_train.csv
+    deps:
+    - data/raw/lewtun-drug-reviews/sample_train.csv
+    - src/preprocessing.py
+    outs:
+    - data/preprocessed/lewtun-drug-reviews/procd_sample_train.csv

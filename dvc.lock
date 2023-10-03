@@ -22,3 +22,20 @@ stages:
       hash: md5
       md5: 588b18bdeddb55ce72802f69b4680946
       size: 16555274
+  preprocess:
+    cmd: python src/preprocessing.py --input_path data/raw/lewtun-drug-reviews/sample_train.csv
+      --output_path data/preprocessed/lewtun-drug-reviews/procd_sample_train.csv
+    deps:
+    - path: data/raw/lewtun-drug-reviews/sample_train.csv
+      hash: md5
+      md5: 588b18bdeddb55ce72802f69b4680946
+      size: 16555274
+    - path: src/preprocessing.py
+      hash: md5
+      md5: b63709c5fafd388921c8496a38059e3c
+      size: 1380
+    outs:
+    - path: data/preprocessed/lewtun-drug-reviews/procd_sample_train.csv
+      hash: md5
+      md5: 849ca8431a02906a50e33bd775ae2fe0
+      size: 24523163
