@@ -1,5 +1,6 @@
 import spacy
 import pandas as pd
+import html
 
 
 def preprocess(input_path, output_path):
@@ -15,6 +16,12 @@ def preprocess(input_path, output_path):
         df = pd.read_feather(input_path)
     else:
         raise ValueError(f"Unknown file type: {input_path.suffix}")
+    
+    # Decode HTML entities back to original characters and remove whitespaces
+    df['review'] = df['review'].apply(html.unescape).str.replace(r'[\r\n\t]', '', regex=True).str.strip()
+
+    # Remove wrong condition values and keep the rows
+    df.loc[df.condition.notna() & df.condition.str.contains('users found this comment helpful'), 'condition'] = None
     
     # Generate lemmas for each token, remove stopwords and punctuations, and join back into a string
     df['procd_review'] = df['review'].apply(

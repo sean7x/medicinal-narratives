@@ -32,10 +32,10 @@ stages:
       size: 16555274
     - path: src/preprocessing.py
       hash: md5
-      md5: b63709c5fafd388921c8496a38059e3c
-      size: 1380
+      md5: fb932c05d6d142a55ae0c54e9da2f11d
+      size: 1753
     outs:
     - path: data/preprocessed/lewtun-drug-reviews/procd_sample_train.csv
       hash: md5
-      md5: 849ca8431a02906a50e33bd775ae2fe0
-      size: 24523163
+      md5: e0bb2e5fbd642d631a3ab586a590e953
+      size: 23587880
