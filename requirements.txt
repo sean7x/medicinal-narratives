@@ -9,3 +9,6 @@ dvclive
 TextBlob
 wordcloud
 spacy
+gensim
+transformers
+torch
