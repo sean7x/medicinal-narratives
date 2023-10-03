@@ -14,7 +14,7 @@ def extract_stratified_sample(input_path, output_path, fraction, stratify_column
     else:
         raise ValueError(f"Unknown file type: {input_path.suffix}")
     
-    _, sample_df = train_test_split(df, test_size=fraction, stratify=df[stratify_column])
+    _, sample_df = train_test_split(df, test_size=fraction, stratify=df[stratify_column], random_state=42)
 
     sample_df.to_csv(output_path, index=False)
 
