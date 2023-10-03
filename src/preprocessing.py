@@ -2,6 +2,10 @@ import spacy
 import pandas as pd
 import html
 
+# Import and initialize tqdm for Pandas
+from tqdm import tqdm
+tqdm.pandas()
+
 
 def preprocess(input_path, output_path):
     nlp = spacy.load('en_core_web_sm')
@@ -24,7 +28,7 @@ def preprocess(input_path, output_path):
     df.loc[df.condition.notna() & df.condition.str.contains('users found this comment helpful'), 'condition'] = None
     
     # Generate lemmas for each token, remove stopwords and punctuations, and join back into a string
-    df['procd_review'] = df['review'].apply(
+    df['procd_review'] = df['review'].progress_apply(
         lambda x: ' '.join([token.lemma_ for token in nlp(x) if not token.is_stop and not token.is_punct])
     )
 
