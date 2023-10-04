@@ -11,31 +11,76 @@ stages:
       size: 97686013
     - path: src/extract_sample.py
       hash: md5
-      md5: ba8e8916435b08b5c0e176374c8652af
-      size: 1614
+      md5: 538899e58da06b8d898436c7d1058bf8
+      size: 1631
     params:
       params.yaml:
-        extract_sample.fraction: 0.2
-        extract_sample.stratify_column: rating
+        extract_sample:
+          fraction: 0.2
+          stratify_column: rating
     outs:
     - path: data/raw/lewtun-drug-reviews/sample_train.csv
       hash: md5
-      md5: 588b18bdeddb55ce72802f69b4680946
-      size: 16555274
+      md5: fe6e3f3aa8d697526f0907b3befedf43
+      size: 16599199
   preprocess:
     cmd: python src/preprocessing.py --input_path data/raw/lewtun-drug-reviews/sample_train.csv
       --output_path data/preprocessed/lewtun-drug-reviews/procd_sample_train.csv
     deps:
     - path: data/raw/lewtun-drug-reviews/sample_train.csv
       hash: md5
-      md5: 588b18bdeddb55ce72802f69b4680946
-      size: 16555274
+      md5: fe6e3f3aa8d697526f0907b3befedf43
+      size: 16599199
     - path: src/preprocessing.py
       hash: md5
-      md5: 8b590d366a3bd94a229f7f37862ea124
-      size: 1839
+      md5: e3d72c7884b2e82c48acbc57cd8a43e1
+      size: 1937
     outs:
     - path: data/preprocessed/lewtun-drug-reviews/procd_sample_train.csv
       hash: md5
-      md5: e0bb2e5fbd642d631a3ab586a590e953
-      size: 23587880
+      md5: 94967cda454b25b48b78b082f7b9752d
+      size: 27333994
+  feature_engineering:
+    cmd: python src/feature_engineering.py --input_path data/preprocessed/lewtun-drug-reviews/procd_sample_train.csv
+      --bow true --tfidf true --word2vec true --vector_size 100 --window 5 --min_count
+      1 --epochs 10 --workers -1 --bert true
+    deps:
+    - path: params.yaml
+      hash: md5
+      md5: 098dd48d851900c8301d46e1ab01756d
+      size: 309
+    - path: src/feature_engineering.py
+      hash: md5
+      md5: e5a7c772856fc7f86821728f3d56c4b6
+      size: 4103
+    params:
+      params.yaml:
+        feature_engineering:
+          input_path: data/preprocessed/lewtun-drug-reviews/procd_sample_train.csv
+          bow: true
+          tfidf: true
+          word2vec:
+            enabled: true
+            vector_size: 100
+            window: 5
+            min_count: 1
+            epochs: 10
+            workers: -1
+          bert: true
+    outs:
+    - path: data/features/bert_embeddings.pkl
+      hash: md5
+      md5: 837d279e994a733f265ed9ad0f7c42a3
+      size: 3782139974
+    - path: data/features/bow_corpus.pkl
+      hash: md5
+      md5: 2a1540722a532ec9f0f84e49d79c9f5a
+      size: 7029158
+    - path: data/features/tfidf_corpus.pkl
+      hash: md5
+      md5: f7a0c3f43958c2a45b16ffe83b252cef
+      size: 24628593
+    - path: data/features/word2vec_model.pkl
+      hash: md5
+      md5: 7e4042d81c0f5a40152eb750b8b61bd1
+      size: 32977113

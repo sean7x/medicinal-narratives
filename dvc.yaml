@@ -7,8 +7,9 @@ stages:
     - data/raw/lewtun-drug-reviews/train.jsonl
     - src/extract_sample.py
     params:
-    - extract_sample.fraction
-    - extract_sample.stratify_column
+      #- extract_sample.fraction
+      #- extract_sample.stratify_column
+    - extract_sample
     outs:
     - data/raw/lewtun-drug-reviews/sample_train.csv
   preprocess:
@@ -19,3 +20,29 @@ stages:
     - src/preprocessing.py
     outs:
     - data/preprocessed/lewtun-drug-reviews/procd_sample_train.csv
+  feature_engineering:
+    cmd: python src/feature_engineering.py --input_path ${feature_engineering.input_path}
+      --bow ${feature_engineering.bow} --tfidf ${feature_engineering.tfidf} --word2vec
+      ${feature_engineering.word2vec.enabled} --vector_size ${feature_engineering.word2vec.vector_size}
+      --window ${feature_engineering.word2vec.window} --min_count ${feature_engineering.word2vec.min_count}
+      --epochs ${feature_engineering.word2vec.epochs} --workers ${feature_engineering.word2vec.workers}
+      --bert ${feature_engineering.bert}
+    deps:
+    - params.yaml
+    - src/feature_engineering.py
+    params:
+    - feature_engineering
+    outs:
+    - data/features/bow_corpus.pkl
+    - data/features/tfidf_corpus.pkl
+    - data/features/word2vec_model.pkl
+    - data/features/bert_embeddings.pkl
+    #live:
+    #  summaryHtml: dvclive_summary.html
+    #  summaryJson: dvclive_summary.json
+    #  plots: dvclive_plots.json
+metrics:
+- dvclive/metrics.json
+plots:
+- dvclive/plots/metrics:
+    x: step

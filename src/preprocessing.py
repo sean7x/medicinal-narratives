@@ -29,7 +29,8 @@ def preprocess(input_path, output_path):
     
     # Generate lemmas for each token, remove stopwords and punctuations, and join back into a string
     df['procd_review'] = df['review'].progress_apply(
-        lambda x: ' '.join([token.lemma_ for token in nlp(x) if not token.is_stop and not token.is_punct])
+        #lambda x: ' '.join([token.lemma_ for token in nlp(x) if not token.is_stop and not token.is_punct])
+        lambda x: [token.lemma_ for token in nlp(x) if not token.is_stop and not token.is_punct]
     )
 
     df.to_csv(output_path, index=False)
