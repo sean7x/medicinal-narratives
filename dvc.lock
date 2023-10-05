@@ -51,8 +51,8 @@ stages:
       size: 309
     - path: src/feature_engineering.py
       hash: md5
-      md5: e5a7c772856fc7f86821728f3d56c4b6
-      size: 4103
+      md5: 5a8084c97fb76a77a110c4da6e5e6f78
+      size: 4163
     params:
       params.yaml:
         feature_engineering:
@@ -70,17 +70,21 @@ stages:
     outs:
     - path: data/features/bert_embeddings.pkl
       hash: md5
-      md5: 837d279e994a733f265ed9ad0f7c42a3
+      md5: 660870a3c3f5e5e939c78658c3107ef7
       size: 3782139974
     - path: data/features/bow_corpus.pkl
       hash: md5
       md5: 2a1540722a532ec9f0f84e49d79c9f5a
       size: 7029158
+    - path: data/features/dictionary.pkl
+      hash: md5
+      md5: 01fe8baf958e2b3d579b9c7d4e50cc52
+      size: 1029442
     - path: data/features/tfidf_corpus.pkl
       hash: md5
       md5: f7a0c3f43958c2a45b16ffe83b252cef
       size: 24628593
     - path: data/features/word2vec_model.pkl
       hash: md5
-      md5: 7e4042d81c0f5a40152eb750b8b61bd1
+      md5: 2859b5ca5be1ccc58d36b2719d2f5f78
       size: 32977113

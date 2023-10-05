@@ -2,3 +2,4 @@
 /tfidf_corpus.pkl
 /word2vec_model.pkl
 /bert_embeddings.pkl
+/dictionary.pkl

@@ -15,6 +15,7 @@ def main(args):
         # Initialize
         if args.bow or args.tfidf:
             dictionary = Dictionary(procd_data)
+            dictionary.save('data/features/dictionary.pkl')
         
         if args.word2vec:
             word2vec_model = Word2Vec(
