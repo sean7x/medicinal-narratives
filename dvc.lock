@@ -118,8 +118,8 @@ stages:
       size: 32977113
     - path: src/topic_modeling_bow_tfidf.py
       hash: md5
-      md5: 35f7a35a4aba1d49d31caa646c420163
-      size: 4773
+      md5: 714d383b2b8ed50a42e5f6d4d5721dad
+      size: 4799
     params:
       params.yaml:
         topic_modeling_bow_tfidf:
@@ -129,17 +129,17 @@ stages:
     outs:
     - path: data/models/lda_bow_model.pkl
       hash: md5
-      md5: e88bd1e7b70e2e798bd72d6557e1342c
+      md5: c347a2158e9ae932d5c14c889372caab
       size: 161564
     - path: data/models/lda_tfidf_model.pkl
       hash: md5
-      md5: 2f69fed288990b37f36aa8c815a627d4
+      md5: 94fc7cfd29aabd9201bf2101a0b18b36
       size: 161566
     - path: data/models/nmf_bow_model.pkl
       hash: md5
-      md5: 3b509dc34c19364a56d98a0aa544150d
+      md5: 802db945a7ab747ff7d73b1d5954bc8e
       size: 7671484
     - path: data/models/nmf_tfidf_model.pkl
       hash: md5
-      md5: cd6077ad2d3f869148eb7c4cc8244ba9
+      md5: cee4fecf66d9863499e6a6620869f494
       size: 7671487

@@ -1,9 +1,9 @@
 {
-    "Coherence (LDA, BoW)": -2.2694635265008065,
+    "Coherence (LDA, BoW)": 0.4927885142125768,
     "Perplexity (LDA, BoW)": -7.821429803925145,
-    "Coherence (LDA, TF-IDF)": -12.137167058485272,
+    "Coherence (LDA, TF-IDF)": 0.6038744376758568,
     "Perplexity (LDA, TF-IDF)": -10.97851588716399,
-    "Coherence (NMF, BoW)": -1.8811940175624529,
-    "Coherence (NMF, TF-IDF)": -2.2908551213516524,
+    "Coherence (NMF, BoW)": 0.4977666204649431,
+    "Coherence (NMF, TF-IDF)": 0.5227839113619805,
     "step": 0
 }

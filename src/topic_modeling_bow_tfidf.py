@@ -7,7 +7,7 @@ from dvclive import Live
 
 def main(args):
     # Load data
-    #procd_data = pd.read_csv(args.procd_data_path)['procd_review']
+    procd_data = pd.read_csv(args.procd_data_path)['procd_review'].apply(lambda x: x.split())
 
     with open(args.bow_corpus_path, 'rb') as f:
         bow_corpus = pickle.load(f)
@@ -31,11 +31,11 @@ def main(args):
         # Calculate Coherence and Perplexity for LDA with BoW
         coherence_model_lda_bow = CoherenceModel(
             model=lda_bow,
-            #texts=procd_data.tolist(),
-            corpus=bow_corpus,
+            texts=procd_data.tolist(),
+            #corpus=bow_corpus,
             dictionary=dictionary,
-            #coherence='c_v',
-            coherence='u_mass',
+            coherence='c_v',
+            #coherence='u_mass',
             processes=-1
         )
         coherence_lda_bow = coherence_model_lda_bow.get_coherence()
@@ -57,11 +57,11 @@ def main(args):
         # Calculate Coherence and Perplexity for LDA with TF-IDF
         coherence_model_lda_tfidf = CoherenceModel(
             model=lda_tfidf,
-            #texts=procd_data.tolist(),
-            corpus=tfidf_corpus,
+            texts=procd_data.tolist(),
+            #corpus=tfidf_corpus,
             dictionary=dictionary,
-            #coherence='c_v',
-            coherence='u_mass',
+            coherence='c_v',
+            #coherence='u_mass',
             processes=-1
         )
         coherence_lda_tfidf = coherence_model_lda_tfidf.get_coherence()
@@ -83,11 +83,11 @@ def main(args):
         # Calculate Coherence for NMF with BoW
         coherence_model_nmf_bow = CoherenceModel(
             model=nmf_bow,
-            #texts=procd_data.tolist(),
-            corpus=bow_corpus,
+            texts=procd_data.tolist(),
+            #corpus=bow_corpus,
             dictionary=dictionary,
-            #coherence='c_v',
-            coherence='u_mass',
+            coherence='c_v',
+            #coherence='u_mass',
             processes=-1
         )
         coherence_nmf_bow = coherence_model_nmf_bow.get_coherence()
@@ -107,11 +107,11 @@ def main(args):
         # Calculate Coherence for NMF with TF-IDF
         coherence_model_nmf_tfidf = CoherenceModel(
             model=nmf_tfidf,
-            #texts=procd_data.tolist(),
-            corpus=tfidf_corpus,
+            texts=procd_data.tolist(),
+            #corpus=tfidf_corpus,
             dictionary=dictionary,
-            #coherence='c_v',
-            coherence='u_mass',
+            coherence='c_v',
+            #coherence='u_mass',
             processes=-1
         )
         coherence_nmf_tfidf = coherence_model_nmf_tfidf.get_coherence()
