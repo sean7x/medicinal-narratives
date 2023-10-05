@@ -13,3 +13,6 @@ feature_engineering:
     epochs: 10
     workers: -1
   bert: true
+topic_modeling_bow_tfidf:
+  lda_n_topics: 10
+  nmf_n_topics: 10

@@ -1,3 +1,9 @@
 {
-    "Number of Documents": 32260
+    "Coherence (LDA, BoW)": "nan",
+    "Perplexity (LDA, BoW)": -7.821429803925145,
+    "Coherence (LDA, TF-IDF)": "nan",
+    "Perplexity (LDA, TF-IDF)": -10.97851588716399,
+    "Coherence (NMF, BoW)": "nan",
+    "Coherence (NMF, TF-IDF)": "nan",
+    "step": 0
 }

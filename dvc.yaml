@@ -38,8 +38,25 @@ stages:
     - data/features/tfidf_corpus.pkl
     - data/features/word2vec_model.pkl
     - data/features/bert_embeddings.pkl
+  topic_modeling_bow_tfidf:
+    cmd: python src/topic_modeling_bow_tfidf.py --bow_corpus_path data/features/bow_corpus.pkl
+      --tfidf_corpus_path data/features/tfidf_corpus.pkl --dictionary_path data/features/dictionary.pkl
+      --lda_n_topics ${topic_modeling_bow_tfidf.lda_n_topics} --nmf_n_topics ${topic_modeling_bow_tfidf.nmf_n_topics}
+      --lda_bow_model_path data/models/lda_bow_model.pkl --nmf_bow_model_path data/models/nmf_bow_model.pkl
+      --lda_tfidf_model_path data/models/lda_tfidf_model.pkl --nmf_tfidf_model_path
+      data/models/nmf_tfidf_model.pkl
+    deps:
+    - params.yaml
+    - src/topic_modeling_bow_tfidf.py
+    params:
+    - topic_modeling_bow_tfidf
+    outs:
+    - data/models/lda_bow_model.pkl
+    - data/models/nmf_bow_model.pkl
+    - data/models/lda_tfidf_model.pkl
+    - data/models/nmf_tfidf_model.pkl
+metrics:
+- dvclive/metrics.json
 plots:
 - dvclive/plots/metrics:
     x: step
-metrics:
-- dvclive/metrics.json
