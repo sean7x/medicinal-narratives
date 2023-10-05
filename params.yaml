@@ -14,5 +14,6 @@ feature_engineering:
     workers: -1
   bert: true
 topic_modeling_bow_tfidf:
+  procd_data_path: 'data/preprocessed/lewtun-drug-reviews/procd_sample_train.csv'
   lda_n_topics: 10
   nmf_n_topics: 10
