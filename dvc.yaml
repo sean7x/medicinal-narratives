@@ -60,3 +60,8 @@ stages:
     - data/models/nmf_bow_model.pkl
     - data/models/lda_tfidf_model.pkl
     - data/models/nmf_tfidf_model.pkl
+metrics:
+- dvclive/metrics.json
+plots:
+- dvclive/plots/metrics:
+    x: step

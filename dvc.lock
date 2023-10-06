@@ -45,14 +45,10 @@ stages:
       --bow true --tfidf true --word2vec true --vector_size 100 --window 5 --min_count
       1 --epochs 10 --workers -1 --bert true
     deps:
-    - path: params.yaml
-      hash: md5
-      md5: 7fcc17c7f15cc5d8e9536658dfdc6d80
-      size: 455
     - path: src/feature_engineering.py
       hash: md5
-      md5: 5a8084c97fb76a77a110c4da6e5e6f78
-      size: 4163
+      md5: 4438b6e78b5d4d905357bd42c6126444
+      size: 4998
     params:
       params.yaml:
         feature_engineering:
@@ -70,7 +66,7 @@ stages:
     outs:
     - path: data/features/bert_embeddings.pkl
       hash: md5
-      md5: 660870a3c3f5e5e939c78658c3107ef7
+      md5: 85b994743bdba3e61ddf24be2dc3af22
       size: 3782139974
     - path: data/features/bow_corpus.pkl
       hash: md5
@@ -78,7 +74,7 @@ stages:
       size: 7029158
     - path: data/features/dictionary.pkl
       hash: md5
-      md5: 392f4a49a9eb3c106b707740619616b2
+      md5: 18f0c038234996327e8aea59abf959e1
       size: 1029442
     - path: data/features/tfidf_corpus.pkl
       hash: md5
@@ -86,7 +82,7 @@ stages:
       size: 24628593
     - path: data/features/word2vec_model.pkl
       hash: md5
-      md5: 0f52000b550bbf7078bdee1083c98b35
+      md5: 1189b51a8d6fa8a987f6d1d48c8a47ba
       size: 32977113
   topic_modeling_bow_tfidf:
     cmd: python src/topic_modeling_bow_tfidf.py --procd_data_path data/preprocessed/lewtun-drug-reviews/procd_sample_train.csv
@@ -98,7 +94,7 @@ stages:
     deps:
     - path: data/features/bert_embeddings.pkl
       hash: md5
-      md5: 660870a3c3f5e5e939c78658c3107ef7
+      md5: 85b994743bdba3e61ddf24be2dc3af22
       size: 3782139974
     - path: data/features/bow_corpus.pkl
       hash: md5
@@ -106,7 +102,7 @@ stages:
       size: 7029158
     - path: data/features/dictionary.pkl
       hash: md5
-      md5: 392f4a49a9eb3c106b707740619616b2
+      md5: 18f0c038234996327e8aea59abf959e1
       size: 1029442
     - path: data/features/tfidf_corpus.pkl
       hash: md5
@@ -114,7 +110,7 @@ stages:
       size: 24628593
     - path: data/features/word2vec_model.pkl
       hash: md5
-      md5: 0f52000b550bbf7078bdee1083c98b35
+      md5: 1189b51a8d6fa8a987f6d1d48c8a47ba
       size: 32977113
     - path: src/topic_modeling_bow_tfidf.py
       hash: md5
@@ -129,17 +125,17 @@ stages:
     outs:
     - path: data/models/lda_bow_model.pkl
       hash: md5
-      md5: c347a2158e9ae932d5c14c889372caab
-      size: 161564
+      md5: c37699c5cd12d95c7591beb9f6814fbe
+      size: 161565
     - path: data/models/lda_tfidf_model.pkl
       hash: md5
-      md5: 94fc7cfd29aabd9201bf2101a0b18b36
+      md5: 1b13c5e36c0a171e1c98bb7a5043aea6
       size: 161566
     - path: data/models/nmf_bow_model.pkl
       hash: md5
-      md5: 802db945a7ab747ff7d73b1d5954bc8e
+      md5: 6d820b09f04ae80ad5072053ba75545b
       size: 7671484
     - path: data/models/nmf_tfidf_model.pkl
       hash: md5
-      md5: cee4fecf66d9863499e6a6620869f494
+      md5: 5e3229289e31b1daf5da187299a3b256
       size: 7671487
