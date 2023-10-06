@@ -1,0 +1,5 @@
+[core]
+    remote = matrix4p
+['remote "matrix4p"']
+    url = webdavs://matrix4p.com:5008/WebDAV/medicinal-narratives
+    ssl_verify = false
