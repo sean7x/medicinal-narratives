@@ -29,9 +29,24 @@ def main(args):
             )
         
         if args.bert:
-            torch.manual_seed(42)
             tokenizer = BertTokenizer.from_pretrained('bert-base-uncased')
             bert_model = BertModel.from_pretrained('bert-base-uncased')
+            # Move model to GPU if available
+            if torch.cuda.is_available():
+                device = torch.device('cuda')
+                torch.cuda.manual_seed_all(42)
+                torch.backends.cudnn.deterministic = True
+            #elif torch.backends.mps.is_available():
+            #    device = torch.device('mps')
+            #    torch.mps.manual_seed(42)
+            #    torch.backends.mps.deterministic = True
+            else:
+                device = torch.device('cpu')
+                torch.manual_seed(42)
+                torch.backends.cudnn.deterministic = True
+
+            bert_model = bert_model.to(device)
+            print(f"Using device: {device}")
         
         # BoW
         if args.bow:
@@ -64,11 +79,15 @@ def main(args):
         if args.bert:
             def get_bert_embeddings(text):
                 inputs = tokenizer(text, return_tensors='pt', padding=True, truncation=True)
+                # Move inputs to GPU if available
+                if device.type != 'cpu':
+                    inputs = {key: val.to(device) for key, val in inputs.items()}
+
                 outputs = bert_model(**inputs)
                 return outputs.last_hidden_state.mean(dim=1)
             
             bert_embeddings = [
-                get_bert_embeddings(doc).detach().numpy() for doc in tqdm(procd_data, desc='Generating BERT Embeddings')
+                get_bert_embeddings(doc).cpu().detach().numpy() for doc in tqdm(procd_data, desc='Generating BERT Embeddings')
             ]
 
             with open('data/features/bert_embeddings.pkl', 'wb') as f:
