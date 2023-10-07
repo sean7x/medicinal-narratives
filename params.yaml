@@ -1,8 +1,8 @@
+RANDOM_SEED: 42
 extract_sample:
   fraction: 0.2
   stratify_column: 'rating'
 feature_engineering:
-  input_path: 'data/preprocessed/lewtun-drug-reviews/procd_sample_train.csv'
   bow: true
   tfidf: true
   word2vec:
@@ -11,9 +11,8 @@ feature_engineering:
     window: 5
     min_count: 1
     epochs: 10
-    workers: -1
+    sg: 0
   bert: true
 topic_modeling_bow_tfidf:
-  procd_data_path: 'data/preprocessed/lewtun-drug-reviews/procd_sample_train.csv'
   lda_n_topics: 10
   nmf_n_topics: 10

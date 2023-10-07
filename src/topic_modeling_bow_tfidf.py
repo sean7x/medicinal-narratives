@@ -2,30 +2,32 @@ import pickle
 from gensim.models import LdaModel, Nmf, CoherenceModel
 from gensim.corpora import Dictionary
 import pandas as pd
+from pathlib import Path
 from dvclive import Live
 
 
-def main(args):
+def main(args, lda_n_topics, nmf_n_topics, RANDOM_SEED):
     # Load data
-    procd_data = pd.read_csv(args.procd_data_path)['procd_review'].apply(lambda x: x.split())
+    #procd_data = pd.read_csv(args.procd_data_path)['procd_review'].apply(lambda x: x.split())
+    procd_data = pd.read_csv(Path(args.procd_data_path))['procd_review'].apply(lambda x: eval(x))
 
-    with open(args.bow_corpus_path, 'rb') as f:
+    with open(Path(args.bow_corpus_path), 'rb') as f:
         bow_corpus = pickle.load(f)
     
-    with open(args.tfidf_corpus_path, 'rb') as f:
+    with open(Path(args.tfidf_corpus_path), 'rb') as f:
         tfidf_corpus = pickle.load(f)
     
     # Load dictionary
-    dictionary = Dictionary.load(args.dictionary_path)
+    dictionary = Dictionary.load(Path(args.dictionary_path))
 
 
     with Live() as live:
         # LDA Model for BoW
         lda_bow = LdaModel(
             bow_corpus,
-            num_topics=args.lda_n_topics,
+            num_topics=lda_n_topics,
             id2word=dictionary,
-            random_state=42,
+            random_state=RANDOM_SEED,
         )
 
         # Calculate Coherence and Perplexity for LDA with BoW
@@ -49,9 +51,9 @@ def main(args):
         # LDA Model for TF-IDF
         lda_tfidf = LdaModel(
             tfidf_corpus,
-            num_topics=args.lda_n_topics,
+            num_topics=lda_n_topics,
             id2word=dictionary,
-            random_state=42,
+            random_state=RANDOM_SEED,
         )
 
         # Calculate Coherence and Perplexity for LDA with TF-IDF
@@ -75,9 +77,9 @@ def main(args):
         # NMF Model for BoW
         nmf_bow = Nmf(
             bow_corpus,
-            num_topics=args.nmf_n_topics,
+            num_topics=nmf_n_topics,
             id2word=dictionary,
-            random_state=42,
+            random_state=RANDOM_SEED,
         )
 
         # Calculate Coherence for NMF with BoW
@@ -99,9 +101,9 @@ def main(args):
         # NMF Model for TF-IDF
         nmf_tfidf = Nmf(
             tfidf_corpus,
-            num_topics=args.nmf_n_topics,
+            num_topics=nmf_n_topics,
             id2word=dictionary,
-            random_state=42,
+            random_state=RANDOM_SEED,
         )
 
         # Calculate Coherence for NMF with TF-IDF
@@ -121,27 +123,34 @@ def main(args):
 
 
         # Save models
-        lda_bow.save(args.lda_bow_model_path)
-        lda_tfidf.save(args.lda_tfidf_model_path)
-        nmf_bow.save(args.nmf_bow_model_path)
-        nmf_tfidf.save(args.nmf_tfidf_model_path)
+        lda_bow.save(Path(args.lda_bow_model_path))
+        lda_tfidf.save(Path(args.lda_tfidf_model_path))
+        nmf_bow.save(Path(args.nmf_bow_model_path))
+        nmf_tfidf.save(Path(args.nmf_tfidf_model_path))
 
         live.next_step()
 
 
 if __name__ == '__main__':
     import argparse
+    import dvc.api
+
     parser = argparse.ArgumentParser()
     parser.add_argument('--procd_data_path', type=str, required=True)
     parser.add_argument('--bow_corpus_path', type=str, required=True)
     parser.add_argument('--tfidf_corpus_path', type=str, required=True)
     parser.add_argument('--dictionary_path', type=str, required=True)
-    parser.add_argument('--lda_n_topics', type=int, required=True)
-    parser.add_argument('--nmf_n_topics', type=int, required=True)
     parser.add_argument('--lda_bow_model_path', type=str, required=True)
     parser.add_argument('--lda_tfidf_model_path', type=str, required=True)
     parser.add_argument('--nmf_bow_model_path', type=str, required=True)
     parser.add_argument('--nmf_tfidf_model_path', type=str, required=True)
     args = parser.parse_args()
 
-    main(args)
+    params = dvc.api.params_show()
+
+    main(
+        args,
+        lda_n_topics=params['topic_modeling_bow_tfidf']['lda_n_topics'],
+        nmf_n_topics=params['topic_modeling_bow_tfidf']['nmf_n_topics'],
+        RANDOM_SEED=params['RANDOM_SEED'],
+    )
