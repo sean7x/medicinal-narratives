@@ -1,7 +1,6 @@
 stages:
   extract_sample:
-    cmd: python src/extract_sample.py 
-      --input_path data/raw/lewtun-drug-reviews/train.jsonl
+    cmd: python src/extract_sample.py --input_path data/raw/lewtun-drug-reviews/train.jsonl
       --output_path data/raw/lewtun-drug-reviews/sample_train.csv
     deps:
     - data/raw/lewtun-drug-reviews/train.jsonl
@@ -12,8 +11,7 @@ stages:
     outs:
     - data/raw/lewtun-drug-reviews/sample_train.csv
   preprocess_sample_train:
-    cmd: python src/preprocessing.py 
-      --input_path data/raw/lewtun-drug-reviews/sample_train.csv
+    cmd: python src/preprocessing.py --input_path data/raw/lewtun-drug-reviews/sample_train.csv
       --output_path data/preprocessed/lewtun-drug-reviews/procd_sample_train.csv
     deps:
     - data/raw/lewtun-drug-reviews/sample_train.csv
@@ -21,8 +19,7 @@ stages:
     outs:
     - data/preprocessed/lewtun-drug-reviews/procd_sample_train.csv
   feature_engineering_sample_train:
-    cmd: python src/feature_engineering.py 
-      --input_path data/preprocessed/lewtun-drug-reviews/procd_sample_train.csv
+    cmd: python src/feature_engineering.py --input_path data/preprocessed/lewtun-drug-reviews/procd_sample_train.csv
     deps:
     - data/preprocessed/lewtun-drug-reviews/procd_sample_train.csv
     - src/feature_engineering.py
@@ -36,14 +33,10 @@ stages:
     - data/features/word2vec_model.pkl
     - data/features/bert_embeddings.pkl
   topic_modeling_bow_tfidf_sample_train:
-    cmd: python src/topic_modeling_bow_tfidf.py 
-      --procd_data_path data/preprocessed/lewtun-drug-reviews/procd_sample_train.csv
-      --bow_corpus_path data/features/bow_corpus.pkl 
-      --tfidf_corpus_path data/features/tfidf_corpus.pkl
-      --dictionary_path data/features/dictionary.pkl
-      --lda_bow_model_path models/lda_bow_model.pkl 
-      --nmf_bow_model_path models/nmf_bow_model.pkl
-      --lda_tfidf_model_path models/lda_tfidf_model.pkl 
+    cmd: python src/topic_modeling_bow_tfidf.py --procd_data_path data/preprocessed/lewtun-drug-reviews/procd_sample_train.csv
+      --bow_corpus_path data/features/bow_corpus.pkl --tfidf_corpus_path data/features/tfidf_corpus.pkl
+      --dictionary_path data/features/dictionary.pkl --lda_bow_model_path models/lda_bow_model.pkl
+      --nmf_bow_model_path models/nmf_bow_model.pkl --lda_tfidf_model_path models/lda_tfidf_model.pkl
       --nmf_tfidf_model_path models/nmf_tfidf_model.pkl
     deps:
     - data/preprocessed/lewtun-drug-reviews/procd_sample_train.csv

@@ -9,7 +9,7 @@ from dvclive import Live
 def main(args, lda_n_topics, nmf_n_topics, RANDOM_SEED):
     # Load data
     #procd_data = pd.read_csv(args.procd_data_path)['procd_review'].apply(lambda x: x.split())
-    procd_data = pd.read_csv(Path(args.procd_data_path))['procd_review'].apply(lambda x: eval(x))
+    procd_data = pd.read_csv(Path(args.procd_data_path))['lemma_wo_stpwrd'].apply(lambda x: eval(x))
 
     with open(Path(args.bow_corpus_path), 'rb') as f:
         bow_corpus = pickle.load(f)
@@ -18,7 +18,7 @@ def main(args, lda_n_topics, nmf_n_topics, RANDOM_SEED):
         tfidf_corpus = pickle.load(f)
     
     # Load dictionary
-    dictionary = Dictionary.load(Path(args.dictionary_path))
+    dictionary = Dictionary.load(args.dictionary_path)
 
 
     with Live() as live:
@@ -123,10 +123,10 @@ def main(args, lda_n_topics, nmf_n_topics, RANDOM_SEED):
 
 
         # Save models
-        lda_bow.save(Path(args.lda_bow_model_path))
-        lda_tfidf.save(Path(args.lda_tfidf_model_path))
-        nmf_bow.save(Path(args.nmf_bow_model_path))
-        nmf_tfidf.save(Path(args.nmf_tfidf_model_path))
+        lda_bow.save(args.lda_bow_model_path)
+        lda_tfidf.save(args.lda_tfidf_model_path)
+        nmf_bow.save(args.nmf_bow_model_path)
+        nmf_tfidf.save(args.nmf_tfidf_model_path)
 
         live.next_step()
 

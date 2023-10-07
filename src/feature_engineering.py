@@ -10,12 +10,15 @@ import pickle
 
 def main(input_path, bow, tfidf, word2vec, vector_size, window, min_count, epochs, sg, RANDOM_SEED, bert):
     with Live() as live:
-        #procd_data = pd.read_csv(args.input_path)['procd_review'].apply(lambda x: x.split())
-        procd_data = pd.read_csv(args.input_path)['procd_review'].apply(lambda x: eval(x))
+        #procd_data = pd.read_csv(input_path)['procd_review'].apply(lambda x: x.split())
+        #procd_data = pd.read_csv(input_path)['procd_review'].apply(lambda x: eval(x))
+        procd_data = pd.read_csv(input_path)
+        lemma_w_stpwrd = procd_data['lemma_w_stpwrd'].apply(lambda x: eval(x))
+        lemma_wo_stpwrd = procd_data['lemma_wo_stpwrd'].apply(lambda x: eval(x))
         
         # Initialize
         if bow or tfidf:
-            dictionary = Dictionary(procd_data)
+            dictionary = Dictionary(lemma_wo_stpwrd)    # Use lemma_wo_stpwrd for BoW and TF-IDF
             dictionary.save('data/features/dictionary.pkl')
         
         if word2vec:
@@ -51,7 +54,7 @@ def main(input_path, bow, tfidf, word2vec, vector_size, window, min_count, epoch
         
         # BoW
         if bow:
-            bow_corpus = [dictionary.doc2bow(doc) for doc in tqdm(procd_data, desc='Generating BoW')]
+            bow_corpus = [dictionary.doc2bow(doc) for doc in tqdm(lemma_wo_stpwrd, desc='Generating BoW')]
 
             with open('data/features/bow_corpus.pkl', 'wb') as f:
                 pickle.dump(bow_corpus, f)
@@ -66,9 +69,9 @@ def main(input_path, bow, tfidf, word2vec, vector_size, window, min_count, epoch
         
         # Word2Vec
         if word2vec:
-            word2vec_model.build_vocab(tqdm(procd_data, desc='Building Word2Vec Vocab'))
+            word2vec_model.build_vocab(tqdm(lemma_w_stpwrd, desc='Building Word2Vec Vocab'))
             word2vec_model.train(
-                tqdm(procd_data, desc='Training Word2Vec'),
+                tqdm(lemma_w_stpwrd, desc='Training Word2Vec'),
                 total_examples=word2vec_model.corpus_count,
                 epochs=word2vec_model.epochs
             )
@@ -88,14 +91,14 @@ def main(input_path, bow, tfidf, word2vec, vector_size, window, min_count, epoch
                 return outputs.last_hidden_state.mean(dim=1)
             
             bert_embeddings = [
-                get_bert_embeddings(doc).cpu().detach().numpy() for doc in tqdm(procd_data, desc='Generating BERT Embeddings')
+                get_bert_embeddings(doc).cpu().detach().numpy() for doc in tqdm(lemma_w_stpwrd, desc='Generating BERT Embeddings')
             ]
 
             with open('data/features/bert_embeddings.pkl', 'wb') as f:
                 pickle.dump(bert_embeddings, f)
         
         # Logging the metrics with DVCLive
-        live.log_metric('Number of Documents', len(procd_data))
+        live.log_metric('Number of Documents', len(lemma_w_stpwrd))
 
 
 if __name__ == '__main__':

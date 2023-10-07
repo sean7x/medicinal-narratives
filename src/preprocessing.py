@@ -27,11 +27,23 @@ def preprocess(input_path, output_path):
     # Remove wrong condition values and keep the rows
     df.loc[df.condition.notna() & df.condition.str.contains('users found this comment helpful'), 'condition'] = None
     
-    # Generate lemmas for each token, remove stopwords and punctuations, and join back into a string
-    df['procd_review'] = df['review'].progress_apply(
-        #lambda x: ' '.join([token.lemma_ for token in nlp(x) if not token.is_stop and not token.is_punct])
-        lambda x: [token.lemma_ for token in nlp(x) if not token.is_stop and not token.is_punct]
-    )
+    # Generate lemmas for each token, remove stopwords and punctuations
+    #df['procd_review'] = df['review'].progress_apply(
+    #    #lambda x: ' '.join([token.lemma_ for token in nlp(x) if not token.is_stop and not token.is_punct])
+    #    lambda x: [token.lemma_ for token in nlp(x) if not token.is_stop and not token.is_punct]
+    #)
+    def lemma(row):
+        # lemma_w_stpwrd: with stop words, for word2vec and bert embeddings
+        row['lemma_w_stpwrd'] = [token.lemma_ for token in nlp(row['review']) if not token.is_punct]
+        # lemma_wo_stpwrd: without stop words, for BoW and TF-IDF embeddings
+        row['lemma_wo_stpwrd'] = [token.lemma_ for token in nlp(row['review']) if not token.is_stop and not token.is_punct]
+        
+        # For reviews with only stop words, use lemma_w_stpwrd
+        if len(row['lemma_wo_stpwrd']) == 0:
+            row['lemma_wo_stpwrd'] = row['lemma_w_stpwrd']
+        return row
+    
+    df = df.progress_apply(lemma, axis=1)
 
     df.to_csv(output_path, index=False)
 
