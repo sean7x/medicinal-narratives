@@ -149,19 +149,19 @@ stages:
       size: 16631460
     - path: src/preprocessing.py
       hash: md5
-      md5: abc60c5f9395e1b5171c2b615e1997a3
-      size: 2621
+      md5: 5c0b4b0c143f232f8c19a44cd7da10dc
+      size: 2721
     outs:
     - path: data/preprocessed/lewtun-drug-reviews/procd_sample_train.csv
       hash: md5
-      md5: 21efdb5a6b5c3171565b43fa25e99f2a
+      md5: 647074418d1db784bde87f0dd521e3f6
       size: 49576484
   feature_engineering_sample_train:
     cmd: python src/feature_engineering.py --input_path data/preprocessed/lewtun-drug-reviews/procd_sample_train.csv
     deps:
     - path: data/preprocessed/lewtun-drug-reviews/procd_sample_train.csv
       hash: md5
-      md5: 21efdb5a6b5c3171565b43fa25e99f2a
+      md5: 647074418d1db784bde87f0dd521e3f6
       size: 49576484
     - path: src/feature_engineering.py
       hash: md5
@@ -188,19 +188,19 @@ stages:
       size: 8683975606
     - path: data/features/bow_corpus.pkl
       hash: md5
-      md5: 3ad4aa008c77a582716381ed13b548d2
-      size: 6849111
+      md5: dcab5e5d36a00dad562fad099ccdaef2
+      size: 6818963
     - path: data/features/dictionary.pkl
       hash: md5
-      md5: 27b1e41fb1faf7b2a4243bdbde7664ea
-      size: 745290
+      md5: baaec97add96f484a42fb7f0b7d04f2c
+      size: 644061
     - path: data/features/tfidf_corpus.pkl
       hash: md5
-      md5: 80b4eac6059c4554f8925d6ecdc1a3d0
-      size: 24056608
+      md5: c6e86040602350bcd2340b057613cd9c
+      size: 23974091
     - path: data/features/word2vec_model.pkl
       hash: md5
-      md5: 160864aee21246b01b989c390475b83e
+      md5: e711e10af5388d3cc9ae72a7f3d49fb5
       size: 27103923
   topic_modeling_bow_tfidf_sample_train:
     cmd: python src/topic_modeling_bow_tfidf.py --procd_data_path data/preprocessed/lewtun-drug-reviews/procd_sample_train.csv
@@ -215,23 +215,23 @@ stages:
       size: 8683975606
     - path: data/features/bow_corpus.pkl
       hash: md5
-      md5: 3ad4aa008c77a582716381ed13b548d2
-      size: 6849111
+      md5: dcab5e5d36a00dad562fad099ccdaef2
+      size: 6818963
     - path: data/features/dictionary.pkl
       hash: md5
-      md5: 27b1e41fb1faf7b2a4243bdbde7664ea
-      size: 745290
+      md5: baaec97add96f484a42fb7f0b7d04f2c
+      size: 644061
     - path: data/features/tfidf_corpus.pkl
       hash: md5
-      md5: 80b4eac6059c4554f8925d6ecdc1a3d0
-      size: 24056608
+      md5: c6e86040602350bcd2340b057613cd9c
+      size: 23974091
     - path: data/features/word2vec_model.pkl
       hash: md5
-      md5: 160864aee21246b01b989c390475b83e
+      md5: e711e10af5388d3cc9ae72a7f3d49fb5
       size: 27103923
     - path: data/preprocessed/lewtun-drug-reviews/procd_sample_train.csv
       hash: md5
-      md5: 21efdb5a6b5c3171565b43fa25e99f2a
+      md5: 647074418d1db784bde87f0dd521e3f6
       size: 49576484
     - path: src/topic_modeling_bow_tfidf.py
       hash: md5
@@ -246,17 +246,17 @@ stages:
     outs:
     - path: models/lda_bow_model.pkl
       hash: md5
-      md5: b0fd8cf268df2c03ac95053b17eb494e
-      size: 132633
+      md5: 97e27218ced720d8a0b8bf95691fb66f
+      size: 114613
     - path: models/lda_tfidf_model.pkl
       hash: md5
-      md5: 73683afd5c8a857635074f1a80780dfc
-      size: 132635
+      md5: 3c544ebf9671df6a43fb991701cfabd8
+      size: 114615
     - path: models/nmf_bow_model.pkl
       hash: md5
-      md5: 24f136e8fbab1a7be7881833d24df68f
-      size: 6172005
+      md5: aad7109bdf38d6ded436742317f41c67
+      size: 5313927
     - path: models/nmf_tfidf_model.pkl
       hash: md5
-      md5: 25a7dd835f61be8c280266eff0c6f11a
-      size: 6172007
+      md5: d3d7d86b70e6b3cb909d5b54ec4ca353
+      size: 5313928
