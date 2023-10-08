@@ -33,10 +33,13 @@ def preprocess(input_path, output_path):
     #    lambda x: [token.lemma_ for token in nlp(x) if not token.is_stop and not token.is_punct]
     #)
     def lemma(row):
+        # Skip if review is empty
+        if pd.isnull(row['review']): return row
+
         # lemma_w_stpwrd: with stop words, for word2vec and bert embeddings
         row['lemma_w_stpwrd'] = [token.lemma_ for token in nlp(row['review']) if not token.is_punct]
-        # lemma_wo_stpwrd: without stop words, for BoW and TF-IDF embeddings
-        row['lemma_wo_stpwrd'] = [token.lemma_ for token in nlp(row['review']) if not token.is_stop and not token.is_punct]
+        # lemma_wo_stpwrd: lower without stop words, for BoW and TF-IDF embeddings
+        row['lemma_wo_stpwrd'] = [token.lemma_.lower() for token in nlp(row['review']) if not token.is_stop and not token.is_punct]
         
         # For reviews with only stop words, use lemma_w_stpwrd
         if len(row['lemma_wo_stpwrd']) == 0:
