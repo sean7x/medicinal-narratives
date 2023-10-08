@@ -8,6 +8,10 @@ from tqdm import tqdm
 import pyLDAvis
 import numpy as np
 
+# Depress DeprecationWarnings
+import warnings
+warnings.filterwarnings("ignore", category=DeprecationWarning)
+
 
 def prepare_topic_model_viz(model, dictionary, corpus):
     # Extract the topic-term matrix
