@@ -38,6 +38,10 @@ stages:
       --dictionary_path data/features/dictionary.pkl --lda_bow_model_path models/lda_bow_model.pkl
       --nmf_bow_model_path models/nmf_bow_model.pkl --lda_tfidf_model_path models/lda_tfidf_model.pkl
       --nmf_tfidf_model_path models/nmf_tfidf_model.pkl
+      --lda_bow_vis_path plots/lda_bow_vis.html
+      --lda_tfidf_vis_path plots/lda_tfidf_vis.html
+      --nmf_bow_vis_path plots/nmf_bow_vis.html
+      --nmf_tfidf_vis_path plots/nmf_tfidf_vis.html
     deps:
     - data/preprocessed/lewtun-drug-reviews/procd_sample_train.csv
     - data/features/dictionary.pkl
@@ -54,6 +58,10 @@ stages:
     - models/nmf_bow_model.pkl
     - models/lda_tfidf_model.pkl
     - models/nmf_tfidf_model.pkl
+    - plots/lda_bow_vis.html
+    - plots/lda_tfidf_vis.html
+    - plots/nmf_bow_vis.html
+    - plots/nmf_tfidf_vis.html
 metrics:
 - dvclive/metrics.json
 plots:
