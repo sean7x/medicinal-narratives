@@ -172,19 +172,19 @@ def main(args, lda_n_topics, nmf_n_topics, RANDOM_SEED):
         # Prepare visualization data for LDA with BoW and save to html
         pyLDAvis.save_html(
             prepare_topic_model_viz(lda_bow, dictionary, bow_corpus),
-            'args.lda_bow_vis_path'
+            args.lda_bow_vis_path
         )
         pyLDAvis.save_html(
             prepare_topic_model_viz(lda_tfidf, dictionary, tfidf_corpus),
-            'args.lda_tfidf_vis_path'
+            args.lda_tfidf_vis_path
         )
         pyLDAvis.save_html(
             prepare_topic_model_viz(nmf_bow, dictionary, bow_corpus),
-            'args.nmf_bow_vis_path'
+            args.nmf_bow_vis_path
         )
         pyLDAvis.save_html(
             prepare_topic_model_viz(nmf_tfidf, dictionary, tfidf_corpus),
-            'args.nmf_tfidf_vis_path'
+            args.nmf_tfidf_vis_path
         )
 
         live.next_step()
