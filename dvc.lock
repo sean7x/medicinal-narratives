@@ -10,8 +10,8 @@ stages:
       size: 97686013
     - path: src/extract_sample.py
       hash: md5
-      md5: a6d81316db2c665dfe2182f76a25e050
-      size: 1883
+      md5: 5e687b73a5501a0e1e71e15795d30fd5
+      size: 1938
     params:
       params.yaml:
         RANDOM_SEED: 42
@@ -21,8 +21,8 @@ stages:
     outs:
     - path: data/raw/lewtun-drug-reviews/sample_train.csv
       hash: md5
-      md5: fe6e3f3aa8d697526f0907b3befedf43
-      size: 16599199
+      md5: 41087367fcf435c6561149e067e13d57
+      size: 16631460
   preprocess:
     cmd: python src/preprocessing.py --input_path data/raw/lewtun-drug-reviews/sample_train.csv
       --output_path data/preprocessed/lewtun-drug-reviews/procd_sample_train.csv
@@ -145,24 +145,24 @@ stages:
     deps:
     - path: data/raw/lewtun-drug-reviews/sample_train.csv
       hash: md5
-      md5: fe6e3f3aa8d697526f0907b3befedf43
-      size: 16599199
+      md5: 41087367fcf435c6561149e067e13d57
+      size: 16631460
     - path: src/preprocessing.py
       hash: md5
-      md5: eb96f4acf229fd3a3540da026cdde62c
-      size: 2552
+      md5: abc60c5f9395e1b5171c2b615e1997a3
+      size: 2621
     outs:
     - path: data/preprocessed/lewtun-drug-reviews/procd_sample_train.csv
       hash: md5
-      md5: c0429e5ba0df7b74fe950fbb420cde17
-      size: 49544223
+      md5: 21efdb5a6b5c3171565b43fa25e99f2a
+      size: 49576484
   feature_engineering_sample_train:
     cmd: python src/feature_engineering.py --input_path data/preprocessed/lewtun-drug-reviews/procd_sample_train.csv
     deps:
     - path: data/preprocessed/lewtun-drug-reviews/procd_sample_train.csv
       hash: md5
-      md5: c0429e5ba0df7b74fe950fbb420cde17
-      size: 49544223
+      md5: 21efdb5a6b5c3171565b43fa25e99f2a
+      size: 49576484
     - path: src/feature_engineering.py
       hash: md5
       md5: 0b9c23856834f9df2b528b94cbc2eefe
@@ -184,7 +184,7 @@ stages:
     outs:
     - path: data/features/bert_embeddings.pkl
       hash: md5
-      md5: 76b70b30b84eac29c947713bf73c58eb
+      md5: 467d9971ee82925a5d5576e6a608cfb5
       size: 8683975606
     - path: data/features/bow_corpus.pkl
       hash: md5
@@ -192,16 +192,16 @@ stages:
       size: 6849111
     - path: data/features/dictionary.pkl
       hash: md5
-      md5: 08587911566aded424bf0692376eb326
-      size: 745279
+      md5: 27b1e41fb1faf7b2a4243bdbde7664ea
+      size: 745290
     - path: data/features/tfidf_corpus.pkl
       hash: md5
-      md5: e8aee1d347181a4e58382f55335c2de3
+      md5: 80b4eac6059c4554f8925d6ecdc1a3d0
       size: 24056608
     - path: data/features/word2vec_model.pkl
       hash: md5
-      md5: ac888ced64d69d7b23113b4524ea2886
-      size: 27103912
+      md5: 160864aee21246b01b989c390475b83e
+      size: 27103923
   topic_modeling_bow_tfidf_sample_train:
     cmd: python src/topic_modeling_bow_tfidf.py --procd_data_path data/preprocessed/lewtun-drug-reviews/procd_sample_train.csv
       --bow_corpus_path data/features/bow_corpus.pkl --tfidf_corpus_path data/features/tfidf_corpus.pkl
@@ -211,7 +211,7 @@ stages:
     deps:
     - path: data/features/bert_embeddings.pkl
       hash: md5
-      md5: 76b70b30b84eac29c947713bf73c58eb
+      md5: 467d9971ee82925a5d5576e6a608cfb5
       size: 8683975606
     - path: data/features/bow_corpus.pkl
       hash: md5
@@ -219,24 +219,24 @@ stages:
       size: 6849111
     - path: data/features/dictionary.pkl
       hash: md5
-      md5: 08587911566aded424bf0692376eb326
-      size: 745279
+      md5: 27b1e41fb1faf7b2a4243bdbde7664ea
+      size: 745290
     - path: data/features/tfidf_corpus.pkl
       hash: md5
-      md5: e8aee1d347181a4e58382f55335c2de3
+      md5: 80b4eac6059c4554f8925d6ecdc1a3d0
       size: 24056608
     - path: data/features/word2vec_model.pkl
       hash: md5
-      md5: ac888ced64d69d7b23113b4524ea2886
-      size: 27103912
+      md5: 160864aee21246b01b989c390475b83e
+      size: 27103923
     - path: data/preprocessed/lewtun-drug-reviews/procd_sample_train.csv
       hash: md5
-      md5: c0429e5ba0df7b74fe950fbb420cde17
-      size: 49544223
+      md5: 21efdb5a6b5c3171565b43fa25e99f2a
+      size: 49576484
     - path: src/topic_modeling_bow_tfidf.py
       hash: md5
-      md5: d6709bf4da6d63422c3ce391e0f98f1b
-      size: 5121
+      md5: ac8d3baf123ce1885e53347c5700d4f4
+      size: 5276
     params:
       params.yaml:
         RANDOM_SEED: 42
@@ -246,17 +246,17 @@ stages:
     outs:
     - path: models/lda_bow_model.pkl
       hash: md5
-      md5: 652aec87b73e9d43d08c53e83d0b1018
-      size: 132622
+      md5: b0fd8cf268df2c03ac95053b17eb494e
+      size: 132633
     - path: models/lda_tfidf_model.pkl
       hash: md5
-      md5: 0dbb6c08ea52a4515c5e37d347ff4826
-      size: 132624
+      md5: 73683afd5c8a857635074f1a80780dfc
+      size: 132635
     - path: models/nmf_bow_model.pkl
       hash: md5
-      md5: 27afdc8d2a19648badd66b4fab37d8ed
-      size: 6171983
+      md5: 24f136e8fbab1a7be7881833d24df68f
+      size: 6172005
     - path: models/nmf_tfidf_model.pkl
       hash: md5
-      md5: bc73e7c9a4625037082fee5a633a3173
-      size: 6171985
+      md5: 25a7dd835f61be8c280266eff0c6f11a
+      size: 6172007
