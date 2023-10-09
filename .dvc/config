@@ -1,5 +1,8 @@
 [core]
-    remote = matrix4p
-['remote "matrix4p"']
-    url = webdavs://matrix4p.com:5008/WebDAV/medicinal-narratives
+    remote = ctfile
+['remote "ctfile"']
+    url = webdav://pubdav.ctfile.com/medicinal-narratives
+    ssl_verify = false
+['remote "aliyundrive"']
+    url = webdav://matrix4p.com:5244/dav/Aliyundrive/medicinal-narratives
     ssl_verify = false
