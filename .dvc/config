@@ -1,8 +1,10 @@
 [core]
-    remote = ctfile
+    remote = gdrive
 ['remote "ctfile"']
     url = webdav://pubdav.ctfile.com/medicinal-narratives
     ssl_verify = false
-['remote "aliyundrive"']
-    url = webdav://matrix4p.com:5244/dav/Aliyundrive/medicinal-narratives
-    ssl_verify = false
+['remote "infini-cloud"']
+    url = https://ogi.teracloud.jp/dav/medicinal-narratives
+['remote "gdrive"']
+    url = gdrive://1dr0aiT7UAk1qwiZ0PmuiB-HP0EB7eaJY
+    gdrive_acknowledge_abuse = true
