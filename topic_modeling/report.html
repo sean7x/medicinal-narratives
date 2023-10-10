@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="refresh" content="5">
+    <title>DVC Plot</title>
+    
+
+    <script src="https://cdn.jsdelivr.net/npm/vega@5.20.2"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vega-lite@5.2.0"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vega-embed@6.18.2"></script>
+    
+    <style>
+        table {
+            border-spacing: 15px;
+        }
+    </style>
+</head>
+<body>
+    
+        <div id="metrics_json" style="text-align: center; padding: 10x">
+            <p>metrics_json</p>
+            <div style="display: flex;justify-content: center;">
+                <table>
+<thead>
+<tr><th style="text-align: right;">  Coherence (LDA, BoW)</th><th style="text-align: right;">  Perplexity (LDA, BoW)</th><th style="text-align: right;">  Coherence (LDA, TF-IDF)</th><th style="text-align: right;">  Perplexity (LDA, TF-IDF)</th><th style="text-align: right;">  Coherence (NMF, BoW)</th><th style="text-align: right;">  Coherence (NMF, TF-IDF)</th></tr>
+</thead>
+<tbody>
+<tr><td style="text-align: right;">              0.470197</td><td style="text-align: right;">               -7.55081</td><td style="text-align: right;">                 0.529441</td><td style="text-align: right;">                  -10.1977</td><td style="text-align: right;">              0.500631</td><td style="text-align: right;">                 0.551238</td></tr>
+</tbody>
+</table>
+            </div>
+        </div>
+
+    <div id = "static_Coherence__LDA__BoW_">
+        <script type = "text/javascript">
+            var spec = {"$schema": "https://vega.github.io/schema/vega-lite/v5.json", "data": {"values": [{"step": "0", "Coherence (LDA, BoW)": "0.4701966266641503", "rev": "workspace"}]}, "title": "Coherence (LDA, BoW)", "width": 300, "height": 300, "params": [{"name": "smooth", "value": 0.001, "bind": {"input": "range", "min": 0.001, "max": 1, "step": 0.001}}], "layer": [{"mark": "line", "encoding": {"x": {"field": "step", "type": "quantitative", "title": "step"}, "y": {"field": "Coherence (LDA, BoW)", "type": "quantitative", "title": "Coherence (LDA, BoW)", "scale": {"zero": false}}, "color": {"field": "rev", "type": "nominal"}, "tooltip": [{"field": "step", "title": "step", "type": "quantitative"}, {"field": "Coherence (LDA, BoW)", "title": "Coherence (LDA, BoW)", "type": "quantitative"}]}, "transform": [{"loess": "Coherence (LDA, BoW)", "on": "step", "groupby": ["rev", "filename", "field", "filename::field"], "bandwidth": {"signal": "smooth"}}]}, {"mark": {"type": "line", "opacity": 0.2}, "encoding": {"x": {"field": "step", "type": "quantitative", "title": "step"}, "y": {"field": "Coherence (LDA, BoW)", "type": "quantitative", "title": "Coherence (LDA, BoW)", "scale": {"zero": false}}, "color": {"field": "rev", "type": "nominal"}, "tooltip": [{"field": "step", "title": "step", "type": "quantitative"}, {"field": "Coherence (LDA, BoW)", "title": "Coherence (LDA, BoW)", "type": "quantitative"}]}}, {"mark": {"type": "circle", "size": 10, "tooltip": {"content": "encoding"}}, "encoding": {"x": {"aggregate": "max", "field": "step", "type": "quantitative", "title": "step"}, "y": {"aggregate": {"argmax": "step"}, "field": "Coherence (LDA, BoW)", "type": "quantitative", "title": "Coherence (LDA, BoW)", "scale": {"zero": false}}, "color": {"field": "rev", "type": "nominal"}}}]};
+            vegaEmbed('#static_Coherence__LDA__BoW_', spec);
+        </script>
+    </div>
+    
+
+    <div id = "static_Coherence__LDA__TF-IDF_">
+        <script type = "text/javascript">
+            var spec = {"$schema": "https://vega.github.io/schema/vega-lite/v5.json", "data": {"values": [{"step": "0", "Coherence (LDA, TF-IDF)": "0.5294408153911654", "rev": "workspace"}]}, "title": "Coherence (LDA, TF-IDF)", "width": 300, "height": 300, "params": [{"name": "smooth", "value": 0.001, "bind": {"input": "range", "min": 0.001, "max": 1, "step": 0.001}}], "layer": [{"mark": "line", "encoding": {"x": {"field": "step", "type": "quantitative", "title": "step"}, "y": {"field": "Coherence (LDA, TF-IDF)", "type": "quantitative", "title": "Coherence (LDA, TF-IDF)", "scale": {"zero": false}}, "color": {"field": "rev", "type": "nominal"}, "tooltip": [{"field": "step", "title": "step", "type": "quantitative"}, {"field": "Coherence (LDA, TF-IDF)", "title": "Coherence (LDA, TF-IDF)", "type": "quantitative"}]}, "transform": [{"loess": "Coherence (LDA, TF-IDF)", "on": "step", "groupby": ["rev", "filename", "field", "filename::field"], "bandwidth": {"signal": "smooth"}}]}, {"mark": {"type": "line", "opacity": 0.2}, "encoding": {"x": {"field": "step", "type": "quantitative", "title": "step"}, "y": {"field": "Coherence (LDA, TF-IDF)", "type": "quantitative", "title": "Coherence (LDA, TF-IDF)", "scale": {"zero": false}}, "color": {"field": "rev", "type": "nominal"}, "tooltip": [{"field": "step", "title": "step", "type": "quantitative"}, {"field": "Coherence (LDA, TF-IDF)", "title": "Coherence (LDA, TF-IDF)", "type": "quantitative"}]}}, {"mark": {"type": "circle", "size": 10, "tooltip": {"content": "encoding"}}, "encoding": {"x": {"aggregate": "max", "field": "step", "type": "quantitative", "title": "step"}, "y": {"aggregate": {"argmax": "step"}, "field": "Coherence (LDA, TF-IDF)", "type": "quantitative", "title": "Coherence (LDA, TF-IDF)", "scale": {"zero": false}}, "color": {"field": "rev", "type": "nominal"}}}]};
+            vegaEmbed('#static_Coherence__LDA__TF-IDF_', spec);
+        </script>
+    </div>
+    
+
+    <div id = "static_Coherence__NMF__BoW_">
+        <script type = "text/javascript">
+            var spec = {"$schema": "https://vega.github.io/schema/vega-lite/v5.json", "data": {"values": [{"step": "0", "Coherence (NMF, BoW)": "0.5006311665114682", "rev": "workspace"}]}, "title": "Coherence (NMF, BoW)", "width": 300, "height": 300, "params": [{"name": "smooth", "value": 0.001, "bind": {"input": "range", "min": 0.001, "max": 1, "step": 0.001}}], "layer": [{"mark": "line", "encoding": {"x": {"field": "step", "type": "quantitative", "title": "step"}, "y": {"field": "Coherence (NMF, BoW)", "type": "quantitative", "title": "Coherence (NMF, BoW)", "scale": {"zero": false}}, "color": {"field": "rev", "type": "nominal"}, "tooltip": [{"field": "step", "title": "step", "type": "quantitative"}, {"field": "Coherence (NMF, BoW)", "title": "Coherence (NMF, BoW)", "type": "quantitative"}]}, "transform": [{"loess": "Coherence (NMF, BoW)", "on": "step", "groupby": ["rev", "filename", "field", "filename::field"], "bandwidth": {"signal": "smooth"}}]}, {"mark": {"type": "line", "opacity": 0.2}, "encoding": {"x": {"field": "step", "type": "quantitative", "title": "step"}, "y": {"field": "Coherence (NMF, BoW)", "type": "quantitative", "title": "Coherence (NMF, BoW)", "scale": {"zero": false}}, "color": {"field": "rev", "type": "nominal"}, "tooltip": [{"field": "step", "title": "step", "type": "quantitative"}, {"field": "Coherence (NMF, BoW)", "title": "Coherence (NMF, BoW)", "type": "quantitative"}]}}, {"mark": {"type": "circle", "size": 10, "tooltip": {"content": "encoding"}}, "encoding": {"x": {"aggregate": "max", "field": "step", "type": "quantitative", "title": "step"}, "y": {"aggregate": {"argmax": "step"}, "field": "Coherence (NMF, BoW)", "type": "quantitative", "title": "Coherence (NMF, BoW)", "scale": {"zero": false}}, "color": {"field": "rev", "type": "nominal"}}}]};
+            vegaEmbed('#static_Coherence__NMF__BoW_', spec);
+        </script>
+    </div>
+    
+
+    <div id = "static_Coherence__NMF__TF-IDF_">
+        <script type = "text/javascript">
+            var spec = {"$schema": "https://vega.github.io/schema/vega-lite/v5.json", "data": {"values": [{"step": "0", "Coherence (NMF, TF-IDF)": "0.5512384786175349", "rev": "workspace"}]}, "title": "Coherence (NMF, TF-IDF)", "width": 300, "height": 300, "params": [{"name": "smooth", "value": 0.001, "bind": {"input": "range", "min": 0.001, "max": 1, "step": 0.001}}], "layer": [{"mark": "line", "encoding": {"x": {"field": "step", "type": "quantitative", "title": "step"}, "y": {"field": "Coherence (NMF, TF-IDF)", "type": "quantitative", "title": "Coherence (NMF, TF-IDF)", "scale": {"zero": false}}, "color": {"field": "rev", "type": "nominal"}, "tooltip": [{"field": "step", "title": "step", "type": "quantitative"}, {"field": "Coherence (NMF, TF-IDF)", "title": "Coherence (NMF, TF-IDF)", "type": "quantitative"}]}, "transform": [{"loess": "Coherence (NMF, TF-IDF)", "on": "step", "groupby": ["rev", "filename", "field", "filename::field"], "bandwidth": {"signal": "smooth"}}]}, {"mark": {"type": "line", "opacity": 0.2}, "encoding": {"x": {"field": "step", "type": "quantitative", "title": "step"}, "y": {"field": "Coherence (NMF, TF-IDF)", "type": "quantitative", "title": "Coherence (NMF, TF-IDF)", "scale": {"zero": false}}, "color": {"field": "rev", "type": "nominal"}, "tooltip": [{"field": "step", "title": "step", "type": "quantitative"}, {"field": "Coherence (NMF, TF-IDF)", "title": "Coherence (NMF, TF-IDF)", "type": "quantitative"}]}}, {"mark": {"type": "circle", "size": 10, "tooltip": {"content": "encoding"}}, "encoding": {"x": {"aggregate": "max", "field": "step", "type": "quantitative", "title": "step"}, "y": {"aggregate": {"argmax": "step"}, "field": "Coherence (NMF, TF-IDF)", "type": "quantitative", "title": "Coherence (NMF, TF-IDF)", "scale": {"zero": false}}, "color": {"field": "rev", "type": "nominal"}}}]};
+            vegaEmbed('#static_Coherence__NMF__TF-IDF_', spec);
+        </script>
+    </div>
+    
+
+    <div id = "static_Perplexity__LDA__BoW_">
+        <script type = "text/javascript">
+            var spec = {"$schema": "https://vega.github.io/schema/vega-lite/v5.json", "data": {"values": [{"step": "0", "Perplexity (LDA, BoW)": "-7.550808386157621", "rev": "workspace"}]}, "title": "Perplexity (LDA, BoW)", "width": 300, "height": 300, "params": [{"name": "smooth", "value": 0.001, "bind": {"input": "range", "min": 0.001, "max": 1, "step": 0.001}}], "layer": [{"mark": "line", "encoding": {"x": {"field": "step", "type": "quantitative", "title": "step"}, "y": {"field": "Perplexity (LDA, BoW)", "type": "quantitative", "title": "Perplexity (LDA, BoW)", "scale": {"zero": false}}, "color": {"field": "rev", "type": "nominal"}, "tooltip": [{"field": "step", "title": "step", "type": "quantitative"}, {"field": "Perplexity (LDA, BoW)", "title": "Perplexity (LDA, BoW)", "type": "quantitative"}]}, "transform": [{"loess": "Perplexity (LDA, BoW)", "on": "step", "groupby": ["rev", "filename", "field", "filename::field"], "bandwidth": {"signal": "smooth"}}]}, {"mark": {"type": "line", "opacity": 0.2}, "encoding": {"x": {"field": "step", "type": "quantitative", "title": "step"}, "y": {"field": "Perplexity (LDA, BoW)", "type": "quantitative", "title": "Perplexity (LDA, BoW)", "scale": {"zero": false}}, "color": {"field": "rev", "type": "nominal"}, "tooltip": [{"field": "step", "title": "step", "type": "quantitative"}, {"field": "Perplexity (LDA, BoW)", "title": "Perplexity (LDA, BoW)", "type": "quantitative"}]}}, {"mark": {"type": "circle", "size": 10, "tooltip": {"content": "encoding"}}, "encoding": {"x": {"aggregate": "max", "field": "step", "type": "quantitative", "title": "step"}, "y": {"aggregate": {"argmax": "step"}, "field": "Perplexity (LDA, BoW)", "type": "quantitative", "title": "Perplexity (LDA, BoW)", "scale": {"zero": false}}, "color": {"field": "rev", "type": "nominal"}}}]};
+            vegaEmbed('#static_Perplexity__LDA__BoW_', spec);
+        </script>
+    </div>
+    
+
+    <div id = "static_Perplexity__LDA__TF-IDF_">
+        <script type = "text/javascript">
+            var spec = {"$schema": "https://vega.github.io/schema/vega-lite/v5.json", "data": {"values": [{"step": "0", "Perplexity (LDA, TF-IDF)": "-10.197679146588165", "rev": "workspace"}]}, "title": "Perplexity (LDA, TF-IDF)", "width": 300, "height": 300, "params": [{"name": "smooth", "value": 0.001, "bind": {"input": "range", "min": 0.001, "max": 1, "step": 0.001}}], "layer": [{"mark": "line", "encoding": {"x": {"field": "step", "type": "quantitative", "title": "step"}, "y": {"field": "Perplexity (LDA, TF-IDF)", "type": "quantitative", "title": "Perplexity (LDA, TF-IDF)", "scale": {"zero": false}}, "color": {"field": "rev", "type": "nominal"}, "tooltip": [{"field": "step", "title": "step", "type": "quantitative"}, {"field": "Perplexity (LDA, TF-IDF)", "title": "Perplexity (LDA, TF-IDF)", "type": "quantitative"}]}, "transform": [{"loess": "Perplexity (LDA, TF-IDF)", "on": "step", "groupby": ["rev", "filename", "field", "filename::field"], "bandwidth": {"signal": "smooth"}}]}, {"mark": {"type": "line", "opacity": 0.2}, "encoding": {"x": {"field": "step", "type": "quantitative", "title": "step"}, "y": {"field": "Perplexity (LDA, TF-IDF)", "type": "quantitative", "title": "Perplexity (LDA, TF-IDF)", "scale": {"zero": false}}, "color": {"field": "rev", "type": "nominal"}, "tooltip": [{"field": "step", "title": "step", "type": "quantitative"}, {"field": "Perplexity (LDA, TF-IDF)", "title": "Perplexity (LDA, TF-IDF)", "type": "quantitative"}]}}, {"mark": {"type": "circle", "size": 10, "tooltip": {"content": "encoding"}}, "encoding": {"x": {"aggregate": "max", "field": "step", "type": "quantitative", "title": "step"}, "y": {"aggregate": {"argmax": "step"}, "field": "Perplexity (LDA, TF-IDF)", "type": "quantitative", "title": "Perplexity (LDA, TF-IDF)", "scale": {"zero": false}}, "color": {"field": "rev", "type": "nominal"}}}]};
+            vegaEmbed('#static_Perplexity__LDA__TF-IDF_', spec);
+        </script>
+    </div>
+    
+</body>
+</html>

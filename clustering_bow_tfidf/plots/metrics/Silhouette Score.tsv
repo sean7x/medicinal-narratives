@@ -1,0 +1,13 @@
+step	Silhouette Score
+lda_bow_kmeans	0.382104809484366
+lda_bow_dbscan	-0.5256527261169909
+lda_bow_hierarchical	0.2907459876968674
+lda_tfidf_kmeans	0.3562965424116299
+lda_tfidf_dbscan	-0.6077070401016013
+lda_tfidf_hierarchical	0.2724233819836334
+nmf_bow_kmeans	0.23863578975901645
+nmf_bow_dbscan	-0.4198647867105465
+nmf_bow_hierarchical	0.1283818914695297
+nmf_tfidf_kmeans	0.27922116490679705
+nmf_tfidf_dbscan	-0.4643847414071216
+nmf_tfidf_hierarchical	0.18384369558768407

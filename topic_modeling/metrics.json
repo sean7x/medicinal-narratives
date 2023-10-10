@@ -1,0 +1,8 @@
+{
+    "Coherence (LDA, BoW)": 0.4701966266641503,
+    "Perplexity (LDA, BoW)": -7.550808386157621,
+    "Coherence (LDA, TF-IDF)": 0.5294408153911654,
+    "Perplexity (LDA, TF-IDF)": -10.197679146588165,
+    "Coherence (NMF, BoW)": 0.5006311665114682,
+    "Coherence (NMF, TF-IDF)": 0.5512384786175349
+}

@@ -1,0 +1,13 @@
+step	Davies-Bouldin Score
+lda_bow_kmeans	0.9001306949929816
+lda_bow_dbscan	1.07257151318929
+lda_bow_hierarchical	1.140866631382087
+lda_tfidf_kmeans	0.9038842559341577
+lda_tfidf_dbscan	1.3322267402189816
+lda_tfidf_hierarchical	1.0621970876548201
+nmf_bow_kmeans	1.147996171522005
+nmf_bow_dbscan	0.8533739844797495
+nmf_bow_hierarchical	1.4663973461088375
+nmf_tfidf_kmeans	1.0884060588839868
+nmf_tfidf_dbscan	0.9024062605691802
+nmf_tfidf_hierarchical	1.3802939688260476

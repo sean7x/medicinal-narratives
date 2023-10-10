@@ -1,0 +1,7 @@
+step	Silhouette Score
+word2vec_kmeans	0.005883664
+word2vec_dbscan	nan
+word2vec_hierarchical	-0.0030009006
+bert_kmeans	0.066291414
+bert_dbscan	0.4486328
+bert_hierarchical	0.06218718

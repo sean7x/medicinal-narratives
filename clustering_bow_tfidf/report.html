@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="refresh" content="5">
+    <title>DVC Plot</title>
+    
+
+    <script src="https://cdn.jsdelivr.net/npm/vega@5.20.2"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vega-lite@5.2.0"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vega-embed@6.18.2"></script>
+    
+    <style>
+        table {
+            border-spacing: 15px;
+        }
+    </style>
+</head>
+<body>
+    
+        <div id="metrics_json" style="text-align: center; padding: 10x">
+            <p>metrics_json</p>
+            <div style="display: flex;justify-content: center;">
+                <table>
+<thead>
+<tr><th style="text-align: right;">  Silhouette Score</th><th style="text-align: right;">  Davies-Bouldin Score</th><th style="text-align: right;">  Calinski-Harabasz Score</th><th>step                  </th></tr>
+</thead>
+<tbody>
+<tr><td style="text-align: right;">          0.183844</td><td style="text-align: right;">               1.38029</td><td style="text-align: right;">                  4502.58</td><td>nmf_tfidf_hierarchical</td></tr>
+</tbody>
+</table>
+            </div>
+        </div>
+
+    <div id = "static_Calinski-Harabasz_Score">
+        <script type = "text/javascript">
+            var spec = {"$schema": "https://vega.github.io/schema/vega-lite/v5.json", "data": {"values": [{"step": "lda_bow_kmeans", "Calinski-Harabasz Score": "8717.867467407237", "rev": "workspace"}, {"step": "lda_bow_dbscan", "Calinski-Harabasz Score": "52.17435511953512", "rev": "workspace"}, {"step": "lda_bow_hierarchical", "Calinski-Harabasz Score": "6093.194404327537", "rev": "workspace"}, {"step": "lda_tfidf_kmeans", "Calinski-Harabasz Score": "6463.684645069388", "rev": "workspace"}, {"step": "lda_tfidf_dbscan", "Calinski-Harabasz Score": "34.19877967688657", "rev": "workspace"}, {"step": "lda_tfidf_hierarchical", "Calinski-Harabasz Score": "4820.81020626125", "rev": "workspace"}, {"step": "nmf_bow_kmeans", "Calinski-Harabasz Score": "5471.129041003701", "rev": "workspace"}, {"step": "nmf_bow_dbscan", "Calinski-Harabasz Score": "50.13212399138072", "rev": "workspace"}, {"step": "nmf_bow_hierarchical", "Calinski-Harabasz Score": "3370.312892015577", "rev": "workspace"}, {"step": "nmf_tfidf_kmeans", "Calinski-Harabasz Score": "6556.2896914617", "rev": "workspace"}, {"step": "nmf_tfidf_dbscan", "Calinski-Harabasz Score": "44.767083472217436", "rev": "workspace"}, {"step": "nmf_tfidf_hierarchical", "Calinski-Harabasz Score": "4502.58210285101", "rev": "workspace"}]}, "title": "Calinski-Harabasz Score", "width": 300, "height": 300, "params": [{"name": "smooth", "value": 0.001, "bind": {"input": "range", "min": 0.001, "max": 1, "step": 0.001}}], "layer": [{"mark": "line", "encoding": {"x": {"field": "step", "type": "quantitative", "title": "step"}, "y": {"field": "Calinski-Harabasz Score", "type": "quantitative", "title": "Calinski-Harabasz Score", "scale": {"zero": false}}, "color": {"field": "rev", "type": "nominal"}, "tooltip": [{"field": "step", "title": "step", "type": "quantitative"}, {"field": "Calinski-Harabasz Score", "title": "Calinski-Harabasz Score", "type": "quantitative"}]}, "transform": [{"loess": "Calinski-Harabasz Score", "on": "step", "groupby": ["rev", "filename", "field", "filename::field"], "bandwidth": {"signal": "smooth"}}]}, {"mark": {"type": "line", "opacity": 0.2}, "encoding": {"x": {"field": "step", "type": "quantitative", "title": "step"}, "y": {"field": "Calinski-Harabasz Score", "type": "quantitative", "title": "Calinski-Harabasz Score", "scale": {"zero": false}}, "color": {"field": "rev", "type": "nominal"}, "tooltip": [{"field": "step", "title": "step", "type": "quantitative"}, {"field": "Calinski-Harabasz Score", "title": "Calinski-Harabasz Score", "type": "quantitative"}]}}, {"mark": {"type": "circle", "size": 10, "tooltip": {"content": "encoding"}}, "encoding": {"x": {"aggregate": "max", "field": "step", "type": "quantitative", "title": "step"}, "y": {"aggregate": {"argmax": "step"}, "field": "Calinski-Harabasz Score", "type": "quantitative", "title": "Calinski-Harabasz Score", "scale": {"zero": false}}, "color": {"field": "rev", "type": "nominal"}}}]};
+            vegaEmbed('#static_Calinski-Harabasz_Score', spec);
+        </script>
+    </div>
+    
+
+    <div id = "static_Davies-Bouldin_Score">
+        <script type = "text/javascript">
+            var spec = {"$schema": "https://vega.github.io/schema/vega-lite/v5.json", "data": {"values": [{"step": "lda_bow_kmeans", "Davies-Bouldin Score": "0.9001306949929816", "rev": "workspace"}, {"step": "lda_bow_dbscan", "Davies-Bouldin Score": "1.07257151318929", "rev": "workspace"}, {"step": "lda_bow_hierarchical", "Davies-Bouldin Score": "1.140866631382087", "rev": "workspace"}, {"step": "lda_tfidf_kmeans", "Davies-Bouldin Score": "0.9038842559341577", "rev": "workspace"}, {"step": "lda_tfidf_dbscan", "Davies-Bouldin Score": "1.3322267402189816", "rev": "workspace"}, {"step": "lda_tfidf_hierarchical", "Davies-Bouldin Score": "1.0621970876548201", "rev": "workspace"}, {"step": "nmf_bow_kmeans", "Davies-Bouldin Score": "1.147996171522005", "rev": "workspace"}, {"step": "nmf_bow_dbscan", "Davies-Bouldin Score": "0.8533739844797495", "rev": "workspace"}, {"step": "nmf_bow_hierarchical", "Davies-Bouldin Score": "1.4663973461088375", "rev": "workspace"}, {"step": "nmf_tfidf_kmeans", "Davies-Bouldin Score": "1.0884060588839868", "rev": "workspace"}, {"step": "nmf_tfidf_dbscan", "Davies-Bouldin Score": "0.9024062605691802", "rev": "workspace"}, {"step": "nmf_tfidf_hierarchical", "Davies-Bouldin Score": "1.3802939688260476", "rev": "workspace"}]}, "title": "Davies-Bouldin Score", "width": 300, "height": 300, "params": [{"name": "smooth", "value": 0.001, "bind": {"input": "range", "min": 0.001, "max": 1, "step": 0.001}}], "layer": [{"mark": "line", "encoding": {"x": {"field": "step", "type": "quantitative", "title": "step"}, "y": {"field": "Davies-Bouldin Score", "type": "quantitative", "title": "Davies-Bouldin Score", "scale": {"zero": false}}, "color": {"field": "rev", "type": "nominal"}, "tooltip": [{"field": "step", "title": "step", "type": "quantitative"}, {"field": "Davies-Bouldin Score", "title": "Davies-Bouldin Score", "type": "quantitative"}]}, "transform": [{"loess": "Davies-Bouldin Score", "on": "step", "groupby": ["rev", "filename", "field", "filename::field"], "bandwidth": {"signal": "smooth"}}]}, {"mark": {"type": "line", "opacity": 0.2}, "encoding": {"x": {"field": "step", "type": "quantitative", "title": "step"}, "y": {"field": "Davies-Bouldin Score", "type": "quantitative", "title": "Davies-Bouldin Score", "scale": {"zero": false}}, "color": {"field": "rev", "type": "nominal"}, "tooltip": [{"field": "step", "title": "step", "type": "quantitative"}, {"field": "Davies-Bouldin Score", "title": "Davies-Bouldin Score", "type": "quantitative"}]}}, {"mark": {"type": "circle", "size": 10, "tooltip": {"content": "encoding"}}, "encoding": {"x": {"aggregate": "max", "field": "step", "type": "quantitative", "title": "step"}, "y": {"aggregate": {"argmax": "step"}, "field": "Davies-Bouldin Score", "type": "quantitative", "title": "Davies-Bouldin Score", "scale": {"zero": false}}, "color": {"field": "rev", "type": "nominal"}}}]};
+            vegaEmbed('#static_Davies-Bouldin_Score', spec);
+        </script>
+    </div>
+    
+
+    <div id = "static_Silhouette_Score">
+        <script type = "text/javascript">
+            var spec = {"$schema": "https://vega.github.io/schema/vega-lite/v5.json", "data": {"values": [{"step": "lda_bow_kmeans", "Silhouette Score": "0.382104809484366", "rev": "workspace"}, {"step": "lda_bow_dbscan", "Silhouette Score": "-0.5256527261169909", "rev": "workspace"}, {"step": "lda_bow_hierarchical", "Silhouette Score": "0.2907459876968674", "rev": "workspace"}, {"step": "lda_tfidf_kmeans", "Silhouette Score": "0.3562965424116299", "rev": "workspace"}, {"step": "lda_tfidf_dbscan", "Silhouette Score": "-0.6077070401016013", "rev": "workspace"}, {"step": "lda_tfidf_hierarchical", "Silhouette Score": "0.2724233819836334", "rev": "workspace"}, {"step": "nmf_bow_kmeans", "Silhouette Score": "0.23863578975901645", "rev": "workspace"}, {"step": "nmf_bow_dbscan", "Silhouette Score": "-0.4198647867105465", "rev": "workspace"}, {"step": "nmf_bow_hierarchical", "Silhouette Score": "0.1283818914695297", "rev": "workspace"}, {"step": "nmf_tfidf_kmeans", "Silhouette Score": "0.27922116490679705", "rev": "workspace"}, {"step": "nmf_tfidf_dbscan", "Silhouette Score": "-0.4643847414071216", "rev": "workspace"}, {"step": "nmf_tfidf_hierarchical", "Silhouette Score": "0.18384369558768407", "rev": "workspace"}]}, "title": "Silhouette Score", "width": 300, "height": 300, "params": [{"name": "smooth", "value": 0.001, "bind": {"input": "range", "min": 0.001, "max": 1, "step": 0.001}}], "layer": [{"mark": "line", "encoding": {"x": {"field": "step", "type": "quantitative", "title": "step"}, "y": {"field": "Silhouette Score", "type": "quantitative", "title": "Silhouette Score", "scale": {"zero": false}}, "color": {"field": "rev", "type": "nominal"}, "tooltip": [{"field": "step", "title": "step", "type": "quantitative"}, {"field": "Silhouette Score", "title": "Silhouette Score", "type": "quantitative"}]}, "transform": [{"loess": "Silhouette Score", "on": "step", "groupby": ["rev", "filename", "field", "filename::field"], "bandwidth": {"signal": "smooth"}}]}, {"mark": {"type": "line", "opacity": 0.2}, "encoding": {"x": {"field": "step", "type": "quantitative", "title": "step"}, "y": {"field": "Silhouette Score", "type": "quantitative", "title": "Silhouette Score", "scale": {"zero": false}}, "color": {"field": "rev", "type": "nominal"}, "tooltip": [{"field": "step", "title": "step", "type": "quantitative"}, {"field": "Silhouette Score", "title": "Silhouette Score", "type": "quantitative"}]}}, {"mark": {"type": "circle", "size": 10, "tooltip": {"content": "encoding"}}, "encoding": {"x": {"aggregate": "max", "field": "step", "type": "quantitative", "title": "step"}, "y": {"aggregate": {"argmax": "step"}, "field": "Silhouette Score", "type": "quantitative", "title": "Silhouette Score", "scale": {"zero": false}}, "color": {"field": "rev", "type": "nominal"}}}]};
+            vegaEmbed('#static_Silhouette_Score', spec);
+        </script>
+    </div>
+    
+</body>
+</html>

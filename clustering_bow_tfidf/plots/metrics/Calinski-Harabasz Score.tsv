@@ -1,0 +1,13 @@
+step	Calinski-Harabasz Score
+lda_bow_kmeans	8717.867467407237
+lda_bow_dbscan	52.17435511953512
+lda_bow_hierarchical	6093.194404327537
+lda_tfidf_kmeans	6463.684645069388
+lda_tfidf_dbscan	34.19877967688657
+lda_tfidf_hierarchical	4820.81020626125
+nmf_bow_kmeans	5471.129041003701
+nmf_bow_dbscan	50.13212399138072
+nmf_bow_hierarchical	3370.312892015577
+nmf_tfidf_kmeans	6556.2896914617
+nmf_tfidf_dbscan	44.767083472217436
+nmf_tfidf_hierarchical	4502.58210285101
