@@ -53,7 +53,7 @@ def prepare_topic_model_viz(model, dictionary, corpus):
     return vis_data
 
 
-def main(args, lda_n_topics, nmf_n_topics, RANDOM_SEED):
+def main(args, num_topics, RANDOM_SEED):
     # Load data
     #procd_data = pd.read_csv(args.procd_data_path)['procd_review'].apply(lambda x: x.split())
     procd_data = pd.read_csv(Path(args.procd_data_path))['lemma_wo_stpwrd'].apply(lambda x: eval(x))
@@ -72,7 +72,7 @@ def main(args, lda_n_topics, nmf_n_topics, RANDOM_SEED):
         # LDA Model for BoW
         lda_bow = LdaModel(
             bow_corpus,
-            num_topics=lda_n_topics,
+            num_topics=num_topics,
             id2word=dictionary,
             random_state=RANDOM_SEED,
         )
@@ -97,7 +97,7 @@ def main(args, lda_n_topics, nmf_n_topics, RANDOM_SEED):
         # LDA Model for TF-IDF
         lda_tfidf = LdaModel(
             tfidf_corpus,
-            num_topics=lda_n_topics,
+            num_topics=num_topics,
             id2word=dictionary,
             random_state=RANDOM_SEED,
         )
@@ -123,7 +123,7 @@ def main(args, lda_n_topics, nmf_n_topics, RANDOM_SEED):
         # NMF Model for BoW
         nmf_bow = Nmf(
             bow_corpus,
-            num_topics=nmf_n_topics,
+            num_topics=num_topics,
             id2word=dictionary,
             random_state=RANDOM_SEED,
         )
@@ -147,7 +147,7 @@ def main(args, lda_n_topics, nmf_n_topics, RANDOM_SEED):
         # NMF Model for TF-IDF
         nmf_tfidf = Nmf(
             tfidf_corpus,
-            num_topics=nmf_n_topics,
+            num_topics=num_topics,
             id2word=dictionary,
             random_state=RANDOM_SEED,
         )
@@ -214,10 +214,10 @@ if __name__ == '__main__':
     args = parser.parse_args()
 
     params = dvc.api.params_show()
+    num_topics = params['topic_modeling']['num_topics']
 
     main(
         args,
-        lda_n_topics=params['topic_modeling_bow_tfidf']['lda_n_topics'],
-        nmf_n_topics=params['topic_modeling_bow_tfidf']['nmf_n_topics'],
+        num_topics,
         RANDOM_SEED=params['RANDOM_SEED'],
     )
