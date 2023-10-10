@@ -13,6 +13,10 @@ feature_engineering:
     epochs: 10
     sg: 0
   bert: true
-topic_modeling_bow_tfidf:
-  lda_n_topics: 10
-  nmf_n_topics: 10
+topic_modeling:
+  num_topics: 10
+clustering:
+  num_clusters: 10  # number of clusters for k-means and agglomerative clustering
+  eps: 0.2  # DBSCAN eps
+  min_samples: 5  # DBSCAN min_samples
+  #distance_threshold: 0.5  # agglomerative clustering distance threshold

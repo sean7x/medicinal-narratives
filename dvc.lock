@@ -203,7 +203,7 @@ stages:
       md5: 560ab3e4c02ce89fdcf98ce2f5c1369c
       size: 27088773
   topic_modeling_bow_tfidf_sample_train:
-    cmd: python src/topic_modeling_bow_tfidf.py --procd_data_path data/preprocessed/lewtun-drug-reviews/procd_sample_train.csv
+    cmd: python src/topic_modeling.py --procd_data_path data/preprocessed/lewtun-drug-reviews/procd_sample_train.csv
       --bow_corpus_path data/features/bow_corpus.pkl --tfidf_corpus_path data/features/tfidf_corpus.pkl
       --dictionary_path data/features/dictionary.pkl --lda_bow_model_path models/lda_bow_model.pkl
       --nmf_bow_model_path models/nmf_bow_model.pkl --lda_tfidf_model_path models/lda_tfidf_model.pkl
@@ -235,46 +235,183 @@ stages:
       hash: md5
       md5: f53318ba9f8f5962361fe10d3f50b4d6
       size: 49239264
-    - path: src/topic_modeling_bow_tfidf.py
+    - path: src/topic_modeling.py
       hash: md5
-      md5: b806ac7ee7a1129e108695411e37ec54
-      size: 7755
+      md5: 26d441fe56d0542eb4288a887ae9623f
+      size: 7710
     params:
       params.yaml:
         RANDOM_SEED: 42
-        topic_modeling_bow_tfidf:
-          lda_n_topics: 10
-          nmf_n_topics: 10
+        topic_modeling:
+          num_topics: 10
     outs:
     - path: models/lda_bow_model.pkl
       hash: md5
-      md5: 5f29ede3ad64f6c09ad97f2c73eadc22
+      md5: 830ed8ec4a13d946981d13804569dfa4
       size: 114542
     - path: models/lda_tfidf_model.pkl
       hash: md5
-      md5: c625174885e32f9bad9738b52e0e6515
+      md5: d525ccd3322cd7ae8bb4e12e54da5144
       size: 114544
     - path: models/nmf_bow_model.pkl
       hash: md5
-      md5: fa62f65bb958859005430d8ecae1ddf1
+      md5: 80b3cb407436e65632e484a3dc2f2336
       size: 5310347
     - path: models/nmf_tfidf_model.pkl
       hash: md5
-      md5: 8bac91ab841a7bc5cbbb55119a76d6c9
+      md5: 805014c1ef91e5f5b4062e8949d8cfb1
       size: 5310349
     - path: plots/lda_bow_vis.html
       hash: md5
-      md5: 9250251916476f0e9e30a3f8e7a30f63
-      size: 150180
+      md5: 7aa1cfdab5e280617da4e5d5c05ff0f4
+      size: 150188
     - path: plots/lda_tfidf_vis.html
       hash: md5
-      md5: a32ac050d50c43c3314eeef9d010673d
-      size: 95630
+      md5: 6604c6d9a81147f90532c720e90af316
+      size: 95638
     - path: plots/nmf_bow_vis.html
       hash: md5
-      md5: 8eb3ebbcfccd34b1da38cb5bae0307c6
-      size: 178289
+      md5: 1f297ad6828f1f4a0ec1db43e03abd3d
+      size: 178297
     - path: plots/nmf_tfidf_vis.html
       hash: md5
-      md5: e8a6167454054ae3756540dcd67b541f
-      size: 143890
+      md5: be92437596cce08611972bbd20ef76f1
+      size: 143874
+  clustering_bow_tfidf_sample_train:
+    cmd: python src/clustering.py --model_paths 
+      "models/lda_bow_model.pkl,models/lda_tfidf_model.pkl,models/nmf_bow_model.pkl,models/nmf_tfidf_model.pkl"
+      --corpus_paths "data/features/bow_corpus.pkl,data/features/tfidf_corpus.pkl"
+      --log_dir clustering_bow_tfidf
+    deps:
+    - path: data/features/bow_corpus.pkl
+      hash: md5
+      md5: f8e336cf2db0f9af640da38c45c97a89
+      size: 6749703
+    - path: data/features/tfidf_corpus.pkl
+      hash: md5
+      md5: b9bd7a7d9f28e3a5951d5a9b60cc821c
+      size: 23717388
+    - path: models/lda_bow_model.pkl
+      hash: md5
+      md5: 830ed8ec4a13d946981d13804569dfa4
+      size: 114542
+    - path: models/lda_tfidf_model.pkl
+      hash: md5
+      md5: d525ccd3322cd7ae8bb4e12e54da5144
+      size: 114544
+    - path: models/nmf_bow_model.pkl
+      hash: md5
+      md5: 80b3cb407436e65632e484a3dc2f2336
+      size: 5310347
+    - path: models/nmf_tfidf_model.pkl
+      hash: md5
+      md5: 805014c1ef91e5f5b4062e8949d8cfb1
+      size: 5310349
+    - path: src/clustering.py
+      hash: md5
+      md5: f446d6a464d17f2b60cff944d087e8db
+      size: 5867
+    params:
+      params.yaml:
+        RANDOM_SEED: 42
+        clustering:
+          num_clusters: 10
+          eps: 0.2
+          min_samples: 5
+    outs:
+    - path: models/lda_bow_dbscan.pkl
+      hash: md5
+      md5: e93dbf0e50643ef237dda76ab1c997bb
+      size: 1148829
+    - path: models/lda_bow_hierarchical.pkl
+      hash: md5
+      md5: b53ab3ca22b0b2ab5a69b66124a2663e
+      size: 774809
+    - path: models/lda_bow_kmeans.pkl
+      hash: md5
+      md5: fbf62e836c2acc539f145706efe5b80b
+      size: 130458
+    - path: models/lda_tfidf_dbscan.pkl
+      hash: md5
+      md5: e39e7c485a5d11b5f9def882d524b46f
+      size: 1423037
+    - path: models/lda_tfidf_hierarchical.pkl
+      hash: md5
+      md5: 851e92ac230b79768e4ee2395ef69332
+      size: 774809
+    - path: models/lda_tfidf_kmeans.pkl
+      hash: md5
+      md5: 9d42c43c709b96017182ae63966199c2
+      size: 130458
+    - path: models/nmf_bow_dbscan.pkl
+      hash: md5
+      md5: a47336fc224ba348b2d3cdb7c5b45d9a
+      size: 399412
+    - path: models/nmf_bow_hierarchical.pkl
+      hash: md5
+      md5: dcd2f48f02aba052b9eaedba8bad67c3
+      size: 774809
+    - path: models/nmf_bow_kmeans.pkl
+      hash: md5
+      md5: c6002c51e352eb1cb9619bd936825671
+      size: 130458
+    - path: models/nmf_tfidf_dbscan.pkl
+      hash: md5
+      md5: 4a15e50eda1ad6014d2c550c76c3191f
+      size: 382604
+    - path: models/nmf_tfidf_hierarchical.pkl
+      hash: md5
+      md5: 9f8ee49a1ecd346b44532fa2540af0c6
+      size: 774809
+    - path: models/nmf_tfidf_kmeans.pkl
+      hash: md5
+      md5: 841bd359d95ed93fb7dc3d41db4de7dc
+      size: 130458
+  clustering_word2vec_bert_sample_train:
+    cmd: python src/clustering.py --model_paths "data/features/word2vec_model.pkl,data/features/bert_embeddings.pkl"
+      --log_dir clustering_word2vec_bert
+    deps:
+    - path: data/features/bert_embeddings.pkl
+      hash: md5
+      md5: 68cbdadf68829e274149503423785b29
+      size: 8581293681
+    - path: data/features/word2vec_model.pkl
+      hash: md5
+      md5: 560ab3e4c02ce89fdcf98ce2f5c1369c
+      size: 27088773
+    - path: src/clustering.py
+      hash: md5
+      md5: f446d6a464d17f2b60cff944d087e8db
+      size: 5867
+    params:
+      params.yaml:
+        RANDOM_SEED: 42
+        clustering:
+          num_clusters: 10
+          eps: 0.2
+          min_samples: 5
+    outs:
+    - path: models/bert_dbscan.pkl
+      hash: md5
+      md5: 76a1a6d000569622f452ee6e5d382fe7
+      size: 397212
+    - path: models/bert_hierarchical.pkl
+      hash: md5
+      md5: 5b9936b14c8d97082da469ebec010f85
+      size: 774810
+    - path: models/bert_kmeans.pkl
+      hash: md5
+      md5: 05fc606717c7e5b5d487a73e199c643f
+      size: 160414
+    - path: models/word2vec_dbscan.pkl
+      hash: md5
+      md5: 259ef41a2674dd53828773e7c012b2e4
+      size: 260282
+    - path: models/word2vec_hierarchical.pkl
+      hash: md5
+      md5: 56c45cd6913f9d38b7e42581e9f14445
+      size: 779873
+    - path: models/word2vec_kmeans.pkl
+      hash: md5
+      md5: 51d776fab3d12bca61e432afe2a861eb
+      size: 134536

@@ -91,6 +91,7 @@ if __name__ == '__main__':
     argparser = argparse.ArgumentParser()
     argparser.add_argument('--model_paths', type=str, required=True)
     argparser.add_argument('--corpus_paths', type=str, required=False)
+    argparser.add_argument('--log_dir', type=str, required=False)
     args = argparser.parse_args()
 
     model_paths = args.model_paths.split(',')
@@ -100,8 +101,11 @@ if __name__ == '__main__':
     RANDOM_SEED = params['RANDOM_SEED']
     kwargs = params['clustering']
 
-    with Live() as live:
+    with Live(dir=args.log_dir, report="html") as live:
         for model_path in model_paths:
+            model_name = model_path.split('/')[-1].split('_model')[0].split('_embeddings')[0]
+            #live.step = model_name
+
             if 'lda' in model_path:
                 if 'bow' in model_path:
                     corpus_path = [corpus for corpus in corpus_paths if 'bow' in corpus][0]
@@ -133,9 +137,14 @@ if __name__ == '__main__':
                     kwargs,
                 )
 
-                live.log_metric(f'Silhouette Score ({algorithm})', silhouette_avg)
-                live.log_metric(f'Davies-Bouldin Score ({algorithm})', davies_bouldin)
-                live.log_metric(f'Calinski-Harabasz Score ({algorithm})', calinski_harabasz)
+                live.step = f'{model_name}_{algorithm}'
 
-                model_name = model_path.split('/')[-1].split('_model')[0].split('_embeddings')[0]
+                live.log_metric(f'Silhouette Score', silhouette_avg)
+                live.log_metric(f'Davies-Bouldin Score', davies_bouldin)
+                live.log_metric(f'Calinski-Harabasz Score', calinski_harabasz)
+
                 pickle.dump(model, open(f'./models/{model_name}_{algorithm}.pkl', 'wb'))
+                
+                live.make_summary()
+                live.make_report()
+                live.make_dvcyaml()
