@@ -94,7 +94,7 @@ if __name__ == '__main__':
     RANDOM_SEED = params['RANDOM_SEED']
     kwargs = params['clustering']
 
-    with Live(dir=args.log_dir, resume=True, report="html") as live:
+    with Live(dir=args.log_dir, resume=False, report="html") as live:
         model_name = args.model_path.split('/')[-1].split('_model')[0].split('_embeddings')[0]
         if args.corpus_path is not None: corpus = pickle.load(open(args.corpus_path, 'rb'))
 
@@ -116,10 +116,17 @@ if __name__ == '__main__':
                 kwargs,
             )
 
-            live.log_metric('Model and Algorithm', f'{model_name}_{algorithm}')
+            live.log_metric(f'{model_name}_{algorithm}', live.step)
             live.log_metric('Silhouette Score', silhouette_avg)
             live.log_metric('Davies-Bouldin Score', davies_bouldin)
             live.log_metric('Calinski-Harabasz Score', calinski_harabasz)
+
+            if algorithm == 'dbscan':
+                num_clusters = len(set(model.labels_)) - (1 if -1 in model.labels_ else 0)
+                live.log_metric('DBSCAN Number of Clusters', num_clusters)
+                
+                num_outliers = np.unique(model.labels_, return_counts=True)[-1][0]
+                live.log_metric('DBSCAN Number of Outliers', num_outliers)
 
             pickle.dump(model, open(f'./models/{model_name}_{algorithm}.pkl', 'wb'))
             
