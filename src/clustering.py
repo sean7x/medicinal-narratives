@@ -72,10 +72,6 @@ def prepare_input_data(model, model_type, corpus=None):
         
         return np.array(input_data)
     
-    elif model_type == 'word2vec':
-        input_data = model.wv.vectors
-        return input_data
-    
     elif model_type == 'bert':
         bert_embedding_avg = [np.mean(embedding, axis=0) for embedding in model]
         input_data = np.vstack(bert_embedding_avg)
@@ -89,62 +85,42 @@ if __name__ == '__main__':
     import dvc.api
 
     argparser = argparse.ArgumentParser()
-    argparser.add_argument('--model_paths', type=str, required=True)
-    argparser.add_argument('--corpus_paths', type=str, required=False)
+    argparser.add_argument('--model_path', type=str, required=True)
+    argparser.add_argument('--corpus_path', type=str, required=False)
     argparser.add_argument('--log_dir', type=str, required=False)
     args = argparser.parse_args()
-
-    model_paths = args.model_paths.split(',')
-    if args.corpus_paths is not None: corpus_paths = args.corpus_paths.split(',')
 
     params = dvc.api.params_show()
     RANDOM_SEED = params['RANDOM_SEED']
     kwargs = params['clustering']
 
-    with Live(dir=args.log_dir, report="html") as live:
-        for model_path in model_paths:
-            model_name = model_path.split('/')[-1].split('_model')[0].split('_embeddings')[0]
-            #live.step = model_name
+    with Live(dir=args.log_dir, resume=True, report="html") as live:
+        model_name = args.model_path.split('/')[-1].split('_model')[0].split('_embeddings')[0]
+        if args.corpus_path is not None: corpus = pickle.load(open(args.corpus_path, 'rb'))
 
-            if 'lda' in model_path:
-                if 'bow' in model_path:
-                    corpus_path = [corpus for corpus in corpus_paths if 'bow' in corpus][0]
-                elif 'tfidf' in model_path:
-                    corpus_path = [corpus for corpus in corpus_paths if 'tfidf' in corpus][0]
-                model = LdaModel.load(model_path)
-                corpus = pickle.load(open(corpus_path, 'rb'))
-                input_data = prepare_input_data(model, 'lda', corpus)
-            elif 'nmf' in model_path:
-                if 'bow' in model_path: 
-                    corpus_path = [corpus for corpus in corpus_paths if 'bow' in corpus][0]
-                elif 'tfidf' in model_path: 
-                    corpus_path = [corpus for corpus in corpus_paths if 'tfidf' in corpus][0]
-                model = Nmf.load(model_path)
-                corpus = pickle.load(open(corpus_path, 'rb'))
-                input_data = prepare_input_data(model, 'nmf', corpus)
-            elif 'word2vec' in model_path:
-                model = pickle.load(open(model_path, 'rb'))
-                input_data = prepare_input_data(model, 'word2vec')
-            elif 'bert' in model_path:
-                model = pickle.load(open(model_path, 'rb'))
-                input_data = prepare_input_data(model, 'bert')
+        if 'lda' in args.model_path:
+            model = LdaModel.load(args.model_path)
+            input_data = prepare_input_data(model, 'lda', corpus)
+        elif 'nmf' in args.model_path:
+            model = Nmf.load(args.model_path)
+            input_data = prepare_input_data(model, 'nmf', corpus)
+        elif 'bert' in args.model_path:
+            model = pickle.load(open(args.model_path, 'rb'))
+            input_data = prepare_input_data(model, 'bert')
+        
+        for algorithm in ['kmeans', 'dbscan', 'hierarchical']:
+            model, silhouette_avg, davies_bouldin, calinski_harabasz = cluster(
+                input_data,
+                algorithm,
+                RANDOM_SEED,
+                kwargs,
+            )
+
+            live.log_metric('Model and Algorithm', f'{model_name}_{algorithm}')
+            live.log_metric('Silhouette Score', silhouette_avg)
+            live.log_metric('Davies-Bouldin Score', davies_bouldin)
+            live.log_metric('Calinski-Harabasz Score', calinski_harabasz)
+
+            pickle.dump(model, open(f'./models/{model_name}_{algorithm}.pkl', 'wb'))
             
-            for algorithm in ['kmeans', 'dbscan', 'hierarchical']:
-                model, silhouette_avg, davies_bouldin, calinski_harabasz = cluster(
-                    input_data,
-                    algorithm,
-                    RANDOM_SEED,
-                    kwargs,
-                )
-
-                live.step = f'{model_name}_{algorithm}'
-
-                live.log_metric(f'Silhouette Score', silhouette_avg)
-                live.log_metric(f'Davies-Bouldin Score', davies_bouldin)
-                live.log_metric(f'Calinski-Harabasz Score', calinski_harabasz)
-
-                pickle.dump(model, open(f'./models/{model_name}_{algorithm}.pkl', 'wb'))
-                
-        live.make_summary()
-        live.make_report()
-        live.make_dvcyaml()
+            live.next_step()
