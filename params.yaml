@@ -9,10 +9,10 @@ feature_engineering:
   tfidf: true
   bert: true
   bert_pretrained_model: 'bert-base-uncased'
-topic_modeling:
-  num_topics: 10
-clustering:
+clustering_bert:
   num_clusters: 10  # number of clusters for k-means and agglomerative clustering
   eps: 0.2  # DBSCAN eps
   min_samples: 5  # DBSCAN min_samples
   #distance_threshold: 0.5  # agglomerative clustering distance threshold
+topic_modeling:
+  num_topics: 10
