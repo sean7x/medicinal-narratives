@@ -92,7 +92,7 @@ if __name__ == '__main__':
 
     params = dvc.api.params_show()
     RANDOM_SEED = params['RANDOM_SEED']
-    kwargs = params['clustering']
+    kwargs = params['clustering_bert']
 
     with Live(dir=args.log_dir, resume=False, report="html") as live:
         model_name = args.model_path.split('/')[-1].split('_model')[0].split('_embeddings')[0]
@@ -124,7 +124,7 @@ if __name__ == '__main__':
             if algorithm == 'dbscan':
                 num_clusters = len(set(model.labels_)) - (1 if -1 in model.labels_ else 0)
                 live.log_metric('DBSCAN Number of Clusters', num_clusters)
-                
+
                 num_outliers = np.unique(model.labels_, return_counts=True)[-1][0]
                 live.log_metric('DBSCAN Number of Outliers', num_outliers)
 
