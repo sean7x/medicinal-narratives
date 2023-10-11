@@ -1,6 +1,0 @@
-{
-    "Silhouette Score": 0.18384369558768407,
-    "Davies-Bouldin Score": 1.3802939688260476,
-    "Calinski-Harabasz Score": 4502.58210285101,
-    "step": "nmf_tfidf_hierarchical"
-}

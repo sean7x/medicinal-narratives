@@ -8,8 +8,8 @@ import torch
 import pickle
 
 
-def main(input_path, bow, tfidf, word2vec, vector_size, window, min_count, epochs, sg, RANDOM_SEED, bert):
-    with Live() as live:
+def main(input_path, bow, tfidf, bert, bert_pretrained_model, RANDOM_SEED):
+    with Live(dir='feature_engineering') as live:
         #procd_data = pd.read_csv(input_path)['procd_review'].apply(lambda x: x.split())
         #procd_data = pd.read_csv(input_path)['procd_review'].apply(lambda x: eval(x))
         procd_data = pd.read_csv(input_path)
@@ -21,20 +21,9 @@ def main(input_path, bow, tfidf, word2vec, vector_size, window, min_count, epoch
             dictionary = Dictionary(lemma_wo_stpwrd)    # Use lemma_wo_stpwrd for BoW and TF-IDF
             dictionary.save('data/features/dictionary.pkl')
         
-        if word2vec:
-            word2vec_model = Word2Vec(
-                vector_size=vector_size,
-                window=window,
-                min_count=min_count,
-                workers=-1,
-                epochs=epochs,
-                sg=sg,
-                seed=RANDOM_SEED
-            )
-        
         if bert:
-            tokenizer = BertTokenizer.from_pretrained('bert-base-uncased')
-            bert_model = BertModel.from_pretrained('bert-base-uncased')
+            tokenizer = BertTokenizer.from_pretrained(bert_pretrained_model)
+            bert_model = BertModel.from_pretrained(bert_pretrained_model)
             # Move model to GPU if available
             if torch.cuda.is_available():
                 device = torch.device('cuda')
@@ -66,18 +55,6 @@ def main(input_path, bow, tfidf, word2vec, vector_size, window, min_count, epoch
 
             with open('data/features/tfidf_corpus.pkl', 'wb') as f:
                 pickle.dump(tfidf_corpus, f)
-        
-        # Word2Vec
-        if word2vec:
-            word2vec_model.build_vocab(tqdm(lemma_w_stpwrd, desc='Building Word2Vec Vocab'))
-            word2vec_model.train(
-                tqdm(lemma_w_stpwrd, desc='Training Word2Vec'),
-                total_examples=word2vec_model.corpus_count,
-                epochs=word2vec_model.epochs
-            )
-
-            with open('data/features/word2vec_model.pkl', 'wb') as f:
-                pickle.dump(word2vec_model, f)
         
         # BERT Embeddings
         if bert:
@@ -119,12 +96,7 @@ if __name__ == '__main__':
         input_path = Path(args.input_path),
         bow = params['feature_engineering']['bow'],
         tfidf = params['feature_engineering']['tfidf'],
-        word2vec = params['feature_engineering']['word2vec'],
-        vector_size = params['feature_engineering']['word2vec']['vector_size'],
-        window = params['feature_engineering']['word2vec']['window'],
-        min_count = params['feature_engineering']['word2vec']['min_count'],
-        epochs = params['feature_engineering']['word2vec']['epochs'],
-        sg = params['feature_engineering']['word2vec']['sg'],
-        RANDOM_SEED = params['RANDOM_SEED'],
-        bert = params['feature_engineering']['bert']
+        bert = params['feature_engineering']['bert'],
+        bert_pretrained_model = params['feature_engineering']['bert_pretrained_model'],
+        RANDOM_SEED = params['RANDOM_SEED']
     )

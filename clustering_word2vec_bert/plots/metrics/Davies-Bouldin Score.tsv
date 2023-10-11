@@ -1,7 +1,0 @@
-step	Davies-Bouldin Score
-word2vec_kmeans	7.689960918432584
-word2vec_dbscan	nan
-word2vec_hierarchical	20.83573852668916
-bert_kmeans	2.7338486598520495
-bert_dbscan	0.2835148596124613
-bert_hierarchical	2.5315943475966365

@@ -1,7 +1,0 @@
-step	Calinski-Harabasz Score
-word2vec_kmeans	112.79578444358995
-word2vec_dbscan	nan
-word2vec_hierarchical	17.351294239271784
-bert_kmeans	2813.058262569381
-bert_dbscan	123.36579112386345
-bert_hierarchical	2638.907597082075

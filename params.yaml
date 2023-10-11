@@ -1,18 +1,14 @@
 RANDOM_SEED: 42
+train_data_path: data/raw/lewtun-drug-reviews/sample_train.csv
+test_data_path: data/raw/lewtun-drug-reviews/test.jsonl
 extract_sample:
   fraction: 0.2
   stratify_column: 'rating'
 feature_engineering:
   bow: true
   tfidf: true
-  word2vec:
-    enabled: true
-    vector_size: 100
-    window: 5
-    min_count: 1
-    epochs: 10
-    sg: 0
   bert: true
+  bert_pretrained_model: 'bert-base-uncased'
 topic_modeling:
   num_topics: 10
 clustering:
