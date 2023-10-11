@@ -145,6 +145,6 @@ if __name__ == '__main__':
 
                 pickle.dump(model, open(f'./models/{model_name}_{algorithm}.pkl', 'wb'))
                 
-                live.make_summary()
-                live.make_report()
-                live.make_dvcyaml()
+        live.make_summary()
+        live.make_report()
+        live.make_dvcyaml()

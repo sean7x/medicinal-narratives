@@ -68,7 +68,7 @@ def main(args, num_topics, RANDOM_SEED):
     dictionary = Dictionary.load(args.dictionary_path)
 
 
-    with Live(dir="topic_modeling", resume=True, report="html") as live:
+    with Live(dir="topic_modeling", report="html") as live:
         # LDA Model for BoW
         lda_bow = LdaModel(
             bow_corpus,
