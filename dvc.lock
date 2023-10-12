@@ -4,14 +4,10 @@ stages:
     cmd: python src/extract_sample.py --input_path data/raw/lewtun-drug-reviews/train.jsonl
       --output_path data/raw/lewtun-drug-reviews/sample_train.csv
     deps:
-    - path: data/raw/lewtun-drug-reviews/train.jsonl
-      hash: md5
-      md5: 5bfa955b0f63f5c91db7c77ee4d14d95
-      size: 97686013
     - path: src/extract_sample.py
       hash: md5
-      md5: 5e687b73a5501a0e1e71e15795d30fd5
-      size: 1938
+      md5: a6d81316db2c665dfe2182f76a25e050
+      size: 1883
     params:
       params.yaml:
         RANDOM_SEED: 42
@@ -419,14 +415,10 @@ stages:
     cmd: python src/preprocessing.py --input_path data/raw/lewtun-drug-reviews/sample_train.csv
       --output_path data/preprocessed/procd_train.csv
     deps:
-    - path: data/raw/lewtun-drug-reviews/sample_train.csv
-      hash: md5
-      md5: 41087367fcf435c6561149e067e13d57
-      size: 16631460
     - path: src/preprocessing.py
       hash: md5
-      md5: 1b5817319fb04efc5c59eca0a770500d
-      size: 2816
+      md5: c1fcdc7d4b3b894beef95f65f7e24394
+      size: 2744
     params:
       params.yaml:
         train_data_path: data/raw/lewtun-drug-reviews/sample_train.csv
