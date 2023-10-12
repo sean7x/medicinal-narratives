@@ -33,19 +33,19 @@ stages:
     - data/features/bow_corpus.pkl
     - data/features/tfidf_corpus.pkl
     - data/features/bert_embeddings.pkl
-  #clustering_bert_train:
-  #  cmd: python src/clustering.py --model_paths data/features/bert_embeddings.pkl
-  #    --log_dir clustering # May remove
-  #  deps:
-  #  - data/features/bert_embeddings.pkl
-  #  - src/clustering.py
-  #  params:
-  #  - RANDOM_SEED
-  #  - clustering
-  #  outs:
-  #  - models/bert_kmeans.pkl
-  #  - models/bert_dbscan.pkl
-  #  - models/bert_hierarchical.pkl
+  clustering_bert_train:
+    cmd: python src/clustering.py --model_path data/features/bert_embeddings.pkl --log_dir
+      clustering_bert
+    deps:
+    - data/features/bert_embeddings.pkl
+    - src/clustering.py
+    params:
+    - RANDOM_SEED
+    - clustering_bert
+    outs:
+    - models/bert_kmeans.pkl
+    - models/bert_dbscan.pkl
+    - models/bert_hierarchical.pkl
   #topic_modeling_bow_tfidf_sample_train:
   #  cmd: python src/topic_modeling.py --procd_data_path data/preprocessed/lewtun-drug-reviews/procd_sample_train.csv
   #    --bow_corpus_path data/features/bow_corpus.pkl --tfidf_corpus_path data/features/tfidf_corpus.pkl
@@ -103,22 +103,11 @@ stages:
   #  - models/nmf_tfidf_kmeans.pkl
   #  - models/nmf_tfidf_dbscan.pkl
   #  - models/nmf_tfidf_hierarchical.pkl
-#metrics:
-#- dvclive/metrics.json
-#- topic_modeling/metrics.json
-#- clustering_bow_tfidf/metrics.json
-#- clustering_word2vec_bert/metrics.json
-#plots:
-#- dvclive/plots/metrics:
-#    x: step
-#- topic_modeling/plots/metrics:
-#    x: step
-#- clustering_bow_tfidf/plots/metrics:
-#    x: step
-#- clustering_word2vec_bert/plots/metrics:
-#    x: step
 metrics:
 - feature_engineering/metrics.json
+- clustering_bert/metrics.json
 plots:
 - feature_engineering/plots/metrics:
+    x: step
+- clustering_bert/plots/metrics:
     x: step

@@ -94,7 +94,7 @@ if __name__ == '__main__':
     RANDOM_SEED = params['RANDOM_SEED']
     kwargs = params['clustering_bert']
 
-    with Live(dir=args.log_dir, resume=False, report="html") as live:
+    with Live(dir=args.log_dir, resume=True, report="html") as live:
         model_name = args.model_path.split('/')[-1].split('_model')[0].split('_embeddings')[0]
         if args.corpus_path is not None: corpus = pickle.load(open(args.corpus_path, 'rb'))
 

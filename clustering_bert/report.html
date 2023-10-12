@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="refresh" content="5">
+    <title>DVC Plot</title>
+    
+
+    <script src="https://cdn.jsdelivr.net/npm/vega@5.20.2"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vega-lite@5.2.0"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vega-embed@6.18.2"></script>
+    
+    <style>
+        table {
+            border-spacing: 15px;
+        }
+    </style>
+</head>
+<body>
+    
+        <div id="metrics_json" style="text-align: center; padding: 10x">
+            <p>metrics_json</p>
+            <div style="display: flex;justify-content: center;">
+                <table>
+<thead>
+<tr><th style="text-align: right;">  bert_kmeans</th><th style="text-align: right;">  Silhouette Score</th><th style="text-align: right;">  Davies-Bouldin Score</th><th style="text-align: right;">  Calinski-Harabasz Score</th><th style="text-align: right;">  step</th><th style="text-align: right;">  bert_dbscan</th><th style="text-align: right;">  DBSCAN Number of Clusters</th><th style="text-align: right;">  DBSCAN Number of Outliers</th><th style="text-align: right;">  bert_hierarchical</th></tr>
+</thead>
+<tbody>
+<tr><td style="text-align: right;">            0</td><td style="text-align: right;">         0.0621872</td><td style="text-align: right;">               2.53159</td><td style="text-align: right;">                  2638.91</td><td style="text-align: right;">     2</td><td style="text-align: right;">            1</td><td style="text-align: right;">                          6</td><td style="text-align: right;">                      32215</td><td style="text-align: right;">                  2</td></tr>
+</tbody>
+</table>
+            </div>
+        </div>
+
+    <div id = "static_bert_dbscan">
+        <script type = "text/javascript">
+            var spec = {"$schema": "https://vega.github.io/schema/vega-lite/v5.json", "data": {"values": [{"step": "1", "bert_dbscan": "1", "rev": "workspace"}]}, "title": "bert_dbscan", "width": 300, "height": 300, "params": [{"name": "smooth", "value": 0.001, "bind": {"input": "range", "min": 0.001, "max": 1, "step": 0.001}}], "layer": [{"mark": "line", "encoding": {"x": {"field": "step", "type": "quantitative", "title": "step"}, "y": {"field": "bert_dbscan", "type": "quantitative", "title": "bert_dbscan", "scale": {"zero": false}}, "color": {"field": "rev", "type": "nominal"}, "tooltip": [{"field": "step", "title": "step", "type": "quantitative"}, {"field": "bert_dbscan", "title": "bert_dbscan", "type": "quantitative"}]}, "transform": [{"loess": "bert_dbscan", "on": "step", "groupby": ["rev", "filename", "field", "filename::field"], "bandwidth": {"signal": "smooth"}}]}, {"mark": {"type": "line", "opacity": 0.2}, "encoding": {"x": {"field": "step", "type": "quantitative", "title": "step"}, "y": {"field": "bert_dbscan", "type": "quantitative", "title": "bert_dbscan", "scale": {"zero": false}}, "color": {"field": "rev", "type": "nominal"}, "tooltip": [{"field": "step", "title": "step", "type": "quantitative"}, {"field": "bert_dbscan", "title": "bert_dbscan", "type": "quantitative"}]}}, {"mark": {"type": "circle", "size": 10, "tooltip": {"content": "encoding"}}, "encoding": {"x": {"aggregate": "max", "field": "step", "type": "quantitative", "title": "step"}, "y": {"aggregate": {"argmax": "step"}, "field": "bert_dbscan", "type": "quantitative", "title": "bert_dbscan", "scale": {"zero": false}}, "color": {"field": "rev", "type": "nominal"}}}]};
+            vegaEmbed('#static_bert_dbscan', spec);
+        </script>
+    </div>
+    
+
+    <div id = "static_bert_hierarchical">
+        <script type = "text/javascript">
+            var spec = {"$schema": "https://vega.github.io/schema/vega-lite/v5.json", "data": {"values": [{"step": "2", "bert_hierarchical": "2", "rev": "workspace"}]}, "title": "bert_hierarchical", "width": 300, "height": 300, "params": [{"name": "smooth", "value": 0.001, "bind": {"input": "range", "min": 0.001, "max": 1, "step": 0.001}}], "layer": [{"mark": "line", "encoding": {"x": {"field": "step", "type": "quantitative", "title": "step"}, "y": {"field": "bert_hierarchical", "type": "quantitative", "title": "bert_hierarchical", "scale": {"zero": false}}, "color": {"field": "rev", "type": "nominal"}, "tooltip": [{"field": "step", "title": "step", "type": "quantitative"}, {"field": "bert_hierarchical", "title": "bert_hierarchical", "type": "quantitative"}]}, "transform": [{"loess": "bert_hierarchical", "on": "step", "groupby": ["rev", "filename", "field", "filename::field"], "bandwidth": {"signal": "smooth"}}]}, {"mark": {"type": "line", "opacity": 0.2}, "encoding": {"x": {"field": "step", "type": "quantitative", "title": "step"}, "y": {"field": "bert_hierarchical", "type": "quantitative", "title": "bert_hierarchical", "scale": {"zero": false}}, "color": {"field": "rev", "type": "nominal"}, "tooltip": [{"field": "step", "title": "step", "type": "quantitative"}, {"field": "bert_hierarchical", "title": "bert_hierarchical", "type": "quantitative"}]}}, {"mark": {"type": "circle", "size": 10, "tooltip": {"content": "encoding"}}, "encoding": {"x": {"aggregate": "max", "field": "step", "type": "quantitative", "title": "step"}, "y": {"aggregate": {"argmax": "step"}, "field": "bert_hierarchical", "type": "quantitative", "title": "bert_hierarchical", "scale": {"zero": false}}, "color": {"field": "rev", "type": "nominal"}}}]};
+            vegaEmbed('#static_bert_hierarchical', spec);
+        </script>
+    </div>
+    
+
+    <div id = "static_bert_kmeans">
+        <script type = "text/javascript">
+            var spec = {"$schema": "https://vega.github.io/schema/vega-lite/v5.json", "data": {"values": [{"step": "0", "bert_kmeans": "0", "rev": "workspace"}]}, "title": "bert_kmeans", "width": 300, "height": 300, "params": [{"name": "smooth", "value": 0.001, "bind": {"input": "range", "min": 0.001, "max": 1, "step": 0.001}}], "layer": [{"mark": "line", "encoding": {"x": {"field": "step", "type": "quantitative", "title": "step"}, "y": {"field": "bert_kmeans", "type": "quantitative", "title": "bert_kmeans", "scale": {"zero": false}}, "color": {"field": "rev", "type": "nominal"}, "tooltip": [{"field": "step", "title": "step", "type": "quantitative"}, {"field": "bert_kmeans", "title": "bert_kmeans", "type": "quantitative"}]}, "transform": [{"loess": "bert_kmeans", "on": "step", "groupby": ["rev", "filename", "field", "filename::field"], "bandwidth": {"signal": "smooth"}}]}, {"mark": {"type": "line", "opacity": 0.2}, "encoding": {"x": {"field": "step", "type": "quantitative", "title": "step"}, "y": {"field": "bert_kmeans", "type": "quantitative", "title": "bert_kmeans", "scale": {"zero": false}}, "color": {"field": "rev", "type": "nominal"}, "tooltip": [{"field": "step", "title": "step", "type": "quantitative"}, {"field": "bert_kmeans", "title": "bert_kmeans", "type": "quantitative"}]}}, {"mark": {"type": "circle", "size": 10, "tooltip": {"content": "encoding"}}, "encoding": {"x": {"aggregate": "max", "field": "step", "type": "quantitative", "title": "step"}, "y": {"aggregate": {"argmax": "step"}, "field": "bert_kmeans", "type": "quantitative", "title": "bert_kmeans", "scale": {"zero": false}}, "color": {"field": "rev", "type": "nominal"}}}]};
+            vegaEmbed('#static_bert_kmeans', spec);
+        </script>
+    </div>
+    
+
+    <div id = "static_Calinski-Harabasz_Score">
+        <script type = "text/javascript">
+            var spec = {"$schema": "https://vega.github.io/schema/vega-lite/v5.json", "data": {"values": [{"step": "0", "Calinski-Harabasz Score": "2813.058262569381", "rev": "workspace"}, {"step": "1", "Calinski-Harabasz Score": "123.36579112386345", "rev": "workspace"}, {"step": "2", "Calinski-Harabasz Score": "2638.907597082075", "rev": "workspace"}]}, "title": "Calinski-Harabasz Score", "width": 300, "height": 300, "params": [{"name": "smooth", "value": 0.001, "bind": {"input": "range", "min": 0.001, "max": 1, "step": 0.001}}], "layer": [{"mark": "line", "encoding": {"x": {"field": "step", "type": "quantitative", "title": "step"}, "y": {"field": "Calinski-Harabasz Score", "type": "quantitative", "title": "Calinski-Harabasz Score", "scale": {"zero": false}}, "color": {"field": "rev", "type": "nominal"}, "tooltip": [{"field": "step", "title": "step", "type": "quantitative"}, {"field": "Calinski-Harabasz Score", "title": "Calinski-Harabasz Score", "type": "quantitative"}]}, "transform": [{"loess": "Calinski-Harabasz Score", "on": "step", "groupby": ["rev", "filename", "field", "filename::field"], "bandwidth": {"signal": "smooth"}}]}, {"mark": {"type": "line", "opacity": 0.2}, "encoding": {"x": {"field": "step", "type": "quantitative", "title": "step"}, "y": {"field": "Calinski-Harabasz Score", "type": "quantitative", "title": "Calinski-Harabasz Score", "scale": {"zero": false}}, "color": {"field": "rev", "type": "nominal"}, "tooltip": [{"field": "step", "title": "step", "type": "quantitative"}, {"field": "Calinski-Harabasz Score", "title": "Calinski-Harabasz Score", "type": "quantitative"}]}}, {"mark": {"type": "circle", "size": 10, "tooltip": {"content": "encoding"}}, "encoding": {"x": {"aggregate": "max", "field": "step", "type": "quantitative", "title": "step"}, "y": {"aggregate": {"argmax": "step"}, "field": "Calinski-Harabasz Score", "type": "quantitative", "title": "Calinski-Harabasz Score", "scale": {"zero": false}}, "color": {"field": "rev", "type": "nominal"}}}]};
+            vegaEmbed('#static_Calinski-Harabasz_Score', spec);
+        </script>
+    </div>
+    
+
+    <div id = "static_Davies-Bouldin_Score">
+        <script type = "text/javascript">
+            var spec = {"$schema": "https://vega.github.io/schema/vega-lite/v5.json", "data": {"values": [{"step": "0", "Davies-Bouldin Score": "2.7338486598520495", "rev": "workspace"}, {"step": "1", "Davies-Bouldin Score": "0.2835148596124613", "rev": "workspace"}, {"step": "2", "Davies-Bouldin Score": "2.5315943475966365", "rev": "workspace"}]}, "title": "Davies-Bouldin Score", "width": 300, "height": 300, "params": [{"name": "smooth", "value": 0.001, "bind": {"input": "range", "min": 0.001, "max": 1, "step": 0.001}}], "layer": [{"mark": "line", "encoding": {"x": {"field": "step", "type": "quantitative", "title": "step"}, "y": {"field": "Davies-Bouldin Score", "type": "quantitative", "title": "Davies-Bouldin Score", "scale": {"zero": false}}, "color": {"field": "rev", "type": "nominal"}, "tooltip": [{"field": "step", "title": "step", "type": "quantitative"}, {"field": "Davies-Bouldin Score", "title": "Davies-Bouldin Score", "type": "quantitative"}]}, "transform": [{"loess": "Davies-Bouldin Score", "on": "step", "groupby": ["rev", "filename", "field", "filename::field"], "bandwidth": {"signal": "smooth"}}]}, {"mark": {"type": "line", "opacity": 0.2}, "encoding": {"x": {"field": "step", "type": "quantitative", "title": "step"}, "y": {"field": "Davies-Bouldin Score", "type": "quantitative", "title": "Davies-Bouldin Score", "scale": {"zero": false}}, "color": {"field": "rev", "type": "nominal"}, "tooltip": [{"field": "step", "title": "step", "type": "quantitative"}, {"field": "Davies-Bouldin Score", "title": "Davies-Bouldin Score", "type": "quantitative"}]}}, {"mark": {"type": "circle", "size": 10, "tooltip": {"content": "encoding"}}, "encoding": {"x": {"aggregate": "max", "field": "step", "type": "quantitative", "title": "step"}, "y": {"aggregate": {"argmax": "step"}, "field": "Davies-Bouldin Score", "type": "quantitative", "title": "Davies-Bouldin Score", "scale": {"zero": false}}, "color": {"field": "rev", "type": "nominal"}}}]};
+            vegaEmbed('#static_Davies-Bouldin_Score', spec);
+        </script>
+    </div>
+    
+
+    <div id = "static_DBSCAN_Number_of_Clusters">
+        <script type = "text/javascript">
+            var spec = {"$schema": "https://vega.github.io/schema/vega-lite/v5.json", "data": {"values": [{"step": "1", "DBSCAN Number of Clusters": "6", "rev": "workspace"}]}, "title": "DBSCAN Number of Clusters", "width": 300, "height": 300, "params": [{"name": "smooth", "value": 0.001, "bind": {"input": "range", "min": 0.001, "max": 1, "step": 0.001}}], "layer": [{"mark": "line", "encoding": {"x": {"field": "step", "type": "quantitative", "title": "step"}, "y": {"field": "DBSCAN Number of Clusters", "type": "quantitative", "title": "DBSCAN Number of Clusters", "scale": {"zero": false}}, "color": {"field": "rev", "type": "nominal"}, "tooltip": [{"field": "step", "title": "step", "type": "quantitative"}, {"field": "DBSCAN Number of Clusters", "title": "DBSCAN Number of Clusters", "type": "quantitative"}]}, "transform": [{"loess": "DBSCAN Number of Clusters", "on": "step", "groupby": ["rev", "filename", "field", "filename::field"], "bandwidth": {"signal": "smooth"}}]}, {"mark": {"type": "line", "opacity": 0.2}, "encoding": {"x": {"field": "step", "type": "quantitative", "title": "step"}, "y": {"field": "DBSCAN Number of Clusters", "type": "quantitative", "title": "DBSCAN Number of Clusters", "scale": {"zero": false}}, "color": {"field": "rev", "type": "nominal"}, "tooltip": [{"field": "step", "title": "step", "type": "quantitative"}, {"field": "DBSCAN Number of Clusters", "title": "DBSCAN Number of Clusters", "type": "quantitative"}]}}, {"mark": {"type": "circle", "size": 10, "tooltip": {"content": "encoding"}}, "encoding": {"x": {"aggregate": "max", "field": "step", "type": "quantitative", "title": "step"}, "y": {"aggregate": {"argmax": "step"}, "field": "DBSCAN Number of Clusters", "type": "quantitative", "title": "DBSCAN Number of Clusters", "scale": {"zero": false}}, "color": {"field": "rev", "type": "nominal"}}}]};
+            vegaEmbed('#static_DBSCAN_Number_of_Clusters', spec);
+        </script>
+    </div>
+    
+
+    <div id = "static_DBSCAN_Number_of_Outliers">
+        <script type = "text/javascript">
+            var spec = {"$schema": "https://vega.github.io/schema/vega-lite/v5.json", "data": {"values": [{"step": "1", "DBSCAN Number of Outliers": "32215", "rev": "workspace"}]}, "title": "DBSCAN Number of Outliers", "width": 300, "height": 300, "params": [{"name": "smooth", "value": 0.001, "bind": {"input": "range", "min": 0.001, "max": 1, "step": 0.001}}], "layer": [{"mark": "line", "encoding": {"x": {"field": "step", "type": "quantitative", "title": "step"}, "y": {"field": "DBSCAN Number of Outliers", "type": "quantitative", "title": "DBSCAN Number of Outliers", "scale": {"zero": false}}, "color": {"field": "rev", "type": "nominal"}, "tooltip": [{"field": "step", "title": "step", "type": "quantitative"}, {"field": "DBSCAN Number of Outliers", "title": "DBSCAN Number of Outliers", "type": "quantitative"}]}, "transform": [{"loess": "DBSCAN Number of Outliers", "on": "step", "groupby": ["rev", "filename", "field", "filename::field"], "bandwidth": {"signal": "smooth"}}]}, {"mark": {"type": "line", "opacity": 0.2}, "encoding": {"x": {"field": "step", "type": "quantitative", "title": "step"}, "y": {"field": "DBSCAN Number of Outliers", "type": "quantitative", "title": "DBSCAN Number of Outliers", "scale": {"zero": false}}, "color": {"field": "rev", "type": "nominal"}, "tooltip": [{"field": "step", "title": "step", "type": "quantitative"}, {"field": "DBSCAN Number of Outliers", "title": "DBSCAN Number of Outliers", "type": "quantitative"}]}}, {"mark": {"type": "circle", "size": 10, "tooltip": {"content": "encoding"}}, "encoding": {"x": {"aggregate": "max", "field": "step", "type": "quantitative", "title": "step"}, "y": {"aggregate": {"argmax": "step"}, "field": "DBSCAN Number of Outliers", "type": "quantitative", "title": "DBSCAN Number of Outliers", "scale": {"zero": false}}, "color": {"field": "rev", "type": "nominal"}}}]};
+            vegaEmbed('#static_DBSCAN_Number_of_Outliers', spec);
+        </script>
+    </div>
+    
+
+    <div id = "static_Silhouette_Score">
+        <script type = "text/javascript">
+            var spec = {"$schema": "https://vega.github.io/schema/vega-lite/v5.json", "data": {"values": [{"step": "0", "Silhouette Score": "0.066291414", "rev": "workspace"}, {"step": "1", "Silhouette Score": "0.4486328", "rev": "workspace"}, {"step": "2", "Silhouette Score": "0.06218718", "rev": "workspace"}]}, "title": "Silhouette Score", "width": 300, "height": 300, "params": [{"name": "smooth", "value": 0.001, "bind": {"input": "range", "min": 0.001, "max": 1, "step": 0.001}}], "layer": [{"mark": "line", "encoding": {"x": {"field": "step", "type": "quantitative", "title": "step"}, "y": {"field": "Silhouette Score", "type": "quantitative", "title": "Silhouette Score", "scale": {"zero": false}}, "color": {"field": "rev", "type": "nominal"}, "tooltip": [{"field": "step", "title": "step", "type": "quantitative"}, {"field": "Silhouette Score", "title": "Silhouette Score", "type": "quantitative"}]}, "transform": [{"loess": "Silhouette Score", "on": "step", "groupby": ["rev", "filename", "field", "filename::field"], "bandwidth": {"signal": "smooth"}}]}, {"mark": {"type": "line", "opacity": 0.2}, "encoding": {"x": {"field": "step", "type": "quantitative", "title": "step"}, "y": {"field": "Silhouette Score", "type": "quantitative", "title": "Silhouette Score", "scale": {"zero": false}}, "color": {"field": "rev", "type": "nominal"}, "tooltip": [{"field": "step", "title": "step", "type": "quantitative"}, {"field": "Silhouette Score", "title": "Silhouette Score", "type": "quantitative"}]}}, {"mark": {"type": "circle", "size": 10, "tooltip": {"content": "encoding"}}, "encoding": {"x": {"aggregate": "max", "field": "step", "type": "quantitative", "title": "step"}, "y": {"aggregate": {"argmax": "step"}, "field": "Silhouette Score", "type": "quantitative", "title": "Silhouette Score", "scale": {"zero": false}}, "color": {"field": "rev", "type": "nominal"}}}]};
+            vegaEmbed('#static_Silhouette_Score', spec);
+        </script>
+    </div>
+    
+</body>
+</html>

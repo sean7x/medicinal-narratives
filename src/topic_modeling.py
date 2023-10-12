@@ -53,7 +53,7 @@ def prepare_topic_model_viz(model, dictionary, corpus):
     return vis_data
 
 
-def main(args, num_topics, RANDOM_SEED):
+def topic_modeling(args, num_topics, RANDOM_SEED):
     # Load data
     #procd_data = pd.read_csv(args.procd_data_path)['procd_review'].apply(lambda x: x.split())
     procd_data = pd.read_csv(Path(args.procd_data_path))['lemma_wo_stpwrd'].apply(lambda x: eval(x))
@@ -68,7 +68,7 @@ def main(args, num_topics, RANDOM_SEED):
     dictionary = Dictionary.load(args.dictionary_path)
 
 
-    with Live(dir="topic_modeling", report="html") as live:
+    with Live(dir="topic_modeling", resume=False, report="html") as live:
         # LDA Model for BoW
         lda_bow = LdaModel(
             bow_corpus,

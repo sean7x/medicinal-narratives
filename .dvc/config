@@ -1,7 +1,3 @@
-[core]
-    remote = gdrive
 ['remote "gdrive"']
     url = gdrive://1dr0aiT7UAk1qwiZ0PmuiB-HP0EB7eaJY
     gdrive_acknowledge_abuse = true
-['remote "infini-cloud"']
-    url = https://ogi.teracloud.jp/dav/medicinal-narratives
