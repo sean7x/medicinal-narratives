@@ -3,7 +3,7 @@ stages:
     cmd: python src/extract_sample.py --input_path data/raw/lewtun-drug-reviews/train.jsonl
       --output_path data/raw/lewtun-drug-reviews/sample_train.csv
     deps:
-    - data/raw/lewtun-drug-reviews/train.jsonl
+    #- data/raw/lewtun-drug-reviews/train.jsonl
     - src/extract_sample.py
     params:
     - RANDOM_SEED
@@ -14,7 +14,7 @@ stages:
     cmd: python src/preprocessing.py --input_path ${train_data_path} --output_path
       data/preprocessed/procd_train.csv
     deps:
-    - ${train_data_path}
+    #- ${train_data_path}
     - src/preprocessing.py
     params:
     - train_data_path
@@ -37,7 +37,7 @@ stages:
     cmd: python src/clustering.py --model_path data/features/bert_embeddings.pkl --log_dir
       clustering_bert
     deps:
-    - data/features/bert_embeddings.pkl
+    #- data/features/bert_embeddings.pkl
     - src/clustering.py
     params:
     - RANDOM_SEED
