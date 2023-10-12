@@ -44,7 +44,6 @@ stages:
     - clustering_bert
     outs:
     - models/bert_kmeans.pkl
-    - models/bert_dbscan.pkl
     - models/bert_hierarchical.pkl
   #topic_modeling_bow_tfidf_sample_train:
   #  cmd: python src/topic_modeling.py --procd_data_path data/preprocessed/lewtun-drug-reviews/procd_sample_train.csv
@@ -103,3 +102,8 @@ stages:
   #  - models/nmf_tfidf_kmeans.pkl
   #  - models/nmf_tfidf_dbscan.pkl
   #  - models/nmf_tfidf_hierarchical.pkl
+metrics:
+- clustering_bert/metrics.json
+plots:
+- clustering_bert/plots/metrics:
+    x: step
