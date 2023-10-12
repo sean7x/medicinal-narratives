@@ -103,11 +103,3 @@ stages:
   #  - models/nmf_tfidf_kmeans.pkl
   #  - models/nmf_tfidf_dbscan.pkl
   #  - models/nmf_tfidf_hierarchical.pkl
-metrics:
-- feature_engineering/metrics.json
-- clustering_bert/metrics.json
-plots:
-- feature_engineering/plots/metrics:
-    x: step
-- clustering_bert/plots/metrics:
-    x: step

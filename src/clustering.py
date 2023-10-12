@@ -93,6 +93,7 @@ if __name__ == '__main__':
     params = dvc.api.params_show()
     RANDOM_SEED = params['RANDOM_SEED']
     kwargs = params['clustering_bert']
+    algorithm = kwargs['algorithm']
 
     with Live(dir=args.log_dir, resume=True, report="html") as live:
         model_name = args.model_path.split('/')[-1].split('_model')[0].split('_embeddings')[0]
@@ -108,26 +109,22 @@ if __name__ == '__main__':
             model = pickle.load(open(args.model_path, 'rb'))
             input_data = prepare_input_data(model, 'bert')
         
-        for algorithm in ['kmeans', 'dbscan', 'hierarchical']:
-            model, silhouette_avg, davies_bouldin, calinski_harabasz = cluster(
-                input_data,
-                algorithm,
-                RANDOM_SEED,
-                kwargs,
-            )
+        model, silhouette_avg, davies_bouldin, calinski_harabasz = cluster(
+            input_data,
+            algorithm,
+            RANDOM_SEED,
+            kwargs,
+        )
 
-            live.log_metric(f'{model_name}_{algorithm}', live.step)
-            live.log_metric('Silhouette Score', silhouette_avg)
-            live.log_metric('Davies-Bouldin Score', davies_bouldin)
-            live.log_metric('Calinski-Harabasz Score', calinski_harabasz)
+        live.log_metric('Silhouette Score', silhouette_avg)
+        live.log_metric('Davies-Bouldin Score', davies_bouldin)
+        live.log_metric('Calinski-Harabasz Score', calinski_harabasz)
 
-            if algorithm == 'dbscan':
-                num_clusters = len(set(model.labels_)) - (1 if -1 in model.labels_ else 0)
-                live.log_metric('DBSCAN Number of Clusters', num_clusters)
+        if algorithm == 'dbscan':
+            num_clusters = len(set(model.labels_)) - (1 if -1 in model.labels_ else 0)
+            live.log_metric('DBSCAN Number of Clusters', num_clusters)
 
-                num_outliers = np.unique(model.labels_, return_counts=True)[-1][0]
-                live.log_metric('DBSCAN Number of Outliers', num_outliers)
+            num_outliers = np.unique(model.labels_, return_counts=True)[-1][0]
+            live.log_metric('DBSCAN Number of Outliers', num_outliers)
 
-            pickle.dump(model, open(f'./models/{model_name}_{algorithm}.pkl', 'wb'))
-            
-            live.next_step()
+        pickle.dump(model, open(f'./models/{model_name}_{algorithm}.pkl', 'wb'))

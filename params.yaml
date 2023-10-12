@@ -10,6 +10,7 @@ feature_engineering:
   bert: true
   bert_pretrained_model: 'bert-base-uncased'
 clustering_bert:
+  algorithm: 'kmeans' # one of 'kmeans', 'dbscan', 'hierarchical'
   num_clusters: 10  # number of clusters for k-means and agglomerative clustering
   eps: 0.2  # DBSCAN eps
   min_samples: 5  # DBSCAN min_samples
