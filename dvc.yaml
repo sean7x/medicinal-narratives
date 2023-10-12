@@ -42,9 +42,6 @@ stages:
     params:
     - RANDOM_SEED
     - clustering_bert
-    outs:
-    - models/bert_kmeans.pkl
-    - models/bert_hierarchical.pkl
   #topic_modeling_bow_tfidf_sample_train:
   #  cmd: python src/topic_modeling.py --procd_data_path data/preprocessed/lewtun-drug-reviews/procd_sample_train.csv
   #    --bow_corpus_path data/features/bow_corpus.pkl --tfidf_corpus_path data/features/tfidf_corpus.pkl

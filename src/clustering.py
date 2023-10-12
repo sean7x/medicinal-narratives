@@ -128,3 +128,4 @@ if __name__ == '__main__':
             live.log_metric('DBSCAN Number of Outliers', num_outliers)
 
         pickle.dump(model, open(f'./models/{model_name}_{algorithm}.pkl', 'wb'))
+        live.next_step()

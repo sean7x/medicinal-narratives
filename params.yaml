@@ -3,15 +3,15 @@ train_data_path: data/raw/lewtun-drug-reviews/sample_train.csv
 test_data_path: data/raw/lewtun-drug-reviews/test.jsonl
 extract_sample:
   fraction: 0.2
-  stratify_column: 'rating'
+  stratify_column: rating
 feature_engineering:
   bow: true
   tfidf: true
   bert: true
-  bert_pretrained_model: 'bert-base-uncased'
+  bert_pretrained_model: bert-base-uncased
 clustering_bert:
-  algorithm: 'kmeans' # one of 'kmeans', 'dbscan', 'hierarchical'
-  num_clusters: 10  # number of clusters for k-means and agglomerative clustering
+  algorithm: hierarchical   # one of 'kmeans', 'dbscan', 'hierarchical'
+  num_clusters: 6   # number of clusters for k-means and agglomerative clustering
   eps: 0.2  # DBSCAN eps
   min_samples: 5  # DBSCAN min_samples
   #distance_threshold: 0.5  # agglomerative clustering distance threshold
