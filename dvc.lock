@@ -475,14 +475,10 @@ stages:
     cmd: python src/clustering.py --model_path data/features/bert_embeddings.pkl --log_dir
       clustering_bert
     deps:
-    - path: data/features/bert_embeddings.pkl
-      hash: md5
-      md5: 68cbdadf68829e274149503423785b29
-      size: 8581293681
     - path: src/clustering.py
       hash: md5
-      md5: fc4044d24fa58a2e99406c9fbecf8ab7
-      size: 4875
+      md5: ac7b1b61dac582ba3b2aa115979799fa
+      size: 4745
     params:
       params.yaml:
         RANDOM_SEED: 42
