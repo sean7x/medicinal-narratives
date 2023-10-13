@@ -10,10 +10,14 @@ feature_engineering:
   bert: true
   bert_pretrained_model: bert-base-uncased
 clustering_bert:
-  algorithm: kmeans         # one of 'kmeans', 'dbscan', 'hierarchical'
-  num_clusters: 2   # number of clusters for k-means and agglomerative clustering
-  eps: 0.2  # DBSCAN eps
-  min_samples: 5  # DBSCAN min_samples
-  #distance_threshold: 0.5  # agglomerative clustering distance threshold
+  algorithm: kmeans                       # one of 'kmeans', 'dbscan', 'hierarchical'
+  num_clusters: 2                         # number of clusters for k-means and agglomerative clustering
+  eps: 0.2                                # DBSCAN eps
+  min_samples: 5                          # DBSCAN min_samples
+  #distance_threshold: 0.5                # agglomerative clustering distance threshold
 topic_modeling:
+  procd_text: lemma_wo_stpwrd             # one of 'lemma_wo_stpwrd', 'lemma_w_stpwrd'
+  feature: tfidf                          # one of 'bow', 'tfidf'
+  algorithm: nmf                          # one of 'lda', 'nmf'
+  cluster_model: models/bert_kmeans.pkl   # one of 'none', 'models/bert_kmeans.pkl', 'models/bert_hierarchical.pkl'
   num_topics: 10

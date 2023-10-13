@@ -2,8 +2,6 @@ import pickle
 from gensim.models import LdaModel, Nmf, CoherenceModel
 from gensim.corpora import Dictionary
 import pandas as pd
-from pathlib import Path
-from dvclive import Live
 from tqdm import tqdm
 import pyLDAvis
 import numpy as np
@@ -13,15 +11,15 @@ import warnings
 warnings.filterwarnings("ignore", category=DeprecationWarning)
 
 
-def prepare_topic_model_viz(model, dictionary, corpus):
+def prepare_topic_model_viz(topic_model, dictionary, corpus):
     # Extract the topic-term matrix
-    topic_term_matrix = model.get_topics()
+    topic_term_matrix = topic_model.get_topics()
 
     # Extract the document-topic matrix
-    num_topics = model.num_topics
+    num_topics = topic_model.num_topics
     doc_topic_matrix = []
 
-    for doc in tqdm(model[corpus]):
+    for doc in tqdm(topic_model[corpus]):
         doc_topics = dict(doc)
         doc_topic_vec = [doc_topics.get(i, 0.0) for i in range(num_topics)]
         doc_topic_matrix.append(doc_topic_vec)
@@ -53,171 +51,116 @@ def prepare_topic_model_viz(model, dictionary, corpus):
     return vis_data
 
 
-def topic_modeling(args, num_topics, RANDOM_SEED):
-    # Load data
-    #procd_data = pd.read_csv(args.procd_data_path)['procd_review'].apply(lambda x: x.split())
-    procd_data = pd.read_csv(Path(args.procd_data_path))['lemma_wo_stpwrd'].apply(lambda x: eval(x))
-
-    with open(Path(args.bow_corpus_path), 'rb') as f:
-        bow_corpus = pickle.load(f)
+def topic_modeling(procd_data, corpus, dictionary, kwargs, RANDOM_SEED):
+    # Set up topic model
+    # LDA Model
+    if kwargs['algorithm'] == 'lda':
+        topic_model = LdaModel(
+            corpus,
+            num_topics=kwargs['num_topics'],
+            id2word=dictionary,
+            random_state=RANDOM_SEED,
+        )
+        perplexity = topic_model.log_perplexity(corpus)
     
-    with open(Path(args.tfidf_corpus_path), 'rb') as f:
-        tfidf_corpus = pickle.load(f)
-    
-    # Load dictionary
-    dictionary = Dictionary.load(args.dictionary_path)
-
-
-    with Live(dir="topic_modeling", resume=False, report="html") as live:
-        # LDA Model for BoW
-        lda_bow = LdaModel(
-            bow_corpus,
-            num_topics=num_topics,
+    # NMF Model
+    elif kwargs['algorithm'] == 'nmf':
+        topic_model = Nmf(
+            corpus,
+            num_topics=kwargs['num_topics'],
             id2word=dictionary,
             random_state=RANDOM_SEED,
         )
+        perplexity = None
 
-        # Calculate Coherence and Perplexity for LDA with BoW
-        coherence_model_lda_bow = CoherenceModel(
-            model=lda_bow,
-            texts=procd_data.tolist(),
-            #corpus=bow_corpus,
-            dictionary=dictionary,
-            coherence='c_v',
-            #coherence='u_mass',
-            processes=-1
-        )
-        coherence_lda_bow = coherence_model_lda_bow.get_coherence()
-        perplexity_lda_bow = lda_bow.log_perplexity(bow_corpus)
+    # Calculate Coherence score
+    coherence_model = CoherenceModel(
+        model=topic_model,
+        texts=procd_data.tolist(),
+        #corpus=corpus,
+        dictionary=dictionary,
+        coherence='c_v',
+        #coherence='u_mass',
+        processes=-1
+    )
+    coherence = coherence_model.get_coherence()
 
-        # Log metrics for LDA with BoW
-        live.log_metric('Coherence (LDA, BoW)', coherence_lda_bow)
-        live.log_metric('Perplexity (LDA, BoW)', perplexity_lda_bow)
-
-        # LDA Model for TF-IDF
-        lda_tfidf = LdaModel(
-            tfidf_corpus,
-            num_topics=num_topics,
-            id2word=dictionary,
-            random_state=RANDOM_SEED,
-        )
-
-        # Calculate Coherence and Perplexity for LDA with TF-IDF
-        coherence_model_lda_tfidf = CoherenceModel(
-            model=lda_tfidf,
-            texts=procd_data.tolist(),
-            #corpus=tfidf_corpus,
-            dictionary=dictionary,
-            coherence='c_v',
-            #coherence='u_mass',
-            processes=-1
-        )
-        coherence_lda_tfidf = coherence_model_lda_tfidf.get_coherence()
-        perplexity_lda_tfidf = lda_tfidf.log_perplexity(tfidf_corpus)
-
-        # Log metrics for LDA with TF-IDF
-        live.log_metric('Coherence (LDA, TF-IDF)', coherence_lda_tfidf)
-        live.log_metric('Perplexity (LDA, TF-IDF)', perplexity_lda_tfidf)
-
-
-        # NMF Model for BoW
-        nmf_bow = Nmf(
-            bow_corpus,
-            num_topics=num_topics,
-            id2word=dictionary,
-            random_state=RANDOM_SEED,
-        )
-
-        # Calculate Coherence for NMF with BoW
-        coherence_model_nmf_bow = CoherenceModel(
-            model=nmf_bow,
-            texts=procd_data.tolist(),
-            #corpus=bow_corpus,
-            dictionary=dictionary,
-            coherence='c_v',
-            #coherence='u_mass',
-            processes=-1
-        )
-        coherence_nmf_bow = coherence_model_nmf_bow.get_coherence()
-
-        # Log metrics for NMF with BoW
-        live.log_metric('Coherence (NMF, BoW)', coherence_nmf_bow)
-
-
-        # NMF Model for TF-IDF
-        nmf_tfidf = Nmf(
-            tfidf_corpus,
-            num_topics=num_topics,
-            id2word=dictionary,
-            random_state=RANDOM_SEED,
-        )
-
-        # Calculate Coherence for NMF with TF-IDF
-        coherence_model_nmf_tfidf = CoherenceModel(
-            model=nmf_tfidf,
-            texts=procd_data.tolist(),
-            #corpus=tfidf_corpus,
-            dictionary=dictionary,
-            coherence='c_v',
-            #coherence='u_mass',
-            processes=-1
-        )
-        coherence_nmf_tfidf = coherence_model_nmf_tfidf.get_coherence()
-
-        # Log metrics for NMF with TF-IDF
-        live.log_metric('Coherence (NMF, TF-IDF)', coherence_nmf_tfidf)
-
-        # Save models
-        lda_bow.save(args.lda_bow_model_path)
-        lda_tfidf.save(args.lda_tfidf_model_path)
-        nmf_bow.save(args.nmf_bow_model_path)
-        nmf_tfidf.save(args.nmf_tfidf_model_path)
- 
-        # Prepare visualization data for LDA with BoW and save to html
-        pyLDAvis.save_html(
-            prepare_topic_model_viz(lda_bow, dictionary, bow_corpus),
-            args.lda_bow_vis_path
-        )
-        pyLDAvis.save_html(
-            prepare_topic_model_viz(lda_tfidf, dictionary, tfidf_corpus),
-            args.lda_tfidf_vis_path
-        )
-        pyLDAvis.save_html(
-            prepare_topic_model_viz(nmf_bow, dictionary, bow_corpus),
-            args.nmf_bow_vis_path
-        )
-        pyLDAvis.save_html(
-            prepare_topic_model_viz(nmf_tfidf, dictionary, tfidf_corpus),
-            args.nmf_tfidf_vis_path
-        )
-
-        #live.next_step()
+    return topic_model, perplexity, coherence
 
 
 if __name__ == '__main__':
     import argparse
     import dvc.api
+    from dvclive import Live
+    from pathlib import Path
+    from collections import defaultdict
 
     parser = argparse.ArgumentParser()
     parser.add_argument('--procd_data_path', type=str, required=True)
-    parser.add_argument('--bow_corpus_path', type=str, required=True)
-    parser.add_argument('--tfidf_corpus_path', type=str, required=True)
     parser.add_argument('--dictionary_path', type=str, required=True)
-    parser.add_argument('--lda_bow_model_path', type=str, required=True)
-    parser.add_argument('--lda_tfidf_model_path', type=str, required=True)
-    parser.add_argument('--nmf_bow_model_path', type=str, required=True)
-    parser.add_argument('--nmf_tfidf_model_path', type=str, required=True)
-    parser.add_argument('--lda_bow_vis_path', type=str, required=True)
-    parser.add_argument('--lda_tfidf_vis_path', type=str, required=True)
-    parser.add_argument('--nmf_bow_vis_path', type=str, required=True)
-    parser.add_argument('--nmf_tfidf_vis_path', type=str, required=True)
     args = parser.parse_args()
 
     params = dvc.api.params_show()
-    num_topics = params['topic_modeling']['num_topics']
+    kwargs = params['topic_modeling']
 
-    main(
-        args,
-        num_topics,
-        RANDOM_SEED=params['RANDOM_SEED'],
-    )
+    with Live(dir="topic_modeling", resume=True, report="html") as live:
+        # Load preprocessed text data
+        procd_data = pd.read_csv(Path(args.procd_data_path))[kwargs['procd_text']].apply(lambda x: eval(x))
+
+        if kwargs['feature'] == 'bow':
+            corpus = pickle.load(open(Path('./data/features/bow_corpus.pkl'), 'rb'))
+        elif kwargs['feature'] == 'tfidf':
+            corpus = pickle.load(open(Path('./data/features/tfidf_corpus.pkl'), 'rb'))
+        
+        # Load dictionary
+        dictionary = Dictionary.load(args.dictionary_path)
+
+        # Add cluster labels to corpus
+        if not kwargs['cluster_model'] == None:
+            # Load clustering model
+            cluster_model = pickle.load(open(Path(kwargs['cluster_model']), 'rb'))
+            # Get the all the cluster labels
+            labels = cluster_model.labels_
+
+            # Add cluster labels to the preprocessed text data
+            grouped_procd_data = pd.DataFrame({'cluster_label': labels, 'procd_text': procd_data}).groupby('cluster_label')
+
+            # Apply LDA to each clustered corpus
+            topic_models = {}
+            coherence_scores = {}
+            perplexity_scores = {}
+
+            for label, group in grouped_procd_data:
+                # Extract the clustered corpus and texts
+                clustered_corpus = [corpus[i] for i in group.index]
+                clustered_texts = group['procd_text']
+                
+                # Train the topic model for this cluster
+                #topic_model = LdaModel(corpus=clustered_corpus, id2word=dictionary, num_topics=10, random_state=42)  # Adjust num_topics as needed
+                topic_model, perplexity, coherence = topic_modeling(clustered_texts, clustered_corpus, dictionary, kwargs, params['RANDOM_SEED'])
+                
+                # Save the topic model
+                topic_models[label] = topic_model
+                
+                # Save the scores
+                coherence_scores[label] = coherence
+                if perplexity is not None: perplexity_scores[label] = perplexity
+
+            coherence = np.mean(list(coherence_scores.values()))
+            if len(perplexity_scores) == 0: perplexity = None
+            else: perplexity = np.mean(list(perplexity_scores.values()))
+        
+        else:
+            topic_model, perplexity, coherence = topic_modeling(procd_data, corpus, dictionary, kwargs, params['RANDOM_SEED'])
+
+            # Save models
+            topic_model.save(f"./models/{kwargs['algorithm']}_{kwargs['feature']}_model.pkl")
+
+            # Prepare visualization data for topic_model and save the visualization
+            pyLDAvis.save_html(
+                prepare_topic_model_viz(topic_model, dictionary, corpus),
+                f"./models/{kwargs['algorithm']}_{kwargs['feature']}_vis.pkl"
+            )
+        
+        live.log_metric('Coherence', coherence)
+        if perplexity is not None: live.log_metric('Perplexity', perplexity)

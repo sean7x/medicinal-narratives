@@ -479,3 +479,20 @@ stages:
           num_clusters: 2
           eps: 0.2
           min_samples: 5
+  topic_modeling:
+    cmd: python src/topic_modeling.py --procd_data_path data/preprocessed/procd_train.csv
+      --dictionary_path data/features/dictionary.pkl
+    deps:
+    - path: src/topic_modeling.py
+      hash: md5
+      md5: 3c3c37a882837be35fb0a043a39c5a97
+      size: 6063
+    params:
+      params.yaml:
+        RANDOM_SEED: 42
+        topic_modeling:
+          procd_text: lemma_wo_stpwrd
+          feature: tfidf
+          algorithm: nmf
+          cluster_model: models/bert_kmeans.pkl
+          num_topics: 10
