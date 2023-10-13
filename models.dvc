@@ -1,6 +1,12 @@
 outs:
-- md5: 63f500c0f68d108a61466b4bbe8b7b2b.dir
-  size: 935242
-  nfiles: 3
-  hash: md5
+- hash: md5
   path: models
+  files:
+  - relpath: .gitignore
+    md5: 42486de8cb584361b533f3d40219505f
+  - relpath: bert_hierarchical.pkl
+    md5: e48c9bbd8a9395dfcf227f166249ac7f
+    size: 774810
+  - relpath: bert_kmeans.pkl
+    md5: f96aefb6e8e26f25e1c1bd07d1f473fc
+    size: 135838
