@@ -1,5 +1,5 @@
 [core]
-    remote = cloudflare
+    remote = gdrive
     autostage = true
 ['remote "cloudflare"']
     url = s3://mads/path
