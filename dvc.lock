@@ -494,5 +494,5 @@ stages:
           procd_text: lemma_wo_stpwrd
           feature: tfidf
           algorithm: nmf
-          cluster_model: models/bert_kmeans.pkl
+          cluster_model:
           num_topics: 10
