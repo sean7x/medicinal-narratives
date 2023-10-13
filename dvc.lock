@@ -476,6 +476,6 @@ stages:
         RANDOM_SEED: 42
         clustering_bert:
           algorithm: hierarchical
-          num_clusters: 6
+          num_clusters: 3
           eps: 0.2
           min_samples: 5
