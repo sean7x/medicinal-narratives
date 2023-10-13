@@ -19,5 +19,5 @@ topic_modeling:
   procd_text: lemma_wo_stpwrd             # one of 'lemma_wo_stpwrd', 'lemma_w_stpwrd'
   feature: tfidf                          # one of 'bow', 'tfidf'
   algorithm: nmf                          # one of 'lda', 'nmf'
-  cluster_model: models/bert_kmeans.pkl   # one of 'none', 'models/bert_kmeans.pkl', 'models/bert_hierarchical.pkl'
+  cluster_model:                          # one of 'none', 'models/bert_kmeans.pkl', 'models/bert_hierarchical.pkl'
   num_topics: 10
