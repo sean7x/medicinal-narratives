@@ -475,7 +475,7 @@ stages:
       params.yaml:
         RANDOM_SEED: 42
         clustering_bert:
-          algorithm: hierarchical
-          num_clusters: 6
+          algorithm: kmeans
+          num_clusters: 2
           eps: 0.2
           min_samples: 5
