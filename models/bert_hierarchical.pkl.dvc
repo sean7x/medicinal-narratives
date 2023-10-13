@@ -1,0 +1,5 @@
+outs:
+- md5: e48c9bbd8a9395dfcf227f166249ac7f
+  size: 774810
+  hash: md5
+  path: bert_hierarchical.pkl

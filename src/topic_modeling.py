@@ -138,6 +138,9 @@ if __name__ == '__main__':
                 # Train the topic model for this cluster
                 #topic_model = LdaModel(corpus=clustered_corpus, id2word=dictionary, num_topics=10, random_state=42)  # Adjust num_topics as needed
                 topic_model, perplexity, coherence = topic_modeling(clustered_texts, clustered_corpus, dictionary, kwargs, params['RANDOM_SEED'])
+
+                # Save models
+                topic_model.save(f"./models/{kwargs['algorithm']}_{kwargs['feature']}_{label}_model.pkl")
                 
                 # Save the topic model
                 topic_models[label] = topic_model

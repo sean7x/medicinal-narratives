@@ -1,0 +1,5 @@
+outs:
+- md5: f96aefb6e8e26f25e1c1bd07d1f473fc
+  size: 135838
+  hash: md5
+  path: bert_kmeans.pkl
