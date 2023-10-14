@@ -105,7 +105,7 @@ if __name__ == '__main__':
 
     with Live(dir="topic_modeling", resume=True, report="html") as live:
         # Load preprocessed text data
-        procd_data = pd.read_csv(Path(args.procd_data_path))[kwargs['procd_text']].apply(lambda x: eval(x))
+        procd_data = pd.read_csv(Path(args.procd_data_path))[params['procd_text']].apply(lambda x: eval(x))
 
         if kwargs['feature'] == 'bow':
             corpus = pickle.load(open(Path('./data/features/bow_corpus.pkl'), 'rb'))

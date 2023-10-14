@@ -21,7 +21,7 @@ stages:
     outs:
     - data/preprocessed/procd_train.csv
   feature_engineering_train:
-    cmd: python src/feature_engineering.py --input_path data/preprocessed/procd_train.csv
+    cmd: python src/feature_engineering.py --procd_data_path data/preprocessed/procd_train.csv
     deps:
     - data/preprocessed/procd_train.csv
     - src/feature_engineering.py

@@ -1,5 +1,6 @@
 from dvclive import Live
 import pandas as pd
+from gensim.models.phrases import Phrases, Phraser, ENGLISH_CONNECTOR_WORDS
 from gensim.corpora import Dictionary
 from gensim.models import TfidfModel, Word2Vec
 from transformers import BertTokenizer, BertModel
@@ -8,17 +9,21 @@ import torch
 import pickle
 
 
-def main(input_path, bow, tfidf, bert, bert_pretrained_model, RANDOM_SEED):
+def main(procd_data, bow, tfidf, n_gram, bert, bert_pretrained_model, RANDOM_SEED):
     with Live(dir='feature_engineering') as live:
-        #procd_data = pd.read_csv(input_path)['procd_review'].apply(lambda x: x.split())
-        #procd_data = pd.read_csv(input_path)['procd_review'].apply(lambda x: eval(x))
-        procd_data = pd.read_csv(input_path)
-        lemma_w_stpwrd = procd_data['lemma_w_stpwrd'].apply(lambda x: eval(x))
-        lemma_wo_stpwrd = procd_data['lemma_wo_stpwrd'].apply(lambda x: eval(x))
-        
         # Initialize
         if bow or tfidf:
-            dictionary = Dictionary(lemma_wo_stpwrd)    # Use lemma_wo_stpwrd for BoW and TF-IDF
+            # Add n-grams
+            def add_n_grams(tokens, n_gram):
+                if n_gram > 1:
+                    phrases = Phrases(tokens, min_count=1, threshold=1, connector_words=ENGLISH_CONNECTOR_WORDS)
+                    ngram = Phraser(phrases)
+                    tokens = [ngram[token] for token in tokens]
+                return tokens
+            
+            procd_data = procd_data.apply(lambda x: add_n_grams(x, n_gram))
+
+            dictionary = Dictionary(procd_data)
             dictionary.save('data/features/dictionary.pkl')
         
         if bert:
@@ -43,7 +48,7 @@ def main(input_path, bow, tfidf, bert, bert_pretrained_model, RANDOM_SEED):
         
         # BoW
         if bow:
-            bow_corpus = [dictionary.doc2bow(doc) for doc in tqdm(lemma_wo_stpwrd, desc='Generating BoW')]
+            bow_corpus = [dictionary.doc2bow(doc) for doc in tqdm(procd_data, desc='Generating BoW')]
 
             with open('data/features/bow_corpus.pkl', 'wb') as f:
                 pickle.dump(bow_corpus, f)
@@ -68,14 +73,14 @@ def main(input_path, bow, tfidf, bert, bert_pretrained_model, RANDOM_SEED):
                 return outputs.last_hidden_state.mean(dim=1)
             
             bert_embeddings = [
-                get_bert_embeddings(doc).cpu().detach().numpy() for doc in tqdm(lemma_w_stpwrd, desc='Generating BERT Embeddings')
+                get_bert_embeddings(doc).cpu().detach().numpy() for doc in tqdm(procd_data, desc='Generating BERT Embeddings')
             ]
 
             with open('data/features/bert_embeddings.pkl', 'wb') as f:
                 pickle.dump(bert_embeddings, f)
         
         # Logging the metrics with DVCLive
-        live.log_metric('Number of Documents', len(lemma_w_stpwrd))
+        live.log_metric('Number of Documents', len(procd_data))
 
 
 if __name__ == '__main__':
@@ -85,18 +90,23 @@ if __name__ == '__main__':
 
     parser = argparse.ArgumentParser(description='Feature Engineering Parameters')
     parser.add_argument(
-        '--input_path', type=str, required=True,
+        '--procd_data_path', type=str, required=True,
         help='Path to the input preprocessed data file'
     )
     args = parser.parse_args()
 
     params = dvc.api.params_show()
+    kwargs = params['feature_engineering']
+
+    # Load preprocessed text data
+    procd_data = pd.read_csv(Path(args.procd_data_path))[params['procd_text']].apply(lambda x: eval(x))
 
     main(
-        input_path = Path(args.input_path),
-        bow = params['feature_engineering']['bow'],
-        tfidf = params['feature_engineering']['tfidf'],
-        bert = params['feature_engineering']['bert'],
-        bert_pretrained_model = params['feature_engineering']['bert_pretrained_model'],
+        procd_data = procd_data,
+        bow = kwargs['bow'],
+        tfidf = kwargs['tfidf'],
+        n_gram = kwargs['n_gram'],
+        bert = kwargs['bert'],
+        bert_pretrained_model = kwargs['bert_pretrained_model'],
         RANDOM_SEED = params['RANDOM_SEED']
     )
