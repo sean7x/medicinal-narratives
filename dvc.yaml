@@ -1,15 +1,15 @@
 stages:
-  #extract_sample:
-  #  cmd: python src/extract_sample.py --input_path data/raw/lewtun-drug-reviews/train.jsonl
-  #    --output_path data/raw/lewtun-drug-reviews/sample_train.csv
-  #  deps:
-  #  - data/raw/lewtun-drug-reviews/train.jsonl
-  #  - src/extract_sample.py
-  #  params:
-  #  - RANDOM_SEED
-  #  - extract_sample
-  #  outs:
-  #  - data/raw/lewtun-drug-reviews/sample_train.csv
+  extract_sample:
+    cmd: python src/extract_sample.py --input_path data/raw/lewtun-drug-reviews/train.jsonl
+      --output_path data/raw/lewtun-drug-reviews/sample_train.csv
+    deps:
+    - data/raw/lewtun-drug-reviews/train.jsonl
+    - src/extract_sample.py
+    params:
+    - RANDOM_SEED
+    - extract_sample
+    outs:
+    - data/raw/lewtun-drug-reviews/sample_train.csv
   preprocess_train:
     cmd: python src/preprocessing.py --input_path ${train_data_path} --output_path
       data/preprocessed/procd_train.csv
@@ -53,8 +53,11 @@ stages:
 metrics:
 - clustering_bert/metrics.json
 - topic_modeling/metrics.json
+- feature_engineering/metrics.json
 plots:
 - clustering_bert/plots/metrics:
     x: step
 - topic_modeling/plots/metrics:
+    x: step
+- feature_engineering/plots/metrics:
     x: step

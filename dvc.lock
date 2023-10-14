@@ -4,21 +4,25 @@ stages:
     cmd: python src/extract_sample.py --input_path data/raw/lewtun-drug-reviews/train.jsonl
       --output_path data/raw/lewtun-drug-reviews/sample_train.csv
     deps:
+    - path: data/raw/lewtun-drug-reviews/train.jsonl
+      hash: md5
+      md5: 5bfa955b0f63f5c91db7c77ee4d14d95
+      size: 97686013
     - path: src/extract_sample.py
       hash: md5
-      md5: a6d81316db2c665dfe2182f76a25e050
-      size: 1883
+      md5: f3c1edd60ac973dd075824debc511853
+      size: 2038
     params:
       params.yaml:
         RANDOM_SEED: 42
         extract_sample:
           fraction: 0.2
-          stratify_column: rating
+          stratify_column:
     outs:
     - path: data/raw/lewtun-drug-reviews/sample_train.csv
       hash: md5
-      md5: 41087367fcf435c6561149e067e13d57
-      size: 16631460
+      md5: 6d273b1b10464c9e6e7dd2658b513717
+      size: 16601739
   preprocess:
     cmd: python src/preprocessing.py --input_path data/raw/lewtun-drug-reviews/sample_train.csv
       --output_path data/preprocessed/lewtun-drug-reviews/procd_sample_train.csv
@@ -412,28 +416,32 @@ stages:
       md5: 51d776fab3d12bca61e432afe2a861eb
       size: 134536
   preprocess_train:
-    cmd: python src/preprocessing.py --input_path data/raw/lewtun-drug-reviews/sample_train.csv
+    cmd: python src/preprocessing.py --input_path data/raw/lewtun-drug-reviews/train.jsonl
       --output_path data/preprocessed/procd_train.csv
     deps:
+    - path: data/raw/lewtun-drug-reviews/train.jsonl
+      hash: md5
+      md5: 5bfa955b0f63f5c91db7c77ee4d14d95
+      size: 97686013
     - path: src/preprocessing.py
       hash: md5
-      md5: c1fcdc7d4b3b894beef95f65f7e24394
-      size: 2744
+      md5: af652414701a10d3f52009848af259ff
+      size: 2960
     params:
       params.yaml:
-        train_data_path: data/raw/lewtun-drug-reviews/sample_train.csv
+        train_data_path: data/raw/lewtun-drug-reviews/train.jsonl
     outs:
     - path: data/preprocessed/procd_train.csv
       hash: md5
-      md5: f53318ba9f8f5962361fe10d3f50b4d6
-      size: 49239264
+      md5: 7cb10df1c04fee3874efa11a12b77a04
+      size: 246347263
   feature_engineering_train:
     cmd: python src/feature_engineering.py --input_path data/preprocessed/procd_train.csv
     deps:
     - path: data/preprocessed/procd_train.csv
       hash: md5
-      md5: f53318ba9f8f5962361fe10d3f50b4d6
-      size: 49239264
+      md5: 7cb10df1c04fee3874efa11a12b77a04
+      size: 246347263
     - path: src/feature_engineering.py
       hash: md5
       md5: 22efc523d93b84e0aa2d7a966553f3e3
@@ -449,20 +457,20 @@ stages:
     outs:
     - path: data/features/bert_embeddings.pkl
       hash: md5
-      md5: 68cbdadf68829e274149503423785b29
-      size: 8581293681
+      md5: 4c80ed051dded079bf27d6d2167ea03b
+      size: 42942587558
     - path: data/features/bow_corpus.pkl
       hash: md5
-      md5: f8e336cf2db0f9af640da38c45c97a89
-      size: 6749703
+      md5: e35f4ac5c00fa9ceeb3bc83772604b6c
+      size: 33769711
     - path: data/features/dictionary.pkl
       hash: md5
-      md5: 28615192bf4f7a259686cee49f516269
-      size: 643505
+      md5: 1915c45b2b70ba12eac1a722112869c9
+      size: 1378317
     - path: data/features/tfidf_corpus.pkl
       hash: md5
-      md5: b9bd7a7d9f28e3a5951d5a9b60cc821c
-      size: 23717388
+      md5: 6730c5ac5b1cd6353069098202829f3f
+      size: 118702095
   clustering_bert_train:
     cmd: python src/clustering.py --model_path data/features/bert_embeddings.pkl --log_dir
       clustering_bert

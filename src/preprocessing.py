@@ -27,6 +27,11 @@ def preprocess(input_path, output_path):
     # Remove wrong condition values and keep the rows
     df.loc[df.condition.notna() & df.condition.str.contains('users found this comment helpful'), 'condition'] = None
     
+    # Remove rows with empty reviews
+    df = df[df['review'].notna()]
+    df = df[df['review'] != '"-"']
+    df = df[df['review'] != '']
+
     # Generate lemmas for each token, remove stopwords and punctuations
     #df['procd_review'] = df['review'].progress_apply(
     #    #lambda x: ' '.join([token.lemma_ for token in nlp(x) if not token.is_stop and not token.is_punct])
