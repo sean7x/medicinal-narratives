@@ -1,5 +1,5 @@
 [core]
-    remote = gdrive
+    remote = matrix4p
     autostage = true
 ['remote "cloudflare"']
     url = s3://mads/path
@@ -7,3 +7,9 @@
 ['remote "gdrive"']
     url = gdrive://1dr0aiT7UAk1qwiZ0PmuiB-HP0EB7eaJY
     gdrive_acknowledge_abuse = true
+['remote "matrix4p"']
+    url = s3://dvc
+    endpointurl = http://matrix4p.com:8010/
+    version_aware = false
+    use_ssl = false
+    ssl_verify = false
