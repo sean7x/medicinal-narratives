@@ -130,13 +130,12 @@ if __name__ == '__main__':
             coherence_scores = {}
             perplexity_scores = {}
 
-            for label, group in grouped_procd_data:
+            for label, group in tqdm(grouped_procd_data, desc='Training topic models for each cluster'):
                 # Extract the clustered corpus and texts
                 clustered_corpus = [corpus[i] for i in group.index]
                 clustered_texts = group['procd_text']
                 
                 # Train the topic model for this cluster
-                #topic_model = LdaModel(corpus=clustered_corpus, id2word=dictionary, num_topics=10, random_state=42)  # Adjust num_topics as needed
                 topic_model, perplexity, coherence = topic_modeling(clustered_texts, clustered_corpus, dictionary, kwargs, params['RANDOM_SEED'])
 
                 # Save models
@@ -159,11 +158,11 @@ if __name__ == '__main__':
             # Save models
             topic_model.save(f"./models/{kwargs['algorithm']}_{kwargs['feature']}_model.pkl")
 
-            # Prepare visualization data for topic_model and save the visualization
-            pyLDAvis.save_html(
-                prepare_topic_model_viz(topic_model, dictionary, corpus),
-                f"./models/{kwargs['algorithm']}_{kwargs['feature']}_vis.pkl"
-            )
+        # Prepare visualization data for topic_model and save the visualization
+        pyLDAvis.save_html(
+            prepare_topic_model_viz(topic_model, dictionary, corpus),
+            f"./models/{kwargs['algorithm']}_{kwargs['feature']}_vis.pkl"
+        )
         
         live.log_metric('Coherence', coherence)
         if perplexity is not None: live.log_metric('Perplexity', perplexity)

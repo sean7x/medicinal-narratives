@@ -1,6 +1,6 @@
 from dvclive import Live
 import pandas as pd
-from gensim.models.phrases import Phrases, Phraser, ENGLISH_CONNECTOR_WORDS
+from gensim.models.phrases import Phrases, ENGLISH_CONNECTOR_WORDS
 from gensim.corpora import Dictionary
 from gensim.models import TfidfModel, Word2Vec
 from transformers import BertTokenizer, BertModel
@@ -9,19 +9,14 @@ import torch
 import pickle
 
 
-def main(procd_data, bow, tfidf, n_gram, bert, bert_pretrained_model, RANDOM_SEED):
+def main(procd_data, bow, tfidf, bigram, bert, bert_pretrained_model, RANDOM_SEED):
     with Live(dir='feature_engineering') as live:
         # Initialize
         if bow or tfidf:
-            # Add n-grams
-            def add_n_grams(tokens, n_gram):
-                if n_gram > 1:
-                    phrases = Phrases(tokens, min_count=1, threshold=1, connector_words=ENGLISH_CONNECTOR_WORDS)
-                    ngram = Phraser(phrases)
-                    tokens = [ngram[token] for token in tokens]
-                return tokens
-            
-            procd_data = procd_data.apply(lambda x: add_n_grams(x, n_gram))
+            # Add bigrams
+            if bigram:
+                phrase_model = Phrases(procd_data, min_count=1, threshold=1, connector_words=ENGLISH_CONNECTOR_WORDS)
+                procd_data = procd_data.apply(lambda x: phrase_model[x])
 
             dictionary = Dictionary(procd_data)
             dictionary.save('data/features/dictionary.pkl')
@@ -105,7 +100,7 @@ if __name__ == '__main__':
         procd_data = procd_data,
         bow = kwargs['bow'],
         tfidf = kwargs['tfidf'],
-        n_gram = kwargs['n_gram'],
+        bigram = kwargs['bigram'],
         bert = kwargs['bert'],
         bert_pretrained_model = kwargs['bert_pretrained_model'],
         RANDOM_SEED = params['RANDOM_SEED']

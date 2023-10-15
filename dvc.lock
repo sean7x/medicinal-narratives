@@ -436,7 +436,7 @@ stages:
       md5: 7cb10df1c04fee3874efa11a12b77a04
       size: 246347263
   feature_engineering_train:
-    cmd: python src/feature_engineering.py --input_path data/preprocessed/procd_train.csv
+    cmd: python src/feature_engineering.py --procd_data_path data/preprocessed/procd_train.csv
     deps:
     - path: data/preprocessed/procd_train.csv
       hash: md5
@@ -444,41 +444,46 @@ stages:
       size: 246347263
     - path: src/feature_engineering.py
       hash: md5
-      md5: 22efc523d93b84e0aa2d7a966553f3e3
-      size: 4145
+      md5: 166bddbee2aea956db3a703349bb4cb0
+      size: 4133
     params:
       params.yaml:
         RANDOM_SEED: 42
         feature_engineering:
           bow: true
           tfidf: true
+          bigram: true
           bert: true
           bert_pretrained_model: bert-base-uncased
     outs:
     - path: data/features/bert_embeddings.pkl
       hash: md5
-      md5: 4c80ed051dded079bf27d6d2167ea03b
-      size: 42942587558
+      md5: 261d0fa64529ae3e12181d481491c6db
+      size: 34356879367
     - path: data/features/bow_corpus.pkl
       hash: md5
-      md5: e35f4ac5c00fa9ceeb3bc83772604b6c
-      size: 33769711
+      md5: 963925bb0d415c4e45025a248009dd94
+      size: 52851715
     - path: data/features/dictionary.pkl
       hash: md5
-      md5: 1915c45b2b70ba12eac1a722112869c9
-      size: 1378317
+      md5: 007aa86c97fc5d6634d69e3fc2f43f31
+      size: 7804994
     - path: data/features/tfidf_corpus.pkl
       hash: md5
-      md5: 6730c5ac5b1cd6353069098202829f3f
-      size: 118702095
+      md5: 4709bc5feaa187662160bc5675d3dba7
+      size: 185428059
   clustering_bert_train:
     cmd: python src/clustering.py --model_path data/features/bert_embeddings.pkl --log_dir
       clustering_bert
     deps:
+    - path: data/features/bert_embeddings.pkl
+      hash: md5
+      md5: 261d0fa64529ae3e12181d481491c6db
+      size: 34356879367
     - path: src/clustering.py
       hash: md5
-      md5: ac7b1b61dac582ba3b2aa115979799fa
-      size: 4745
+      md5: fc4044d24fa58a2e99406c9fbecf8ab7
+      size: 4875
     params:
       params.yaml:
         RANDOM_SEED: 42
@@ -493,14 +498,13 @@ stages:
     deps:
     - path: src/topic_modeling.py
       hash: md5
-      md5: 3c3c37a882837be35fb0a043a39c5a97
-      size: 6063
+      md5: c0d0fe3737b03aacfc3478e944faef37
+      size: 6368
     params:
       params.yaml:
         RANDOM_SEED: 42
         topic_modeling:
-          procd_text: lemma_wo_stpwrd
           feature: tfidf
           algorithm: nmf
-          cluster_model:
+          cluster_model: models/bert_kmeans.pkl
           num_topics: 10

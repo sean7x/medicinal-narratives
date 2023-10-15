@@ -8,7 +8,7 @@ extract_sample:
 feature_engineering:
   bow: true
   tfidf: true
-  n_gram: 2                               # one of 1, 2, 3, 4
+  bigram: true
   bert: true
   bert_pretrained_model: bert-base-uncased
 clustering_bert:
@@ -21,4 +21,4 @@ topic_modeling:
   feature: tfidf                          # one of 'bow', 'tfidf'
   algorithm: nmf                          # one of 'lda', 'nmf'
   cluster_model: models/bert_kmeans.pkl   # one of 'none', 'models/bert_kmeans.pkl', 'models/bert_hierarchical.pkl'
-  num_topics: 10
+  num_topics: 3
