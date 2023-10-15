@@ -278,8 +278,7 @@ stages:
       md5: be92437596cce08611972bbd20ef76f1
       size: 143874
   clustering_bow_tfidf_sample_train:
-    cmd: python src/clustering.py --model_paths 
-      "models/lda_bow_model.pkl,models/lda_tfidf_model.pkl,models/nmf_bow_model.pkl,models/nmf_tfidf_model.pkl"
+    cmd: python src/clustering.py --model_paths "models/lda_bow_model.pkl,models/lda_tfidf_model.pkl,models/nmf_bow_model.pkl,models/nmf_tfidf_model.pkl"
       --corpus_paths "data/features/bow_corpus.pkl,data/features/tfidf_corpus.pkl"
       --log_dir clustering_bow_tfidf
     deps:
@@ -498,8 +497,8 @@ stages:
     deps:
     - path: src/topic_modeling.py
       hash: md5
-      md5: c0d0fe3737b03aacfc3478e944faef37
-      size: 6368
+      md5: dc6d5f86b755058208ea4dc87a281a84
+      size: 6252
     params:
       params.yaml:
         RANDOM_SEED: 42
@@ -507,4 +506,4 @@ stages:
           feature: tfidf
           algorithm: nmf
           cluster_model: models/bert_kmeans.pkl
-          num_topics: 10
+          num_topics: 3
