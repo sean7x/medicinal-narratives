@@ -1,9 +1,6 @@
 [core]
     remote = matrix4p
     autostage = true
-['remote "cloudflare"']
-    url = s3://mads/path
-    endpointurl = https://231b0e78f9c096fb44ed82f741fb0794.r2.cloudflarestorage.com
 ['remote "gdrive"']
     url = gdrive://1dr0aiT7UAk1qwiZ0PmuiB-HP0EB7eaJY
     gdrive_acknowledge_abuse = true
