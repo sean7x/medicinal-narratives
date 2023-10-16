@@ -61,7 +61,7 @@ def prepare_input_data(model, model_type, corpus=None):
         return input_data
     
     elif model_type == 'nmf':
-        topic_term_matrix = model.get_topics()
+        #topic_term_matrix = model.get_topics()
         num_topics = model.num_topics
         input_data = []
 
