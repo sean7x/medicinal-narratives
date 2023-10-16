@@ -18,7 +18,7 @@ def extract_stratified_sample(input_path, output_path, fraction, stratify_column
     else: stratify_on = df[stratify_column] 
     _, sample_df = train_test_split(df, test_size=fraction, stratify=stratify_on, random_state=RANDOM_SEED)
 
-    sample_df.to_csv(output_path, index=False)
+    sample_df.to_json(output_path, orient='records', lines=True, index=False)
 
 
 if __name__ == "__main__":
