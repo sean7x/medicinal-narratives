@@ -1,7 +1,7 @@
 stages:
   extract_sample:
     cmd: python src/extract_sample.py --input_path data/raw/lewtun-drug-reviews/train.jsonl
-      --output_path data/raw/lewtun-drug-reviews/sample_train.csv
+      --output_path data/raw/lewtun-drug-reviews/sample_train.jsonl
     deps:
     - data/raw/lewtun-drug-reviews/train.jsonl
     - src/extract_sample.py
@@ -9,24 +9,26 @@ stages:
     - RANDOM_SEED
     - extract_sample
     outs:
-    - data/raw/lewtun-drug-reviews/sample_train.csv
+    - data/raw/lewtun-drug-reviews/sample_train.jsonl
   preprocess_train:
-    cmd: python src/preprocessing.py --input_path ${train_data_path} --output_path
-      data/preprocessed/procd_train.csv
+    cmd: python src/preprocessing.py --input_path data/raw/lewtun-drug-reviews/${train_data_path}.jsonl
+      --output_path data/preprocessed/procd_${train_data_path}.csv
     deps:
-    - ${train_data_path}
+    - data/raw/lewtun-drug-reviews/${train_data_path}.jsonl
     - src/preprocessing.py
     params:
     - train_data_path
     outs:
-    - data/preprocessed/procd_train.csv
+    - data/preprocessed/procd_${train_data_path}.csv
   feature_engineering_train:
-    cmd: python src/feature_engineering.py --procd_data_path data/preprocessed/procd_train.csv
+    cmd: python src/feature_engineering.py --procd_data_path data/preprocessed/procd_${train_data_path}.csv
     deps:
-    - data/preprocessed/procd_train.csv
+    - data/preprocessed/procd_${train_data_path}.csv
     - src/feature_engineering.py
     params:
     - RANDOM_SEED
+    - train_data_path
+    - procd_text
     - feature_engineering
     outs:
     - data/features/dictionary.pkl
@@ -42,21 +44,25 @@ stages:
     params:
     - RANDOM_SEED
     - clustering_bert
+    outs:
+    - ./models/bert_${clustering_bert.algorithm}.pkl
   topic_modeling:
-    cmd: python src/topic_modeling.py --procd_data_path data/preprocessed/procd_train.csv
+    cmd: python src/topic_modeling.py --procd_data_path data/preprocessed/procd_${train_data_path}.csv
       --dictionary_path data/features/dictionary.pkl
     deps:
+    - data/preprocessed/procd_${train_data_path}.csv
+    - data/features/dictionary.pkl
+    - ./models/bert_${clustering_bert.algorithm}.pkl
     - src/topic_modeling.py
     params:
     - RANDOM_SEED
+    - train_data_path
+    - procd_text
     - topic_modeling
 metrics:
-- feature_engineering/metrics.json
 - clustering_bert/metrics.json
 - topic_modeling/metrics.json
 plots:
-- feature_engineering/plots/metrics:
-    x: step
 - clustering_bert/plots/metrics:
     x: step
 - topic_modeling/plots/metrics:
