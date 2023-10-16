@@ -60,9 +60,12 @@ stages:
     - procd_text
     - topic_modeling
 metrics:
+- feature_engineering/metrics.json
 - clustering_bert/metrics.json
 - topic_modeling/metrics.json
 plots:
+- feature_engineering/plots/metrics:
+    x: step
 - clustering_bert/plots/metrics:
     x: step
 - topic_modeling/plots/metrics:
