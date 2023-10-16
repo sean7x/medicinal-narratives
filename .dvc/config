@@ -1,12 +1,17 @@
 [core]
-    remote = matrix4p
+    remote = gdrive
     autostage = true
 ['remote "gdrive"']
     url = gdrive://1dr0aiT7UAk1qwiZ0PmuiB-HP0EB7eaJY
     gdrive_acknowledge_abuse = true
 ['remote "matrix4p"']
     url = s3://dvc
-    endpointurl = http://matrix4p.com:8010/
+    endpointurl = https://matrix4p.com:8010/
     version_aware = false
+    use_ssl = false
+    ssl_verify = false
+['remote "tencent"']
+    url = s3://mads-1251914148
+    endpointurl = http://cos.ap-shanghai.myqcloud.com/
     use_ssl = false
     ssl_verify = false
