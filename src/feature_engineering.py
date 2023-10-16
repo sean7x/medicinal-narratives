@@ -9,14 +9,19 @@ import torch
 import pickle
 
 
-def main(procd_data, bow, tfidf, bigram, bert, bert_pretrained_model, RANDOM_SEED):
+def main(procd_data_path, bow, tfidf, bigram, bert, bert_pretrained_model, RANDOM_SEED):
     with Live(dir='feature_engineering') as live:
+        # Load preprocessed text data
+        procd_data = pd.read_csv(Path(procd_data_path))[params['procd_text']].apply(lambda x: eval(x))
+        procd_data = procd_data[procd_data.apply(lambda row: len(row) > 0)]
+
         # Initialize
         if bow or tfidf:
             # Add bigrams
             if bigram:
                 phrase_model = Phrases(procd_data, min_count=1, threshold=1, connector_words=ENGLISH_CONNECTOR_WORDS)
                 procd_data = procd_data.apply(lambda x: phrase_model[x])
+                procd_data.to_csv('{}_bigram.csv'.format(procd_data_path.split('.csv')[0]), index=False)
 
             dictionary = Dictionary(procd_data)
             dictionary.save('data/features/dictionary.pkl')
@@ -93,11 +98,8 @@ if __name__ == '__main__':
     params = dvc.api.params_show()
     kwargs = params['feature_engineering']
 
-    # Load preprocessed text data
-    procd_data = pd.read_csv(Path(args.procd_data_path))[params['procd_text']].apply(lambda x: eval(x))
-
     main(
-        procd_data = procd_data,
+        procd_data_path = args.procd_data_path,
         bow = kwargs['bow'],
         tfidf = kwargs['tfidf'],
         bigram = kwargs['bigram'],
