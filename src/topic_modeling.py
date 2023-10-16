@@ -103,9 +103,16 @@ if __name__ == '__main__':
     params = dvc.api.params_show()
     kwargs = params['topic_modeling']
 
+    # Set `procd_data_path`
+    procd_data_path = args.procd_data_path
+    bigram = params['feature_engineering']['bigram']
+    if bigram:
+        procd_data_path = '{}_bigram.csv'.format(procd_data_path.split('.csv')[0])
+
     with Live(dir="topic_modeling", resume=True, report="html") as live:
         # Load preprocessed text data
-        procd_data = pd.read_csv(Path(args.procd_data_path))[params['procd_text']].apply(lambda x: eval(x))
+        procd_data = pd.read_csv(Path(procd_data_path))[params['procd_text']].apply(lambda x: eval(x))
+        procd_data = procd_data[procd_data.apply(lambda x: len(x) > 0)]
 
         if kwargs['feature'] == 'bow':
             corpus = pickle.load(open(Path('./data/features/bow_corpus.pkl'), 'rb'))
@@ -116,9 +123,14 @@ if __name__ == '__main__':
         dictionary = Dictionary.load(args.dictionary_path)
 
         # Add cluster labels to corpus
-        if not kwargs['cluster_model'] == None:
+        if bigram:
+            output_path = f"./models/{kwargs['algorithm']}_{kwargs['feature']}_bigram"
+        else:
+            output_path = f"./models/{kwargs['algorithm']}_{kwargs['feature']}"
+        if kwargs['cluster']:
             # Load clustering model
-            cluster_model = pickle.load(open(Path(kwargs['cluster_model']), 'rb'))
+            cluster_algorithm = params['clustering_bert']['algorithm']
+            cluster_model = pickle.load(open(Path(f"./models/bert_{cluster_algorithm}.pkl"), 'rb'))
             # Get the all the cluster labels
             labels = cluster_model.labels_
 
@@ -139,7 +151,13 @@ if __name__ == '__main__':
                 topic_model, perplexity, coherence = topic_modeling(clustered_texts, clustered_corpus, dictionary, kwargs, params['RANDOM_SEED'])
 
                 # Save models
-                topic_model.save(f"./models/{kwargs['algorithm']}_{kwargs['feature']}_{label}_model.pkl")
+                topic_model.save(f"{output_path}_{label}_model.pkl")
+
+                # Prepare visualization data for topic_model and save the visualization
+                pyLDAvis.save_html(
+                    prepare_topic_model_viz(topic_model, dictionary, corpus),
+                    f"{output_path}_{label}_vis.html"
+                )
                 
                 # Save the topic model
                 topic_models[label] = topic_model
@@ -156,13 +174,13 @@ if __name__ == '__main__':
             topic_model, perplexity, coherence = topic_modeling(procd_data, corpus, dictionary, kwargs, params['RANDOM_SEED'])
 
             # Save models
-            topic_model.save(f"./models/{kwargs['algorithm']}_{kwargs['feature']}_model.pkl")
+            topic_model.save(f"{output_path}_model.pkl")
 
-        # Prepare visualization data for topic_model and save the visualization
-        pyLDAvis.save_html(
-            prepare_topic_model_viz(topic_model, dictionary, corpus),
-            f"./models/{kwargs['algorithm']}_{kwargs['feature']}_vis.pkl"
-        )
+            # Prepare visualization data for topic_model and save the visualization
+            pyLDAvis.save_html(
+                prepare_topic_model_viz(topic_model, dictionary, corpus),
+                f"{output_path}_vis.html"
+            )
         
         live.log_metric('Coherence', coherence)
         if perplexity is not None: live.log_metric('Perplexity', perplexity)
