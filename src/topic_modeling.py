@@ -125,6 +125,7 @@ if __name__ == '__main__':
 
         # Add cluster labels to corpus
         if kwargs['cluster']:
+            print(f'Topic modeling with clustering via Bert {cluster_algorithm}...')
             # Load clustering model
             cluster_algorithm = params['clustering_bert']['algorithm']
             cluster_model = pickle.load(open(Path(f"./models/bert_{cluster_algorithm}.pkl"), 'rb'))
@@ -168,6 +169,7 @@ if __name__ == '__main__':
             else: perplexity = np.mean(list(perplexity_scores.values()))
         
         else:
+            print('Topic modeling without clustering first...')
             topic_model, perplexity, coherence = topic_modeling(procd_data, corpus, dictionary, kwargs, params['RANDOM_SEED'])
 
             # Save models
