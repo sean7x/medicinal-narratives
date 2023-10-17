@@ -125,9 +125,9 @@ if __name__ == '__main__':
 
         # Add cluster labels to corpus
         if kwargs['cluster']:
-            print(f'Topic modeling with clustering via Bert {cluster_algorithm}...')
             # Load clustering model
             cluster_algorithm = params['clustering_bert']['algorithm']
+            print(f'Topic modeling with clustering via Bert {cluster_algorithm}...')
             cluster_model = pickle.load(open(Path(f"./models/bert_{cluster_algorithm}.pkl"), 'rb'))
             # Get the all the cluster labels
             labels = cluster_model.labels_
