@@ -8,7 +8,7 @@ extract_sample:
 feature_engineering:
   bow: true
   tfidf: true
-  ngram: unigram                          # one of 'unigram', 'bigram'
+  ngram: bigram                           # one of 'unigram', 'bigram'
   bert: true
   bert_pretrained_model: bert-base-uncased
 clustering_bert:
