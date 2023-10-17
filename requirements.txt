@@ -5,10 +5,11 @@ tqdm
 matplotlib
 seaborn
 scikit-learn
-dvclive
 TextBlob
 wordcloud
-spacy
 gensim
-transformers
-torch
+pyldavis
+spacy
+#transformers
+#torch
+#dvclive
