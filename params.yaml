@@ -1,7 +1,7 @@
 RANDOM_SEED: 42
 train_data_path: sample_train             # one of 'train', 'sample_train'
 test_data_path: test
-procd_text: lemma_wo_stpwrd                # one of 'lemma_wo_stpwrd', 'lemma_w_stpwrd'
+procd_text: lemma_wo_stpwrd               # one of 'lemma_wo_stpwrd', 'lemma_w_stpwrd'
 extract_sample:
   fraction: 0.2
   stratify_column:
@@ -19,6 +19,6 @@ clustering_bert:
   #distance_threshold: 0.5                # agglomerative clustering distance threshold
 topic_modeling:
   feature: tfidf                          # one of 'bow', 'tfidf'
-  algorithm: lda                          # one of 'lda', 'nmf'
+  algorithm: nmf                          # one of 'lda', 'nmf'
   cluster: true                           # 'true' or 'false' indicating if using topic modeling within clusters
   num_topics: 8

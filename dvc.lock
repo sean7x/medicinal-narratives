@@ -494,18 +494,13 @@ stages:
           num_clusters: 2
           eps: 0.2
           min_samples: 5
-    outs:
-    - path: ./models/bert_kmeans.pkl
-      hash: md5
-      md5: 2f792e68e2083019deedfbce6db07e2d
-      size: 135834
   topic_modeling:
     cmd: python src/topic_modeling.py --procd_data_path data/preprocessed/procd_sample_train.csv
       --dictionary_path data/features/dictionary_bigram.pkl
     deps:
     - path: ./models/bert_kmeans.pkl
       hash: md5
-      md5: 2f792e68e2083019deedfbce6db07e2d
+      md5: b65528d8fa1165ea40f48321cc4381c9
       size: 135834
     - path: data/features/dictionary_bigram.pkl
       hash: md5
@@ -521,8 +516,8 @@ stages:
       size: 49165394
     - path: src/topic_modeling.py
       hash: md5
-      md5: b1b7b9a5fe0081fffae63939a46d8a74
-      size: 6849
+      md5: e56d3ec5db49affb2d5a294edd29bd3c
+      size: 7000
     params:
       params.yaml:
         RANDOM_SEED: 42
@@ -530,7 +525,7 @@ stages:
         procd_text: lemma_wo_stpwrd
         topic_modeling:
           feature: tfidf
-          algorithm: lda
+          algorithm: nmf
           cluster: true
           num_topics: 8
         train_data_path: sample_train
