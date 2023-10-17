@@ -48,9 +48,9 @@ stages:
     params:
     - RANDOM_SEED
     - clustering_bert
-    outs:
-    - ./models/bert_${clustering_bert.algorithm}.pkl:
-        persist: true
+    #outs:
+    #- ./models/bert_${clustering_bert.algorithm}.pkl:
+    #    persist: true
   topic_modeling:
     cmd: python src/topic_modeling.py --procd_data_path data/preprocessed/procd_${train_data_path}.csv
       --dictionary_path data/features/dictionary_${feature_engineering.ngram}.pkl
@@ -69,7 +69,6 @@ stages:
 metrics:
 - feature_engineering/metrics.json
 - clustering_bert/metrics.json
-- topic_modeling/metrics.json
 plots:
 - feature_engineering/plots/metrics:
     x: step
