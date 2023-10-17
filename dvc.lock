@@ -444,15 +444,15 @@ stages:
       size: 49165394
     - path: src/feature_engineering.py
       hash: md5
-      md5: 8c8516418e079dab90ee7b03db99e9aa
-      size: 4339
+      md5: 5914cbe6251c2c9add9065dfc32af3f1
+      size: 4370
     params:
       params.yaml:
         RANDOM_SEED: 42
         feature_engineering:
           bow: true
           tfidf: true
-          bigram: true
+          ngram: bigram
           bert: true
           bert_pretrained_model: bert-base-uncased
         procd_text: lemma_w_stpwrd
@@ -460,17 +460,17 @@ stages:
     outs:
     - path: data/features/bert_embeddings.pkl
       hash: md5
-      md5: 62781d96f9a97545868ab858d6f43b72
-      size: 6399625423
-    - path: data/features/bow_corpus.pkl
+      md5: acf9363dff3715b5932b9f431d86f28e
+      size: 8567430177
+    - path: data/features/bow_bigram_corpus.pkl
       hash: md5
       md5: ec4db8361d72669febdba6f02d35876a
       size: 10657331
-    - path: data/features/dictionary.pkl
+    - path: data/features/dictionary_bigram.pkl
       hash: md5
-      md5: ac7b04a65d5056f8ed1eddee33afe14e
-      size: 2291768
-    - path: data/features/tfidf_corpus.pkl
+      md5: c5f719bd3d53147cca8e3805be143478
+      size: 2291775
+    - path: data/features/tfidf_bigram_corpus.pkl
       hash: md5
       md5: b174460859df9a5e1a2119c6bd81e982
       size: 37546079
@@ -480,8 +480,8 @@ stages:
     deps:
     - path: data/features/bert_embeddings.pkl
       hash: md5
-      md5: 62781d96f9a97545868ab858d6f43b72
-      size: 6399625423
+      md5: acf9363dff3715b5932b9f431d86f28e
+      size: 8567430177
     - path: src/clustering.py
       hash: md5
       md5: fd6953cfe27681e8e8a7c8ef0d69325c
@@ -497,35 +497,40 @@ stages:
     outs:
     - path: ./models/bert_kmeans.pkl
       hash: md5
-      md5: 035156e7ddd0cf7417af60e0c8361240
+      md5: a47ee02acfe46eb253c07c264bc46afa
       size: 135834
   topic_modeling:
     cmd: python src/topic_modeling.py --procd_data_path data/preprocessed/procd_sample_train.csv
-      --dictionary_path data/features/dictionary.pkl
+      --dictionary_path data/features/dictionary_bigram.pkl
     deps:
     - path: ./models/bert_kmeans.pkl
       hash: md5
-      md5: 035156e7ddd0cf7417af60e0c8361240
+      md5: a47ee02acfe46eb253c07c264bc46afa
       size: 135834
-    - path: data/features/dictionary.pkl
+    - path: data/features/dictionary_bigram.pkl
       hash: md5
-      md5: ac7b04a65d5056f8ed1eddee33afe14e
-      size: 2291768
+      md5: c5f719bd3d53147cca8e3805be143478
+      size: 2291775
+    - path: data/features/tfidf_bigram_corpus.pkl
+      hash: md5
+      md5: b174460859df9a5e1a2119c6bd81e982
+      size: 37546079
     - path: data/preprocessed/procd_sample_train.csv
       hash: md5
       md5: aed115c3821c04328a0405672b37f1c8
       size: 49165394
     - path: src/topic_modeling.py
       hash: md5
-      md5: 399fe6f78a3bdf2c6e7a9126cdf17535
-      size: 7015
+      md5: b1b7b9a5fe0081fffae63939a46d8a74
+      size: 6849
     params:
       params.yaml:
         RANDOM_SEED: 42
+        feature_engineering.ngram: bigram
         procd_text: lemma_w_stpwrd
         topic_modeling:
           feature: tfidf
-          algorithm: nmf
+          algorithm: lda
           cluster: true
-          num_topics: 3
+          num_topics: 8
         train_data_path: sample_train

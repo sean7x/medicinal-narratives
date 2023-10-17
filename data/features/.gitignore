@@ -3,3 +3,6 @@
 /word2vec_model.pkl
 /bert_embeddings.pkl
 /dictionary.pkl
+/dictionary_bigram.pkl
+/bow_bigram_corpus.pkl
+/tfidf_bigram_corpus.pkl
