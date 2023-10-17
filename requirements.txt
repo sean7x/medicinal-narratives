@@ -11,4 +11,4 @@ wordcloud
 spacy
 gensim
 transformers
-pytorch
+torch
