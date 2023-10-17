@@ -105,28 +105,25 @@ if __name__ == '__main__':
 
     # Set `procd_data_path`
     procd_data_path = args.procd_data_path
-    bigram = params['feature_engineering']['bigram']
-    if bigram:
-        procd_data_path = '{}_bigram.csv'.format(procd_data_path.split('.csv')[0])
+    ngram = params['feature_engineering']['ngram']
+    if ngram != 'unigram':
+        procd_data_path = '{}_{}.csv'.format(procd_data_path.split('.csv')[0], ngram)
 
     with Live(dir="topic_modeling", resume=True, report="html") as live:
         # Load preprocessed text data
         procd_data = pd.read_csv(Path(procd_data_path))[params['procd_text']].apply(lambda x: eval(x))
         procd_data = procd_data[procd_data.apply(lambda x: len(x) > 0)]
 
-        if kwargs['feature'] == 'bow':
-            corpus = pickle.load(open(Path('./data/features/bow_corpus.pkl'), 'rb'))
-        elif kwargs['feature'] == 'tfidf':
-            corpus = pickle.load(open(Path('./data/features/tfidf_corpus.pkl'), 'rb'))
-        
+        feature = kwargs['feature']
+        corpus = pickle.load(open(Path(f'./data/features/{feature}_{ngram}_corpus.pkl'), 'rb'))
+                
         # Load dictionary
         dictionary = Dictionary.load(args.dictionary_path)
 
+        # Set output path for saving models and visualizations
+        output_path = f"./models/{kwargs['algorithm']}_{feature}_{ngram}"
+
         # Add cluster labels to corpus
-        if bigram:
-            output_path = f"./models/{kwargs['algorithm']}_{kwargs['feature']}_bigram"
-        else:
-            output_path = f"./models/{kwargs['algorithm']}_{kwargs['feature']}"
         if kwargs['cluster']:
             # Load clustering model
             cluster_algorithm = params['clustering_bert']['algorithm']

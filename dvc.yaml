@@ -31,9 +31,9 @@ stages:
     - procd_text
     - feature_engineering
     outs:
-    - data/features/dictionary.pkl
-    - data/features/bow_corpus.pkl
-    - data/features/tfidf_corpus.pkl
+    - data/features/dictionary_${feature_engineering.ngram}.pkl
+    - data/features/bow_${feature_engineering.ngram}_corpus.pkl
+    - data/features/tfidf_${feature_engineering.ngram}_corpus.pkl
     - data/features/bert_embeddings.pkl
   clustering_bert_train:
     cmd: python src/clustering.py --model_path data/features/bert_embeddings.pkl --log_dir
@@ -48,15 +48,17 @@ stages:
     - ./models/bert_${clustering_bert.algorithm}.pkl
   topic_modeling:
     cmd: python src/topic_modeling.py --procd_data_path data/preprocessed/procd_${train_data_path}.csv
-      --dictionary_path data/features/dictionary.pkl
+      --dictionary_path data/features/dictionary_${feature_engineering.ngram}.pkl
     deps:
     - data/preprocessed/procd_${train_data_path}.csv
-    - data/features/dictionary.pkl
+    - data/features/${topic_modeling.feature}_${feature_engineering.ngram}_corpus.pkl
+    - data/features/dictionary_${feature_engineering.ngram}.pkl
     - ./models/bert_${clustering_bert.algorithm}.pkl
     - src/topic_modeling.py
     params:
     - RANDOM_SEED
     - train_data_path
+    - feature_engineering.ngram
     - procd_text
     - topic_modeling
 metrics:
