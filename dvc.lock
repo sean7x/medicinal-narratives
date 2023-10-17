@@ -452,7 +452,7 @@ stages:
         feature_engineering:
           bow: true
           tfidf: true
-          ngram: unigram
+          ngram: bigram
           bert: true
           bert_pretrained_model: bert-base-uncased
         procd_text: lemma_wo_stpwrd
@@ -460,27 +460,27 @@ stages:
     outs:
     - path: data/features/bert_embeddings.pkl
       hash: md5
-      md5: 13393e1a71afd54c15de87bbbc140b10
+      md5: 1ed4f3ee8d1e586e837e904bc2df8d96
       size: 3565591064
-    - path: data/features/bow_unigram_corpus.pkl
+    - path: data/features/bow_bigram_corpus.pkl
       hash: md5
-      md5: 9e6d20749cceb5326f887d1bf5282b29
-      size: 6717020
-    - path: data/features/dictionary_unigram.pkl
+      md5: 1df043c91d79462c74f0100cf9867454
+      size: 5464970
+    - path: data/features/dictionary_bigram.pkl
       hash: md5
-      md5: d42425d5c99305e45af90a8b04717098
-      size: 634339
-    - path: data/features/tfidf_unigram_corpus.pkl
+      md5: 3f6a57d4e5de5420fe75a24972d70e20
+      size: 2489923
+    - path: data/features/tfidf_bigram_corpus.pkl
       hash: md5
-      md5: eb915241589e187f84441da133b6b19c
-      size: 23643913
+      md5: 1b27a38735fa69b4a263fc60bb91ac53
+      size: 18565083
   clustering_bert_train:
     cmd: python src/clustering.py --model_path data/features/bert_embeddings.pkl --log_dir
       clustering_bert
     deps:
     - path: data/features/bert_embeddings.pkl
       hash: md5
-      md5: 13393e1a71afd54c15de87bbbc140b10
+      md5: 1ed4f3ee8d1e586e837e904bc2df8d96
       size: 3565591064
     - path: src/clustering.py
       hash: md5
@@ -497,24 +497,24 @@ stages:
     outs:
     - path: ./models/bert_kmeans.pkl
       hash: md5
-      md5: 204d0f54cfa0dc34e00502b80b92e31a
+      md5: 2f792e68e2083019deedfbce6db07e2d
       size: 135834
   topic_modeling:
     cmd: python src/topic_modeling.py --procd_data_path data/preprocessed/procd_sample_train.csv
-      --dictionary_path data/features/dictionary_unigram.pkl
+      --dictionary_path data/features/dictionary_bigram.pkl
     deps:
     - path: ./models/bert_kmeans.pkl
       hash: md5
-      md5: 204d0f54cfa0dc34e00502b80b92e31a
+      md5: 2f792e68e2083019deedfbce6db07e2d
       size: 135834
-    - path: data/features/dictionary_unigram.pkl
+    - path: data/features/dictionary_bigram.pkl
       hash: md5
-      md5: d42425d5c99305e45af90a8b04717098
-      size: 634339
-    - path: data/features/tfidf_unigram_corpus.pkl
+      md5: 3f6a57d4e5de5420fe75a24972d70e20
+      size: 2489923
+    - path: data/features/tfidf_bigram_corpus.pkl
       hash: md5
-      md5: eb915241589e187f84441da133b6b19c
-      size: 23643913
+      md5: 1b27a38735fa69b4a263fc60bb91ac53
+      size: 18565083
     - path: data/preprocessed/procd_sample_train.csv
       hash: md5
       md5: aed115c3821c04328a0405672b37f1c8
@@ -526,7 +526,7 @@ stages:
     params:
       params.yaml:
         RANDOM_SEED: 42
-        feature_engineering.ngram: unigram
+        feature_engineering.ngram: bigram
         procd_text: lemma_wo_stpwrd
         topic_modeling:
           feature: tfidf
