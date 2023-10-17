@@ -6,3 +6,6 @@
 /dictionary_bigram.pkl
 /bow_bigram_corpus.pkl
 /tfidf_bigram_corpus.pkl
+/dictionary_unigram.pkl
+/bow_unigram_corpus.pkl
+/tfidf_unigram_corpus.pkl
