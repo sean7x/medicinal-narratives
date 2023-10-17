@@ -19,6 +19,6 @@ clustering_bert:
   #distance_threshold: 0.5                # agglomerative clustering distance threshold
 topic_modeling:
   feature: tfidf                          # one of 'bow', 'tfidf'
-  algorithm: nmf                          # one of 'lda', 'nmf'
+  algorithm: lda                          # one of 'lda', 'nmf'
   cluster: true                           # 'true' or 'false' indicating if using topic modeling within clusters
-  num_topics: 3
+  num_topics: 8
