@@ -92,6 +92,7 @@ if __name__ == '__main__':
 
     params = dvc.api.params_show()
     RANDOM_SEED = params['RANDOM_SEED']
+    procd_text = params['procd_text']
     kwargs = params['clustering_bert']
     algorithm = kwargs['algorithm']
 
@@ -127,5 +128,5 @@ if __name__ == '__main__':
             num_outliers = np.unique(model.labels_, return_counts=True)[-1][0]
             live.log_metric('DBSCAN Number of Outliers', num_outliers)
 
-        pickle.dump(model, open(f'./models/{model_name}_{algorithm}.pkl', 'wb'))
+        pickle.dump(model, open(f'./models/{procd_text}/{model_name}_{algorithm}.pkl', 'wb'))
         live.next_step()

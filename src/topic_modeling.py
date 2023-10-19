@@ -101,6 +101,7 @@ if __name__ == '__main__':
     args = parser.parse_args()
 
     params = dvc.api.params_show()
+    procd_text = params['procd_text']
     kwargs = params['topic_modeling']
 
     # Set `procd_data_path`
@@ -115,20 +116,20 @@ if __name__ == '__main__':
         procd_data = procd_data[procd_data.apply(lambda x: len(x) > 0)]
 
         feature = kwargs['feature']
-        corpus = pickle.load(open(Path(f'./data/features/{feature}_{ngram}_corpus.pkl'), 'rb'))
+        corpus = pickle.load(open(Path(f'./data/features/{procd_text}/{feature}_{ngram}_corpus.pkl'), 'rb'))
                 
         # Load dictionary
         dictionary = Dictionary.load(args.dictionary_path)
 
         # Set output path for saving models and visualizations
-        output_path = f"./models/{kwargs['algorithm']}_{feature}_{ngram}"
+        output_path = f"./models/{procd_text}/{kwargs['algorithm']}_{feature}_{ngram}"
 
         # Add cluster labels to corpus
         if kwargs['cluster']:
             # Load clustering model
             cluster_algorithm = params['clustering_bert']['algorithm']
             print(f'Topic modeling with clustering via Bert {cluster_algorithm}...')
-            cluster_model = pickle.load(open(Path(f"./models/bert_{cluster_algorithm}.pkl"), 'rb'))
+            cluster_model = pickle.load(open(Path(f"./models/{procd_text}/bert_{cluster_algorithm}.pkl"), 'rb'))
             # Get the all the cluster labels
             labels = cluster_model.labels_
 

@@ -9,10 +9,10 @@ import torch
 import pickle
 
 
-def main(procd_data_path, bow, tfidf, ngram, bert, bert_pretrained_model, RANDOM_SEED):
+def main(procd_data_path, procd_text, bow, tfidf, ngram, bert, bert_pretrained_model, RANDOM_SEED):
     with Live(dir='feature_engineering') as live:
         # Load preprocessed text data
-        procd_data = pd.read_csv(Path(procd_data_path))[params['procd_text']].apply(lambda x: eval(x))
+        procd_data = pd.read_csv(Path(procd_data_path))[procd_text].apply(lambda x: eval(x))
         procd_data = procd_data[procd_data.apply(lambda row: len(row) > 0)]
 
         # BERT Embeddings
@@ -49,7 +49,7 @@ def main(procd_data_path, bow, tfidf, ngram, bert, bert_pretrained_model, RANDOM
                 get_bert_embeddings(doc).cpu().detach().numpy() for doc in tqdm(procd_data, desc='Generating BERT Embeddings')
             ]
 
-            with open('data/features/bert_embeddings.pkl', 'wb') as f:
+            with open(f'data/features/{procd_text}/bert_embeddings.pkl', 'wb') as f:
                 pickle.dump(bert_embeddings, f)
         
         # Extract BOW and TF-IDF features
@@ -58,16 +58,16 @@ def main(procd_data_path, bow, tfidf, ngram, bert, bert_pretrained_model, RANDOM
             if ngram == 'bigram':
                 phrase_model = Phrases(procd_data, min_count=1, threshold=1, connector_words=ENGLISH_CONNECTOR_WORDS)
                 procd_data = procd_data.apply(lambda x: phrase_model[x])
-                procd_data.to_csv('{}_{}.csv'.format(procd_data_path.split('.csv')[0], ngram), index=False)
+                procd_data.to_csv('{}_{}_{}.csv'.format(procd_data_path.split('.csv')[0], procd_text, ngram), index=False)
 
             dictionary = Dictionary(procd_data)
-            dictionary.save(f'data/features/dictionary_{ngram}.pkl')
+            dictionary.save(f'data/features/{procd_text}/dictionary_{ngram}.pkl')
         
         # BoW
         if bow:
             bow_corpus = [dictionary.doc2bow(doc) for doc in tqdm(procd_data, desc='Generating BoW')]
 
-            with open(f'data/features/bow_{ngram}_corpus.pkl', 'wb') as f:
+            with open(f'data/features/{procd_text}/bow_{ngram}_corpus.pkl', 'wb') as f:
                 pickle.dump(bow_corpus, f)
         
         # TF-IDF
@@ -75,7 +75,7 @@ def main(procd_data_path, bow, tfidf, ngram, bert, bert_pretrained_model, RANDOM
             tfidf_model = TfidfModel(bow_corpus)
             tfidf_corpus = [tfidf_model[doc] for doc in tqdm(bow_corpus, desc='Generating TF-IDF')]
 
-            with open(f'data/features/tfidf_{ngram}_corpus.pkl', 'wb') as f:
+            with open(f'data/features/{procd_text}/tfidf_{ngram}_corpus.pkl', 'wb') as f:
                 pickle.dump(tfidf_corpus, f)
         
         # Logging the metrics with DVCLive
@@ -99,6 +99,7 @@ if __name__ == '__main__':
 
     main(
         procd_data_path = args.procd_data_path,
+        procd_text = params['procd_text'],
         bow = kwargs['bow'],
         tfidf = kwargs['tfidf'],
         ngram = kwargs['ngram'],
