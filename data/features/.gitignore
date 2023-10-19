@@ -1,2 +1,5 @@
 /word2vec_model.pkl
 /bert_embeddings.pkl
+/dictionary_unigram.pkl
+/bow_unigram_corpus.pkl
+/tfidf_unigram_corpus.pkl

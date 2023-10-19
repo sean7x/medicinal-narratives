@@ -10,8 +10,4 @@
     version_aware = false
     use_ssl = false
     ssl_verify = false
-['remote "tencent"']
-    url = s3://mads-1251914148
-    endpointurl = http://cos.ap-shanghai.myqcloud.com/
-    use_ssl = false
-    ssl_verify = false
+
