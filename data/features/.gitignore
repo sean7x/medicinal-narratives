@@ -1,11 +1,2 @@
-/bow_corpus.pkl
-/tfidf_corpus.pkl
 /word2vec_model.pkl
 /bert_embeddings.pkl
-/dictionary.pkl
-/dictionary_bigram.pkl
-/bow_bigram_corpus.pkl
-/tfidf_bigram_corpus.pkl
-/dictionary_unigram.pkl
-/bow_unigram_corpus.pkl
-/tfidf_unigram_corpus.pkl
