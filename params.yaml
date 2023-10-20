@@ -13,7 +13,7 @@ feature_engineering:
   bert_pretrained_model: bert-base-uncased
 clustering_bert:
   algorithm: hierarchical                 # one of 'kmeans', 'dbscan', 'hierarchical'
-  num_clusters: 3                         # number of clusters for k-means and agglomerative clustering
+  num_clusters: 4                         # number of clusters for k-means and agglomerative clustering
   eps: 0.2                                # DBSCAN eps
   min_samples: 5                          # DBSCAN min_samples
   #distance_threshold: 0.5                # agglomerative clustering distance threshold
