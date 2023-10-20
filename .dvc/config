@@ -1,14 +1,8 @@
 [core]
-    remote = gdrive
+    remote = webdav
     autostage = true
 ['remote "gdrive"']
     url = gdrive://1dr0aiT7UAk1qwiZ0PmuiB-HP0EB7eaJY
     gdrive_acknowledge_abuse = true
-['remote "matrix4p"']
-    url = s3://dvc
-    endpointurl = http://matrix4p.com:8010/
-    version_aware = false
-    use_ssl = false
-    ssl_verify = false
 ['remote "webdav"']
     url = webdav://matrix4p.com:5007/WebDAV/medicinal-narratives/
