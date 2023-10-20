@@ -107,8 +107,7 @@ if __name__ == '__main__':
     # Set `procd_data_path`
     procd_data_path = args.procd_data_path
     ngram = params['feature_engineering']['ngram']
-    if ngram != 'unigram':
-        procd_data_path = '{}_{}.csv'.format(procd_data_path.split('.csv')[0], ngram)
+    procd_data_path = '{}_{}_{}.csv'.format(procd_data_path.split('.csv')[0], procd_text, ngram)
 
     with Live(dir="topic_modeling", resume=True, report="html") as live:
         # Load preprocessed text data
