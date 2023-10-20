@@ -6,7 +6,7 @@
     gdrive_acknowledge_abuse = true
 ['remote "matrix4p"']
     url = s3://dvc
-    endpointurl = https://matrix4p.com:8010/
+    endpointurl = http://matrix4p.com:8010/
     version_aware = false
     use_ssl = false
     ssl_verify = false
