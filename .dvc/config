@@ -10,4 +10,5 @@
     version_aware = false
     use_ssl = false
     ssl_verify = false
-
+['remote "webdav"']
+    url = webdav://matrix4p.com:5007/WebDAV/medicinal-narratives/
