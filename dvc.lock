@@ -455,33 +455,33 @@ stages:
           ngram: bigram
           bert: true
           bert_pretrained_model: bert-base-uncased
-        procd_text: lemma_wo_stpwrd
+        procd_text: lemma_w_stpwrd
         train_data_path: sample_train
     outs:
-    - path: data/features/lemma_wo_stpwrd/bert_embeddings.pkl
+    - path: data/features/lemma_w_stpwrd/bert_embeddings.pkl
       hash: md5
-      md5: 1ed4f3ee8d1e586e837e904bc2df8d96
-      size: 3565591064
-    - path: data/features/lemma_wo_stpwrd/bow_bigram_corpus.pkl
+      md5: acf9363dff3715b5932b9f431d86f28e
+      size: 8567430177
+    - path: data/features/lemma_w_stpwrd/bow_bigram_corpus.pkl
       hash: md5
-      md5: 1df043c91d79462c74f0100cf9867454
-      size: 5464970
-    - path: data/features/lemma_wo_stpwrd/dictionary_bigram.pkl
+      md5: ec4db8361d72669febdba6f02d35876a
+      size: 10657331
+    - path: data/features/lemma_w_stpwrd/dictionary_bigram.pkl
       hash: md5
-      md5: 59f7e20b5cc1f665ec4aee7ded752265
-      size: 2489939
-    - path: data/features/lemma_wo_stpwrd/tfidf_bigram_corpus.pkl
+      md5: af207cc4034be33324eb85f6f1b22be8
+      size: 2291790
+    - path: data/features/lemma_w_stpwrd/tfidf_bigram_corpus.pkl
       hash: md5
-      md5: 1b27a38735fa69b4a263fc60bb91ac53
-      size: 18565083
+      md5: b174460859df9a5e1a2119c6bd81e982
+      size: 37546079
   clustering_bert_train:
-    cmd: python src/clustering.py --model_path data/features/lemma_wo_stpwrd/bert_embeddings.pkl
+    cmd: python src/clustering.py --model_path data/features/lemma_w_stpwrd/bert_embeddings.pkl
       --log_dir clustering_bert
     deps:
-    - path: data/features/lemma_wo_stpwrd/bert_embeddings.pkl
+    - path: data/features/lemma_w_stpwrd/bert_embeddings.pkl
       hash: md5
-      md5: 1ed4f3ee8d1e586e837e904bc2df8d96
-      size: 3565591064
+      md5: acf9363dff3715b5932b9f431d86f28e
+      size: 8567430177
     - path: src/clustering.py
       hash: md5
       md5: 4fe4842291a2121d3e7acbfa3809b408
@@ -494,36 +494,36 @@ stages:
           num_clusters: 2
           eps: 0.2
           min_samples: 5
-        procd_text: lemma_wo_stpwrd
+        procd_text: lemma_w_stpwrd
   topic_modeling:
     cmd: python src/topic_modeling.py --procd_data_path data/preprocessed/procd_sample_train.csv
-      --dictionary_path data/features/lemma_wo_stpwrd/dictionary_bigram.pkl
+      --dictionary_path data/features/lemma_w_stpwrd/dictionary_bigram.pkl
     deps:
-    - path: data/features/lemma_wo_stpwrd/dictionary_bigram.pkl
+    - path: data/features/lemma_w_stpwrd/dictionary_bigram.pkl
       hash: md5
-      md5: 59f7e20b5cc1f665ec4aee7ded752265
-      size: 2489939
-    - path: data/features/lemma_wo_stpwrd/tfidf_bigram_corpus.pkl
+      md5: af207cc4034be33324eb85f6f1b22be8
+      size: 2291790
+    - path: data/features/lemma_w_stpwrd/tfidf_bigram_corpus.pkl
       hash: md5
-      md5: 1b27a38735fa69b4a263fc60bb91ac53
-      size: 18565083
+      md5: b174460859df9a5e1a2119c6bd81e982
+      size: 37546079
     - path: data/preprocessed/procd_sample_train.csv
       hash: md5
       md5: aed115c3821c04328a0405672b37f1c8
       size: 49165394
-    - path: models/lemma_wo_stpwrd/bert_hierarchical.pkl
+    - path: models/lemma_w_stpwrd/bert_hierarchical.pkl
       hash: md5
-      md5: 59d3893a1b90379c32b1cf57bc891933
+      md5: a279ac46f24a63e6230f2c3ad21b2d9f
       size: 774786
     - path: src/topic_modeling.py
       hash: md5
-      md5: 7486fad81ce5cd56ca1717cc7ac8cbf4
-      size: 7078
+      md5: e4ece3ea8e3f1b00a412679b0cc8912b
+      size: 7061
     params:
       params.yaml:
         RANDOM_SEED: 42
         feature_engineering.ngram: bigram
-        procd_text: lemma_wo_stpwrd
+        procd_text: lemma_w_stpwrd
         topic_modeling:
           feature: tfidf
           algorithm: lda
