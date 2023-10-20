@@ -9,7 +9,9 @@ stages:
     - RANDOM_SEED
     - extract_sample
     outs:
-    - data/raw/lewtun-drug-reviews/sample_train.jsonl
+    - data/raw/lewtun-drug-reviews/sample_train.jsonl:
+        cache: false
+        persist: true
   preprocess_train:
     cmd: python src/preprocessing.py --input_path data/raw/lewtun-drug-reviews/${train_data_path}.jsonl
       --output_path data/preprocessed/procd_${train_data_path}.csv
