@@ -21,7 +21,8 @@ stages:
     params:
     - train_data_path
     outs:
-    - data/preprocessed/procd_${train_data_path}.csv
+    - data/preprocessed/procd_${train_data_path}.csv:
+        persist: true
   feature_engineering_train:
     cmd: python src/feature_engineering.py --procd_data_path data/preprocessed/procd_${train_data_path}.csv
     deps:
