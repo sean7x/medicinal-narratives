@@ -10,8 +10,8 @@ stages:
       size: 97686013
     - path: src/extract_sample.py
       hash: md5
-      md5: 55ab61600a77c4a09addf00931b5dbae
-      size: 2069
+      md5: 1194b5ce0b326f5f163726cdc36e6e8f
+      size: 2012
     params:
       params.yaml:
         RANDOM_SEED: 42
