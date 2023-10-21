@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="refresh" content="5">
+    <title>DVC Plot</title>
+    
+
+    <script src="https://cdn.jsdelivr.net/npm/vega@5.20.2"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vega-lite@5.2.0"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vega-embed@6.18.2"></script>
+    
+    <style>
+        table {
+            border-spacing: 15px;
+        }
+    </style>
+</head>
+<body>
+    
+        <div id="params_yaml" style="text-align: center; padding: 10x">
+            <p>params_yaml</p>
+            <div style="display: flex;justify-content: center;">
+                <table>
+<thead>
+<tr><th>Preprocessed Text  </th><th>ngram  </th><th>Feature  </th><th>Topic Modeling Algorithm  </th><th style="text-align: right;">  Num of Topics</th></tr>
+</thead>
+<tbody>
+<tr><td>lemma_w_stpwrd     </td><td>bigram </td><td>tfidf    </td><td>lda                       </td><td style="text-align: right;">             14</td></tr>
+</tbody>
+</table>
+            </div>
+        </div>
+
+        <div id="metrics_json" style="text-align: center; padding: 10x">
+            <p>metrics_json</p>
+            <div style="display: flex;justify-content: center;">
+                <table>
+<thead>
+<tr><th style="text-align: right;">  Fold</th><th style="text-align: right;">  Num of Docs (Train)</th><th style="text-align: right;">  Coherence (Train)</th><th style="text-align: right;">  Perplexity (Train)</th><th style="text-align: right;">  Coherence (Test)</th><th style="text-align: right;">  step</th></tr>
+</thead>
+<tbody>
+<tr><td style="text-align: right;">     0</td><td style="text-align: right;">               129036</td><td style="text-align: right;">            0.62051</td><td style="text-align: right;">            -10.6154</td><td style="text-align: right;">          0.594005</td><td style="text-align: right;">     5</td></tr>
+</tbody>
+</table>
+            </div>
+        </div>
+
+    <div id = "static_Coherence__Test_">
+        <script type = "text/javascript">
+            var spec = {"$schema": "https://vega.github.io/schema/vega-lite/v5.json", "data": {"values": [{"step": "0", "Coherence (Test)": "0.6131430249072191", "rev": "workspace"}, {"step": "1", "Coherence (Test)": "0.605076102869645", "rev": "workspace"}, {"step": "2", "Coherence (Test)": "0.613106866677859", "rev": "workspace"}, {"step": "3", "Coherence (Test)": "0.5821748214679892", "rev": "workspace"}, {"step": "4", "Coherence (Test)": "0.5796774678006408", "rev": "workspace"}, {"step": "5", "Coherence (Test)": "0.5940054888186096", "rev": "workspace"}]}, "title": "Coherence (Test)", "width": 300, "height": 300, "params": [{"name": "smooth", "value": 0.001, "bind": {"input": "range", "min": 0.001, "max": 1, "step": 0.001}}], "layer": [{"mark": "line", "encoding": {"x": {"field": "step", "type": "quantitative", "title": "step"}, "y": {"field": "Coherence (Test)", "type": "quantitative", "title": "Coherence (Test)", "scale": {"zero": false}}, "color": {"field": "rev", "type": "nominal"}, "tooltip": [{"field": "step", "title": "step", "type": "quantitative"}, {"field": "Coherence (Test)", "title": "Coherence (Test)", "type": "quantitative"}]}, "transform": [{"loess": "Coherence (Test)", "on": "step", "groupby": ["rev", "filename", "field", "filename::field"], "bandwidth": {"signal": "smooth"}}]}, {"mark": {"type": "line", "opacity": 0.2}, "encoding": {"x": {"field": "step", "type": "quantitative", "title": "step"}, "y": {"field": "Coherence (Test)", "type": "quantitative", "title": "Coherence (Test)", "scale": {"zero": false}}, "color": {"field": "rev", "type": "nominal"}, "tooltip": [{"field": "step", "title": "step", "type": "quantitative"}, {"field": "Coherence (Test)", "title": "Coherence (Test)", "type": "quantitative"}]}}, {"mark": {"type": "circle", "size": 10, "tooltip": {"content": "encoding"}}, "encoding": {"x": {"aggregate": "max", "field": "step", "type": "quantitative", "title": "step"}, "y": {"aggregate": {"argmax": "step"}, "field": "Coherence (Test)", "type": "quantitative", "title": "Coherence (Test)", "scale": {"zero": false}}, "color": {"field": "rev", "type": "nominal"}}}]};
+            vegaEmbed('#static_Coherence__Test_', spec);
+        </script>
+    </div>
+    
+
+    <div id = "static_Coherence__Train_">
+        <script type = "text/javascript">
+            var spec = {"$schema": "https://vega.github.io/schema/vega-lite/v5.json", "data": {"values": [{"step": "0", "Coherence (Train)": "0.6209967984122639", "rev": "workspace"}, {"step": "1", "Coherence (Train)": "0.6033271691354247", "rev": "workspace"}, {"step": "2", "Coherence (Train)": "0.6146262669166318", "rev": "workspace"}, {"step": "3", "Coherence (Train)": "0.6160853124629867", "rev": "workspace"}, {"step": "4", "Coherence (Train)": "0.6097472784917538", "rev": "workspace"}, {"step": "5", "Coherence (Train)": "0.6205100452606154", "rev": "workspace"}]}, "title": "Coherence (Train)", "width": 300, "height": 300, "params": [{"name": "smooth", "value": 0.001, "bind": {"input": "range", "min": 0.001, "max": 1, "step": 0.001}}], "layer": [{"mark": "line", "encoding": {"x": {"field": "step", "type": "quantitative", "title": "step"}, "y": {"field": "Coherence (Train)", "type": "quantitative", "title": "Coherence (Train)", "scale": {"zero": false}}, "color": {"field": "rev", "type": "nominal"}, "tooltip": [{"field": "step", "title": "step", "type": "quantitative"}, {"field": "Coherence (Train)", "title": "Coherence (Train)", "type": "quantitative"}]}, "transform": [{"loess": "Coherence (Train)", "on": "step", "groupby": ["rev", "filename", "field", "filename::field"], "bandwidth": {"signal": "smooth"}}]}, {"mark": {"type": "line", "opacity": 0.2}, "encoding": {"x": {"field": "step", "type": "quantitative", "title": "step"}, "y": {"field": "Coherence (Train)", "type": "quantitative", "title": "Coherence (Train)", "scale": {"zero": false}}, "color": {"field": "rev", "type": "nominal"}, "tooltip": [{"field": "step", "title": "step", "type": "quantitative"}, {"field": "Coherence (Train)", "title": "Coherence (Train)", "type": "quantitative"}]}}, {"mark": {"type": "circle", "size": 10, "tooltip": {"content": "encoding"}}, "encoding": {"x": {"aggregate": "max", "field": "step", "type": "quantitative", "title": "step"}, "y": {"aggregate": {"argmax": "step"}, "field": "Coherence (Train)", "type": "quantitative", "title": "Coherence (Train)", "scale": {"zero": false}}, "color": {"field": "rev", "type": "nominal"}}}]};
+            vegaEmbed('#static_Coherence__Train_', spec);
+        </script>
+    </div>
+    
+
+    <div id = "static_Fold">
+        <script type = "text/javascript">
+            var spec = {"$schema": "https://vega.github.io/schema/vega-lite/v5.json", "data": {"values": [{"step": "0", "Fold": "0", "rev": "workspace"}, {"step": "1", "Fold": "0", "rev": "workspace"}, {"step": "2", "Fold": "0", "rev": "workspace"}, {"step": "3", "Fold": "0", "rev": "workspace"}, {"step": "4", "Fold": "0", "rev": "workspace"}, {"step": "5", "Fold": "0", "rev": "workspace"}]}, "title": "Fold", "width": 300, "height": 300, "params": [{"name": "smooth", "value": 0.001, "bind": {"input": "range", "min": 0.001, "max": 1, "step": 0.001}}], "layer": [{"mark": "line", "encoding": {"x": {"field": "step", "type": "quantitative", "title": "step"}, "y": {"field": "Fold", "type": "quantitative", "title": "Fold", "scale": {"zero": false}}, "color": {"field": "rev", "type": "nominal"}, "tooltip": [{"field": "step", "title": "step", "type": "quantitative"}, {"field": "Fold", "title": "Fold", "type": "quantitative"}]}, "transform": [{"loess": "Fold", "on": "step", "groupby": ["rev", "filename", "field", "filename::field"], "bandwidth": {"signal": "smooth"}}]}, {"mark": {"type": "line", "opacity": 0.2}, "encoding": {"x": {"field": "step", "type": "quantitative", "title": "step"}, "y": {"field": "Fold", "type": "quantitative", "title": "Fold", "scale": {"zero": false}}, "color": {"field": "rev", "type": "nominal"}, "tooltip": [{"field": "step", "title": "step", "type": "quantitative"}, {"field": "Fold", "title": "Fold", "type": "quantitative"}]}}, {"mark": {"type": "circle", "size": 10, "tooltip": {"content": "encoding"}}, "encoding": {"x": {"aggregate": "max", "field": "step", "type": "quantitative", "title": "step"}, "y": {"aggregate": {"argmax": "step"}, "field": "Fold", "type": "quantitative", "title": "Fold", "scale": {"zero": false}}, "color": {"field": "rev", "type": "nominal"}}}]};
+            vegaEmbed('#static_Fold', spec);
+        </script>
+    </div>
+    
+
+    <div id = "static_Num_of_Docs__Train_">
+        <script type = "text/javascript">
+            var spec = {"$schema": "https://vega.github.io/schema/vega-lite/v5.json", "data": {"values": [{"step": "0", "Num of Docs (Train)": "129036", "rev": "workspace"}, {"step": "1", "Num of Docs (Train)": "129036", "rev": "workspace"}, {"step": "2", "Num of Docs (Train)": "129036", "rev": "workspace"}, {"step": "3", "Num of Docs (Train)": "129036", "rev": "workspace"}, {"step": "4", "Num of Docs (Train)": "129036", "rev": "workspace"}, {"step": "5", "Num of Docs (Train)": "129036", "rev": "workspace"}]}, "title": "Num of Docs (Train)", "width": 300, "height": 300, "params": [{"name": "smooth", "value": 0.001, "bind": {"input": "range", "min": 0.001, "max": 1, "step": 0.001}}], "layer": [{"mark": "line", "encoding": {"x": {"field": "step", "type": "quantitative", "title": "step"}, "y": {"field": "Num of Docs (Train)", "type": "quantitative", "title": "Num of Docs (Train)", "scale": {"zero": false}}, "color": {"field": "rev", "type": "nominal"}, "tooltip": [{"field": "step", "title": "step", "type": "quantitative"}, {"field": "Num of Docs (Train)", "title": "Num of Docs (Train)", "type": "quantitative"}]}, "transform": [{"loess": "Num of Docs (Train)", "on": "step", "groupby": ["rev", "filename", "field", "filename::field"], "bandwidth": {"signal": "smooth"}}]}, {"mark": {"type": "line", "opacity": 0.2}, "encoding": {"x": {"field": "step", "type": "quantitative", "title": "step"}, "y": {"field": "Num of Docs (Train)", "type": "quantitative", "title": "Num of Docs (Train)", "scale": {"zero": false}}, "color": {"field": "rev", "type": "nominal"}, "tooltip": [{"field": "step", "title": "step", "type": "quantitative"}, {"field": "Num of Docs (Train)", "title": "Num of Docs (Train)", "type": "quantitative"}]}}, {"mark": {"type": "circle", "size": 10, "tooltip": {"content": "encoding"}}, "encoding": {"x": {"aggregate": "max", "field": "step", "type": "quantitative", "title": "step"}, "y": {"aggregate": {"argmax": "step"}, "field": "Num of Docs (Train)", "type": "quantitative", "title": "Num of Docs (Train)", "scale": {"zero": false}}, "color": {"field": "rev", "type": "nominal"}}}]};
+            vegaEmbed('#static_Num_of_Docs__Train_', spec);
+        </script>
+    </div>
+    
+
+    <div id = "static_Perplexity__Train_">
+        <script type = "text/javascript">
+            var spec = {"$schema": "https://vega.github.io/schema/vega-lite/v5.json", "data": {"values": [{"step": "0", "Perplexity (Train)": "-11.174788047879996", "rev": "workspace"}, {"step": "1", "Perplexity (Train)": "-11.550084026279668", "rev": "workspace"}, {"step": "2", "Perplexity (Train)": "-11.886484687356546", "rev": "workspace"}, {"step": "3", "Perplexity (Train)": "-8.970733315123725", "rev": "workspace"}, {"step": "4", "Perplexity (Train)": "-9.808988479863046", "rev": "workspace"}, {"step": "5", "Perplexity (Train)": "-10.615397296252825", "rev": "workspace"}]}, "title": "Perplexity (Train)", "width": 300, "height": 300, "params": [{"name": "smooth", "value": 0.001, "bind": {"input": "range", "min": 0.001, "max": 1, "step": 0.001}}], "layer": [{"mark": "line", "encoding": {"x": {"field": "step", "type": "quantitative", "title": "step"}, "y": {"field": "Perplexity (Train)", "type": "quantitative", "title": "Perplexity (Train)", "scale": {"zero": false}}, "color": {"field": "rev", "type": "nominal"}, "tooltip": [{"field": "step", "title": "step", "type": "quantitative"}, {"field": "Perplexity (Train)", "title": "Perplexity (Train)", "type": "quantitative"}]}, "transform": [{"loess": "Perplexity (Train)", "on": "step", "groupby": ["rev", "filename", "field", "filename::field"], "bandwidth": {"signal": "smooth"}}]}, {"mark": {"type": "line", "opacity": 0.2}, "encoding": {"x": {"field": "step", "type": "quantitative", "title": "step"}, "y": {"field": "Perplexity (Train)", "type": "quantitative", "title": "Perplexity (Train)", "scale": {"zero": false}}, "color": {"field": "rev", "type": "nominal"}, "tooltip": [{"field": "step", "title": "step", "type": "quantitative"}, {"field": "Perplexity (Train)", "title": "Perplexity (Train)", "type": "quantitative"}]}}, {"mark": {"type": "circle", "size": 10, "tooltip": {"content": "encoding"}}, "encoding": {"x": {"aggregate": "max", "field": "step", "type": "quantitative", "title": "step"}, "y": {"aggregate": {"argmax": "step"}, "field": "Perplexity (Train)", "type": "quantitative", "title": "Perplexity (Train)", "scale": {"zero": false}}, "color": {"field": "rev", "type": "nominal"}}}]};
+            vegaEmbed('#static_Perplexity__Train_', spec);
+        </script>
+    </div>
+    
+</body>
+</html>

@@ -1,8 +1,8 @@
 {
     "Fold": 0,
-    "Num of Docs (Train)": 1290,
-    "Coherence (Train)": 0.3690949607013522,
-    "Perplexity (Train)": -11.631436252044546,
-    "Coherence (Test)": 0.2533373174887049,
-    "step": 11
+    "Num of Docs (Train)": 129036,
+    "Coherence (Train)": 0.6205100452606154,
+    "Perplexity (Train)": -10.615397296252825,
+    "Coherence (Test)": 0.5940054888186096,
+    "step": 5
 }
