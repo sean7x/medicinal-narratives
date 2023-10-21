@@ -77,17 +77,17 @@ stages:
     - topic_modeling
 metrics:
 - feature_engineering/metrics.json
+- cross_validation/metrics.json
 - clustering_bert/metrics.json
 - topic_modeling/metrics.json
-- cross_validation/metrics.json
 plots:
 - feature_engineering/plots/metrics:
+    x: step
+- cross_validation/plots/metrics:
     x: step
 - clustering_bert/plots/metrics:
     x: step
 - topic_modeling/plots/metrics:
-    x: step
-- cross_validation/plots/metrics:
     x: step
 params:
 - cross_validation/params.yaml

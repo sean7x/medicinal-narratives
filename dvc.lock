@@ -491,7 +491,7 @@ stages:
         RANDOM_SEED: 42
         clustering_bert:
           algorithm: hierarchical
-          num_clusters: 3
+          num_clusters: 4
           eps: 0.2
           min_samples: 5
         procd_text: lemma_w_stpwrd
@@ -513,7 +513,7 @@ stages:
       size: 49165394
     - path: models/lemma_w_stpwrd/bert_hierarchical.pkl
       hash: md5
-      md5: 9aad49d015f5de80bde4879ba297bfdd
+      md5: 8529d633746883bdb0677e5ca6c3436d
       size: 774786
     - path: src/topic_modeling.py
       hash: md5
