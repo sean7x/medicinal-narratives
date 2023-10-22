@@ -80,15 +80,6 @@ metrics:
 - clustering_bert/metrics.json
 - topic_modeling/metrics.json
 - cross_validation/metrics.json
-- cross_validation/cluster/metrics.json
-- cross_validation/cluster/metrics.json
-- cross_validation/cluster/metrics.json
-- cross_validation/cluster/metrics.json
-- cross_validation/cluster/metrics.json
-- cross_validation/cluster/metrics.json
-- cross_validation/cluster/metrics.json
-- cross_validation/cluster/metrics.json
-- cross_validation/cluster/metrics.json
 plots:
 - feature_engineering/plots/metrics:
     x: step
@@ -98,32 +89,5 @@ plots:
     x: step
 - cross_validation/plots/metrics:
     x: step
-- cross_validation/cluster/plots/metrics:
-    x: step
-- cross_validation/cluster/plots/metrics:
-    x: step
-- cross_validation/cluster/plots/metrics:
-    x: step
-- cross_validation/cluster/plots/metrics:
-    x: step
-- cross_validation/cluster/plots/metrics:
-    x: step
-- cross_validation/cluster/plots/metrics:
-    x: step
-- cross_validation/cluster/plots/metrics:
-    x: step
-- cross_validation/cluster/plots/metrics:
-    x: step
-- cross_validation/cluster/plots/metrics:
-    x: step
 params:
 - cross_validation/params.yaml
-- cross_validation/cluster/params.yaml
-- cross_validation/cluster/params.yaml
-- cross_validation/cluster/params.yaml
-- cross_validation/cluster/params.yaml
-- cross_validation/cluster/params.yaml
-- cross_validation/cluster/params.yaml
-- cross_validation/cluster/params.yaml
-- cross_validation/cluster/params.yaml
-- cross_validation/cluster/params.yaml
