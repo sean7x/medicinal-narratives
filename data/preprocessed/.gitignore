@@ -4,3 +4,4 @@
 /procd_test.csv
 /procd_train_lemma_w_stpwrd_bigram.csv
 /procd_train_lemma_wo_stpwrd_bigram.csv
+/procd_test_lemma_wo_stpwrd_bigram.csv

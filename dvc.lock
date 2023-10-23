@@ -556,8 +556,8 @@ stages:
       size: 1076592
     - path: src/evaluate_topic_model.py
       hash: md5
-      md5: c2bb465a01335c4bc25f25fea8d0453b
-      size: 5142
+      md5: 5c9bc4199f4a64cf092c8a8728a094a0
+      size: 5514
     outs:
     - path: data/evaluate/topic_keywords.csv
       hash: md5
@@ -571,3 +571,11 @@ stages:
       hash: md5
       md5: bcca6f682f1dc15c87c187be31c0e595
       size: 59352636
+    - path: data/features/lemma_wo_stpwrd/test_tfidf_bigram_corpus.pkl
+      hash: md5
+      md5: 3c4913ff0594d8be7d944e87f90e16c0
+      size: 26930294
+    - path: data/preprocessed/procd_test_lemma_wo_stpwrd_bigram.csv
+      hash: md5
+      md5: 6e1adac05b5da1c076afba76cab9f2a9
+      size: 16456724

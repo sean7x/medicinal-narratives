@@ -58,6 +58,8 @@ if __name__ == '__main__':
             if (type == 'test') and (ngram == 'bigram'):
                 phrase_model = Phrases(procd_data, min_count=1, threshold=1, connector_words=ENGLISH_CONNECTOR_WORDS)
                 procd_data = procd_data.apply(lambda x: phrase_model[x])
+                # Save the preprocessed test data
+                procd_data.to_csv(f"data/preprocessed/procd_{params['test_data_path']}_{params['procd_text']}_bigram.csv", index=False)
             
             # Calculate the coherence score
             coherence_model = CoherenceModel(
@@ -81,6 +83,8 @@ if __name__ == '__main__':
                 if params['feature_engineering']['tfidf']:
                     tfidf_model = TfidfModel(corpus)
                     corpus = [tfidf_model[doc] for doc in tqdm(corpus, desc='Generating TF-IDF corpus for test data')]
+                    # Save the TF-IDF corpus for test data
+                    pickle.dump(corpus, open(f"data/features/{params['procd_text']}/test_tfidf_{ngram}_corpus.pkl", 'wb'))
             
             #topics_dist = [topic_model.get_document_topics(doc) for doc in tqdm(corpus, desc='Extracting topics distribution for test data')]
             topics_dist = pd.DataFrame([

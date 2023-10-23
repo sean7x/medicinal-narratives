@@ -2,3 +2,4 @@
 /bow_bigram_corpus.pkl
 /dictionary_bigram.pkl
 /tfidf_bigram_corpus.pkl
+/test_tfidf_bigram_corpus.pkl

@@ -94,6 +94,8 @@ stages:
     - data/features/${procd_text}/dictionary_${feature_engineering.ngram}.pkl
     - src/evaluate_topic_model.py
     outs:
+    - data/preprocessed/procd_${test_data_path}_${procd_text}_bigram.csv
+    - data/features/${procd_text}/test_tfidf_${feature_engineering.ngram}_corpus.pkl
     - data/evaluate/topic_keywords.csv
     - data/evaluate/topics_dist_train.csv
     - data/evaluate/topics_dist_test.csv
