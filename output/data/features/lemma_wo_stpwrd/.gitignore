@@ -1,0 +1,4 @@
+/bert_embeddings.pkl
+/bow_bigram_corpus.pkl
+/dictionary_bigram.pkl
+/tfidf_bigram_corpus.pkl

@@ -552,7 +552,7 @@ stages:
       size: 8797656
     - path: models/lemma_wo_stpwrd/lda_tfidf_bigram_model.pkl
       hash: md5
-      md5: 6ce9e35fbd16644407ed90af0c9d5817
+      md5: 8d67289fe9e0345ad3d57c67e8e68276
       size: 1076592
     - path: src/evaluate_topic_model.py
       hash: md5

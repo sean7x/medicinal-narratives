@@ -101,8 +101,8 @@ metrics:
 - cross_validation/metrics.json
 - clustering_bert/metrics.json
 - feature_engineering/metrics.json
-- evaluate_topic_model/metrics.json
 - topic_modeling/metrics.json
+- evaluate_topic_model/metrics.json
 plots:
 - cross_validation/plots/metrics:
     x: step
@@ -110,9 +110,9 @@ plots:
     x: step
 - feature_engineering/plots/metrics:
     x: step
-- evaluate_topic_model/plots/metrics:
-    x: step
 - topic_modeling/plots/metrics:
+    x: step
+- evaluate_topic_model/plots/metrics:
     x: step
 params:
 - cross_validation/params.yaml
