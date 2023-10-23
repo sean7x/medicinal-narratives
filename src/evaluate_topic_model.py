@@ -6,7 +6,9 @@ if __name__ == '__main__':
     from gensim.models import LdaModel, Nmf, CoherenceModel
     from gensim.models.phrases import Phrases, ENGLISH_CONNECTOR_WORDS
     from gensim.corpora import Dictionary
+    from gensim.models import TfidfModel
     from dvclive import Live
+    import tqdm
 
     parser = argparse.ArgumentParser()
     parser.add_argument('--topic_model_path', type=str, required=True)
@@ -40,7 +42,7 @@ if __name__ == '__main__':
             'test': f"data/preprocessed/procd_{params['test_data_path']}.csv"
         }
 
-        for type in ['train', 'test']:
+        for type in tqdm(['train', 'test']):
             # Load the preprocessed data
             procd_data_path = procd_data_paths[type]
             procd_df = pd.read_csv(procd_data_path)
@@ -62,4 +64,35 @@ if __name__ == '__main__':
             )
             coherence = coherence_model.get_coherence()
             live.log_metric(f"Coherence - {type}", coherence)
+
+            # Extract the topics distribution and the dominant topic
+            if type == 'train':
+                if not params['feature_engineering.tfidf']:
+                    corpus = pickle.load(open(f"data/feature/{params['procd_text']}/bow_{ngram}_corpus.pkl", 'rb'))
+                else:
+                    corpus = pickle.load(open(f"data/feature/{params['procd_text']}/tfidf_{ngram}_corpus.pkl", 'rb'))
+            else:
+                corpus = [dictionary.doc2bow(doc) for doc in tqdm(procd_data, desc='Generating BoW corpus for test data')]
+                if params['feature_engineering.tfidf']:
+                    tfidf_model = TfidfModel(corpus)
+                    corpus = [tfidf_model[doc] for doc in tqdm(corpus, desc='Generating TF-IDF corpus for test data')]
+            
+            topics_dist = [topic_model.get_document_topics(doc) for doc in tqdm(corpus, desc='Extracting topics distribution for test data')]
+            topics_dist = pd.DataFrame(topics_dist)
+            topics_dist.columns = [f"Topic {i}" for i in range(topic_model.num_topics)]
+            topics_dist.to_csv(f"data/evaluate/topics_dist_{type}.csv", index=False)
+
+            dominant_topic = topics_dist.apply(lambda row: row.idxmax(), axis=1)
+            dominant_topic.to_csv(f"data/evaluate/dominant_topic_{type}.csv", index=False)
+
+            # Extract the topic keywords
+            topic_keywords = pd.DataFrame(topic_model.get_topics())
+            topic_keywords.columns = dictionary.values()
+            topic_keywords.to_csv(f"data/evaluate/topic_keywords_{type}.csv", index=False)
+
+            # Extract the topic coherence
+            topic_coherence = pd.DataFrame([coherence_model.get_coherence_per_topic()])
+            topic_coherence.columns = [f"Topic {i}" for i in range(topic_model.num_topics)]
+            topic_coherence.to_csv(f"data/evaluate/topic_coherence_{type}.csv", index=False)
+
             live.next_step()
