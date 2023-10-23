@@ -1,5 +1,5 @@
 RANDOM_SEED: 42
-train_data_path: sample_train             # one of 'train', 'sample_train'
+train_data_path: train             # one of 'train', 'sample_train'
 test_data_path: test
 procd_text: lemma_w_stpwrd                # one of 'lemma_wo_stpwrd', 'lemma_w_stpwrd'
 extract_sample:
@@ -9,10 +9,10 @@ feature_engineering:
   bow: true
   tfidf: true
   ngram: bigram                           # one of 'unigram', 'bigram'
-  bert: true
+  bert: false
   bert_pretrained_model: bert-base-uncased
 clustering_bert:
-  algorithm: hierarchical                 # one of 'kmeans', 'dbscan', 'hierarchical'
+  algorithm: kmeans                       # one of 'kmeans', 'dbscan', 'hierarchical'
   num_clusters: 4                         # number of clusters for k-means and agglomerative clustering
   eps: 0.2                                # DBSCAN eps
   min_samples: 5                          # DBSCAN min_samples
@@ -20,5 +20,5 @@ clustering_bert:
 topic_modeling:
   feature: tfidf                          # one of 'bow', 'tfidf'
   algorithm: lda                          # one of 'lda', 'nmf'
-  cluster: true                           # 'true' or 'false' indicating if using topic modeling within clusters
+  cluster: false                          # 'true' or 'false' indicating if using topic modeling within clusters
   num_topics: 16

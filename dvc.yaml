@@ -22,6 +22,7 @@ stages:
     - train_data_path
     outs:
     - data/preprocessed/procd_${train_data_path}.csv:
+        cache: true
         persist: true
   feature_engineering_train:
     cmd: python src/feature_engineering.py --procd_data_path data/preprocessed/procd_${train_data_path}.csv
@@ -75,19 +76,42 @@ stages:
     - feature_engineering.ngram
     - procd_text
     - topic_modeling
+  preprocess_test:
+    cmd: python src/preprocessing.py --input_path data/raw/lewtun-drug-reviews/${test_data_path}.jsonl
+      --output_path data/preprocessed/procd_${test_data_path}.csv
+    deps:
+    - data/raw/lewtun-drug-reviews/${test_data_path}.jsonl
+    - src/preprocessing.py
+    params:
+    - test_data_path
+    outs:
+    - data/preprocessed/procd_${test_data_path}.csv:
+        cache: true
+        persist: true
+  evaluate_topic_model:
+    cmd: python src/evaluate_topic_model.py --topic_model_path 
+      models/${procd_text}/${topic_modeling.algorithm}_${topic_modeling.feature}_${feature_engineering.ngram}_model.pkl
+      --dictionary_path data/features/${procd_text}/dictionary_${feature_engineering.ngram}.pkl
+    deps:
+    - models/${procd_text}/${topic_modeling.algorithm}_${topic_modeling.feature}_${feature_engineering.ngram}_model.pkl
+    - data/features/${procd_text}/dictionary_${feature_engineering.ngram}.pkl
+    - src/evaluate_topic_model.py
 metrics:
+- cross_validation/metrics.json
 - feature_engineering/metrics.json
 - clustering_bert/metrics.json
 - topic_modeling/metrics.json
-- cross_validation/metrics.json
+- evaluate_topic_model/metrics.json
 plots:
+- cross_validation/plots/metrics:
+    x: step
 - feature_engineering/plots/metrics:
     x: step
 - clustering_bert/plots/metrics:
     x: step
 - topic_modeling/plots/metrics:
     x: step
-- cross_validation/plots/metrics:
+- evaluate_topic_model/plots/metrics:
     x: step
 params:
 - cross_validation/params.yaml

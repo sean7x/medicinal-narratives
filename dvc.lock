@@ -416,32 +416,32 @@ stages:
       md5: 51d776fab3d12bca61e432afe2a861eb
       size: 134536
   preprocess_train:
-    cmd: python src/preprocessing.py --input_path data/raw/lewtun-drug-reviews/sample_train.jsonl
-      --output_path data/preprocessed/procd_sample_train.csv
+    cmd: python src/preprocessing.py --input_path data/raw/lewtun-drug-reviews/train.jsonl
+      --output_path data/preprocessed/procd_train.csv
     deps:
-    - path: data/raw/lewtun-drug-reviews/sample_train.jsonl
+    - path: data/raw/lewtun-drug-reviews/train.jsonl
       hash: md5
-      md5: b0a4e142db1f06fc38e7580809d09abe
-      size: 19310433
+      md5: 5bfa955b0f63f5c91db7c77ee4d14d95
+      size: 97686013
     - path: src/preprocessing.py
       hash: md5
       md5: af652414701a10d3f52009848af259ff
       size: 2960
     params:
       params.yaml:
-        train_data_path: sample_train
+        train_data_path: train
     outs:
-    - path: data/preprocessed/procd_sample_train.csv
+    - path: data/preprocessed/procd_train.csv
       hash: md5
-      md5: aed115c3821c04328a0405672b37f1c8
-      size: 49165394
+      md5: b040ca952f4a14b4a8f4f78959c0a395
+      size: 246491985
   feature_engineering_train:
-    cmd: python src/feature_engineering.py --procd_data_path data/preprocessed/procd_sample_train.csv
+    cmd: python src/feature_engineering.py --procd_data_path data/preprocessed/procd_train.csv
     deps:
-    - path: data/preprocessed/procd_sample_train.csv
+    - path: data/preprocessed/procd_train.csv
       hash: md5
-      md5: aed115c3821c04328a0405672b37f1c8
-      size: 49165394
+      md5: b040ca952f4a14b4a8f4f78959c0a395
+      size: 246491985
     - path: src/feature_engineering.py
       hash: md5
       md5: 2a408741a820e278f40bae1991a1ef72
@@ -453,10 +453,10 @@ stages:
           bow: true
           tfidf: true
           ngram: bigram
-          bert: true
+          bert: false
           bert_pretrained_model: bert-base-uncased
         procd_text: lemma_w_stpwrd
-        train_data_path: sample_train
+        train_data_path: train
     outs:
     - path: data/features/lemma_w_stpwrd/bert_embeddings.pkl
       hash: md5
@@ -464,16 +464,16 @@ stages:
       size: 8567430177
     - path: data/features/lemma_w_stpwrd/bow_bigram_corpus.pkl
       hash: md5
-      md5: ec4db8361d72669febdba6f02d35876a
-      size: 10657331
+      md5: 88613a7a1699a57b61b073bd16a7808c
+      size: 52782316
     - path: data/features/lemma_w_stpwrd/dictionary_bigram.pkl
       hash: md5
-      md5: af207cc4034be33324eb85f6f1b22be8
-      size: 2291790
+      md5: 48b1bfb97941bfd8d235fbcd121b9a30
+      size: 7818856
     - path: data/features/lemma_w_stpwrd/tfidf_bigram_corpus.pkl
       hash: md5
-      md5: b174460859df9a5e1a2119c6bd81e982
-      size: 37546079
+      md5: e8137cf1486f26375bc6fab30d4e081f
+      size: 185006443
   clustering_bert_train:
     cmd: python src/clustering.py --model_path data/features/lemma_w_stpwrd/bert_embeddings.pkl
       --log_dir clustering_bert
@@ -490,31 +490,31 @@ stages:
       params.yaml:
         RANDOM_SEED: 42
         clustering_bert:
-          algorithm: hierarchical
+          algorithm: kmeans
           num_clusters: 4
           eps: 0.2
           min_samples: 5
         procd_text: lemma_w_stpwrd
   topic_modeling:
-    cmd: python src/topic_modeling.py --procd_data_path data/preprocessed/procd_sample_train.csv
+    cmd: python src/topic_modeling.py --procd_data_path data/preprocessed/procd_train.csv
       --dictionary_path data/features/lemma_w_stpwrd/dictionary_bigram.pkl
     deps:
     - path: data/features/lemma_w_stpwrd/dictionary_bigram.pkl
       hash: md5
-      md5: af207cc4034be33324eb85f6f1b22be8
-      size: 2291790
+      md5: 48b1bfb97941bfd8d235fbcd121b9a30
+      size: 7818856
     - path: data/features/lemma_w_stpwrd/tfidf_bigram_corpus.pkl
       hash: md5
-      md5: b174460859df9a5e1a2119c6bd81e982
-      size: 37546079
-    - path: data/preprocessed/procd_sample_train.csv
+      md5: e8137cf1486f26375bc6fab30d4e081f
+      size: 185006443
+    - path: data/preprocessed/procd_train.csv
       hash: md5
-      md5: aed115c3821c04328a0405672b37f1c8
-      size: 49165394
-    - path: models/lemma_w_stpwrd/bert_hierarchical.pkl
+      md5: b040ca952f4a14b4a8f4f78959c0a395
+      size: 246491985
+    - path: models/lemma_w_stpwrd/bert_kmeans.pkl
       hash: md5
-      md5: 8529d633746883bdb0677e5ca6c3436d
-      size: 774786
+      md5: a56dfb419ea96085f79821bf0e49ae24
+      size: 141978
     - path: src/topic_modeling.py
       hash: md5
       md5: e4ece3ea8e3f1b00a412679b0cc8912b
@@ -527,6 +527,42 @@ stages:
         topic_modeling:
           feature: tfidf
           algorithm: lda
-          cluster: true
+          cluster: false
           num_topics: 16
-        train_data_path: sample_train
+        train_data_path: train
+  preprocess_test:
+    cmd: python src/preprocessing.py --input_path data/raw/lewtun-drug-reviews/test.jsonl
+      --output_path data/preprocessed/procd_test.csv
+    deps:
+    - path: data/raw/lewtun-drug-reviews/test.jsonl
+      hash: md5
+      md5: c2d75db434193f2587d392515ea493ee
+      size: 32591549
+    - path: src/preprocessing.py
+      hash: md5
+      md5: af652414701a10d3f52009848af259ff
+      size: 2960
+    params:
+      params.yaml:
+        test_data_path: test
+    outs:
+    - path: data/preprocessed/procd_test.csv
+      hash: md5
+      md5: d7bb5b6f3a8c2c0abbffa3b5e299aaf9
+      size: 82088088
+  evaluate_topic_model:
+    cmd: python src/evaluate_topic_model.py --topic_model_path models/lemma_w_stpwrd/lda_tfidf_bigram_model.pkl
+      --dictionary_path data/features/lemma_w_stpwrd/dictionary_bigram.pkl
+    deps:
+    - path: data/features/lemma_w_stpwrd/dictionary_bigram.pkl
+      hash: md5
+      md5: 48b1bfb97941bfd8d235fbcd121b9a30
+      size: 7818856
+    - path: models/lemma_w_stpwrd/lda_tfidf_bigram_model.pkl
+      hash: md5
+      md5: d1adc323ec6521f8ca7c3ee8eedca646
+      size: 954275
+    - path: src/evaluate_topic_model.py
+      hash: md5
+      md5: 61aeb17e688219209ceefcb0e3668b87
+      size: 2813
