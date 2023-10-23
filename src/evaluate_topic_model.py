@@ -8,7 +8,7 @@ if __name__ == '__main__':
     from gensim.corpora import Dictionary
     from gensim.models import TfidfModel
     from dvclive import Live
-    import tqdm
+    from tqdm import tqdm
 
     parser = argparse.ArgumentParser()
     parser.add_argument('--topic_model_path', type=str, required=True)
@@ -67,22 +67,27 @@ if __name__ == '__main__':
 
             # Extract the topics distribution and the dominant topic
             if type == 'train':
-                if not params['feature_engineering.tfidf']:
-                    corpus = pickle.load(open(f"data/feature/{params['procd_text']}/bow_{ngram}_corpus.pkl", 'rb'))
+                if not params['feature_engineering']['tfidf']:
+                    corpus = pickle.load(open(f"data/features/{params['procd_text']}/bow_{ngram}_corpus.pkl", 'rb'))
                 else:
-                    corpus = pickle.load(open(f"data/feature/{params['procd_text']}/tfidf_{ngram}_corpus.pkl", 'rb'))
+                    corpus = pickle.load(open(f"data/features/{params['procd_text']}/tfidf_{ngram}_corpus.pkl", 'rb'))
             else:
                 corpus = [dictionary.doc2bow(doc) for doc in tqdm(procd_data, desc='Generating BoW corpus for test data')]
-                if params['feature_engineering.tfidf']:
+                if params['feature_engineering']['tfidf']:
                     tfidf_model = TfidfModel(corpus)
                     corpus = [tfidf_model[doc] for doc in tqdm(corpus, desc='Generating TF-IDF corpus for test data')]
             
-            topics_dist = [topic_model.get_document_topics(doc) for doc in tqdm(corpus, desc='Extracting topics distribution for test data')]
-            topics_dist = pd.DataFrame(topics_dist)
+            #topics_dist = [topic_model.get_document_topics(doc) for doc in tqdm(corpus, desc='Extracting topics distribution for test data')]
+            topics_dist = pd.DataFrame([
+                {topic: prop for topic, prop in topic_model.get_document_topics(doc)}
+                for doc in tqdm(corpus, desc='Extracting topics distribution for test data')
+            ])
             topics_dist.columns = [f"Topic {i}" for i in range(topic_model.num_topics)]
+            topics_dist.fillna(0, inplace=True) # Fill the NaN values with 0
             topics_dist.to_csv(f"data/evaluate/topics_dist_{type}.csv", index=False)
 
-            dominant_topic = topics_dist.apply(lambda row: row.idxmax(), axis=1)
+            #dominant_topic = topics_dist.apply(lambda row: row.idxmax(), axis=1)
+            dominant_topic = topics_dist.idxmax(axis=1)
             dominant_topic.to_csv(f"data/evaluate/dominant_topic_{type}.csv", index=False)
 
             # Extract the topic keywords
