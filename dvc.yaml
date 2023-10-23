@@ -36,27 +36,24 @@ stages:
     - feature_engineering
     outs:
     - data/features/${procd_text}/dictionary_${feature_engineering.ngram}.pkl:
-        cache: false
-        persist: true
-    - data/features/${procd_text}/bow_${feature_engineering.ngram}_corpus.pkl:
-        cache: false
-        persist: true
-    - data/features/${procd_text}/tfidf_${feature_engineering.ngram}_corpus.pkl:
-        cache: false
-        persist: true
-    - data/features/${procd_text}/bert_embeddings.pkl:
         cache: true
         persist: true
-  clustering_bert_train:
-    cmd: python src/clustering.py --model_path data/features/${procd_text}/bert_embeddings.pkl
-      --log_dir clustering_bert
-    deps:
-    - data/features/${procd_text}/bert_embeddings.pkl
-    - src/clustering.py
-    params:
-    - RANDOM_SEED
-    - procd_text
-    - clustering_bert
+    - data/features/${procd_text}/bow_${feature_engineering.ngram}_corpus.pkl:
+        cache: true
+        persist: true
+    - data/features/${procd_text}/tfidf_${feature_engineering.ngram}_corpus.pkl:
+        cache: true
+        persist: true
+  #clustering_bert_train:
+  #  cmd: python src/clustering.py --model_path data/features/${procd_text}/bert_embeddings.pkl
+  #    --log_dir clustering_bert
+  #  deps:
+  #  - data/features/${procd_text}/bert_embeddings.pkl
+  #  - src/clustering.py
+  #  params:
+  #  - RANDOM_SEED
+  #  - procd_text
+  #  - clustering_bert
     #outs:
     #- models/${procd_text}/bert_${clustering_bert.algorithm}.pkl:
     #    cache: false
@@ -68,7 +65,7 @@ stages:
     - data/preprocessed/procd_${train_data_path}.csv
     - data/features/${procd_text}/${topic_modeling.feature}_${feature_engineering.ngram}_corpus.pkl
     - data/features/${procd_text}/dictionary_${feature_engineering.ngram}.pkl
-    - models/${procd_text}/bert_${clustering_bert.algorithm}.pkl
+    #- models/${procd_text}/bert_${clustering_bert.algorithm}.pkl
     - src/topic_modeling.py
     params:
     - RANDOM_SEED
@@ -98,22 +95,24 @@ stages:
     - src/evaluate_topic_model.py
     outs:
     - data/evaluate/topic_keywords.csv
+    - data/evaluate/topics_dist_train.csv
+    - data/evaluate/topics_dist_test.csv
 metrics:
 - cross_validation/metrics.json
-- feature_engineering/metrics.json
 - clustering_bert/metrics.json
-- topic_modeling/metrics.json
+- feature_engineering/metrics.json
 - evaluate_topic_model/metrics.json
+- topic_modeling/metrics.json
 plots:
 - cross_validation/plots/metrics:
     x: step
-- feature_engineering/plots/metrics:
-    x: step
 - clustering_bert/plots/metrics:
     x: step
-- topic_modeling/plots/metrics:
+- feature_engineering/plots/metrics:
     x: step
 - evaluate_topic_model/plots/metrics:
+    x: step
+- topic_modeling/plots/metrics:
     x: step
 params:
 - cross_validation/params.yaml

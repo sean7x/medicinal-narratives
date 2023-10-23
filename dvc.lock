@@ -455,25 +455,21 @@ stages:
           ngram: bigram
           bert: false
           bert_pretrained_model: bert-base-uncased
-        procd_text: lemma_w_stpwrd
+        procd_text: lemma_wo_stpwrd
         train_data_path: train
     outs:
-    - path: data/features/lemma_w_stpwrd/bert_embeddings.pkl
+    - path: data/features/lemma_wo_stpwrd/bow_bigram_corpus.pkl
       hash: md5
-      md5: acf9363dff3715b5932b9f431d86f28e
-      size: 8567430177
-    - path: data/features/lemma_w_stpwrd/bow_bigram_corpus.pkl
+      md5: 1a353721524e090e26a7c73c7c1926e2
+      size: 27784927
+    - path: data/features/lemma_wo_stpwrd/dictionary_bigram.pkl
       hash: md5
-      md5: 88613a7a1699a57b61b073bd16a7808c
-      size: 52782316
-    - path: data/features/lemma_w_stpwrd/dictionary_bigram.pkl
+      md5: 58d32090cccb02319f9e1a7d2ff49c10
+      size: 8797656
+    - path: data/features/lemma_wo_stpwrd/tfidf_bigram_corpus.pkl
       hash: md5
-      md5: 48b1bfb97941bfd8d235fbcd121b9a30
-      size: 7818856
-    - path: data/features/lemma_w_stpwrd/tfidf_bigram_corpus.pkl
-      hash: md5
-      md5: e8137cf1486f26375bc6fab30d4e081f
-      size: 185006443
+      md5: 2a12786984faac604545ee333ad0cdf4
+      size: 93366744
   clustering_bert_train:
     cmd: python src/clustering.py --model_path data/features/lemma_w_stpwrd/bert_embeddings.pkl
       --log_dir clustering_bert
@@ -497,24 +493,20 @@ stages:
         procd_text: lemma_w_stpwrd
   topic_modeling:
     cmd: python src/topic_modeling.py --procd_data_path data/preprocessed/procd_train.csv
-      --dictionary_path data/features/lemma_w_stpwrd/dictionary_bigram.pkl
+      --dictionary_path data/features/lemma_wo_stpwrd/dictionary_bigram.pkl
     deps:
-    - path: data/features/lemma_w_stpwrd/dictionary_bigram.pkl
+    - path: data/features/lemma_wo_stpwrd/dictionary_bigram.pkl
       hash: md5
-      md5: 48b1bfb97941bfd8d235fbcd121b9a30
-      size: 7818856
-    - path: data/features/lemma_w_stpwrd/tfidf_bigram_corpus.pkl
+      md5: 58d32090cccb02319f9e1a7d2ff49c10
+      size: 8797656
+    - path: data/features/lemma_wo_stpwrd/tfidf_bigram_corpus.pkl
       hash: md5
-      md5: e8137cf1486f26375bc6fab30d4e081f
-      size: 185006443
+      md5: 2a12786984faac604545ee333ad0cdf4
+      size: 93366744
     - path: data/preprocessed/procd_train.csv
       hash: md5
       md5: b040ca952f4a14b4a8f4f78959c0a395
       size: 246491985
-    - path: models/lemma_w_stpwrd/bert_kmeans.pkl
-      hash: md5
-      md5: a56dfb419ea96085f79821bf0e49ae24
-      size: 141978
     - path: src/topic_modeling.py
       hash: md5
       md5: e4ece3ea8e3f1b00a412679b0cc8912b
@@ -523,12 +515,12 @@ stages:
       params.yaml:
         RANDOM_SEED: 42
         feature_engineering.ngram: bigram
-        procd_text: lemma_w_stpwrd
+        procd_text: lemma_wo_stpwrd
         topic_modeling:
           feature: tfidf
           algorithm: lda
           cluster: false
-          num_topics: 16
+          num_topics: 18
         train_data_path: train
   preprocess_test:
     cmd: python src/preprocessing.py --input_path data/raw/lewtun-drug-reviews/test.jsonl
@@ -551,17 +543,17 @@ stages:
       md5: d7bb5b6f3a8c2c0abbffa3b5e299aaf9
       size: 82088088
   evaluate_topic_model:
-    cmd: python src/evaluate_topic_model.py --topic_model_path models/lemma_w_stpwrd/lda_tfidf_bigram_model.pkl
-      --dictionary_path data/features/lemma_w_stpwrd/dictionary_bigram.pkl
+    cmd: python src/evaluate_topic_model.py --topic_model_path models/lemma_wo_stpwrd/lda_tfidf_bigram_model.pkl
+      --dictionary_path data/features/lemma_wo_stpwrd/dictionary_bigram.pkl
     deps:
-    - path: data/features/lemma_w_stpwrd/dictionary_bigram.pkl
+    - path: data/features/lemma_wo_stpwrd/dictionary_bigram.pkl
       hash: md5
-      md5: 48b1bfb97941bfd8d235fbcd121b9a30
-      size: 7818856
-    - path: models/lemma_w_stpwrd/lda_tfidf_bigram_model.pkl
+      md5: 58d32090cccb02319f9e1a7d2ff49c10
+      size: 8797656
+    - path: models/lemma_wo_stpwrd/lda_tfidf_bigram_model.pkl
       hash: md5
-      md5: d1adc323ec6521f8ca7c3ee8eedca646
-      size: 954275
+      md5: 6ce9e35fbd16644407ed90af0c9d5817
+      size: 1076592
     - path: src/evaluate_topic_model.py
       hash: md5
       md5: c2bb465a01335c4bc25f25fea8d0453b
@@ -569,5 +561,13 @@ stages:
     outs:
     - path: data/evaluate/topic_keywords.csv
       hash: md5
-      md5: c94cd5c0c7d710eb6969d5ef18897f2a
-      size: 55820371
+      md5: 7e528f6d72fec31eb763a3297f32688f
+      size: 70130108
+    - path: data/evaluate/topics_dist_test.csv
+      hash: md5
+      md5: d22dd89b2253346dc3811217f56ec40c
+      size: 19319146
+    - path: data/evaluate/topics_dist_train.csv
+      hash: md5
+      md5: bcca6f682f1dc15c87c187be31c0e595
+      size: 59352636
