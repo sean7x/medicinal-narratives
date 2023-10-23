@@ -444,8 +444,8 @@ stages:
       size: 246491985
     - path: src/feature_engineering.py
       hash: md5
-      md5: 2a408741a820e278f40bae1991a1ef72
-      size: 4484
+      md5: 1698e04b3cc1ee41b3fa1dcb62544a07
+      size: 4746
     params:
       params.yaml:
         RANDOM_SEED: 42
@@ -453,18 +453,22 @@ stages:
           bow: true
           tfidf: true
           ngram: bigram
-          bert: false
+          bert: true
           bert_pretrained_model: bert-base-uncased
         procd_text: lemma_wo_stpwrd
         train_data_path: train
     outs:
+    - path: data/features/bert_embeddings.pkl
+      hash: md5
+      md5: 49d92bc2be73f3f6034b151e6398cb90
+      size: 42942587558
     - path: data/features/lemma_wo_stpwrd/bow_bigram_corpus.pkl
       hash: md5
       md5: 1a353721524e090e26a7c73c7c1926e2
       size: 27784927
     - path: data/features/lemma_wo_stpwrd/dictionary_bigram.pkl
       hash: md5
-      md5: 58d32090cccb02319f9e1a7d2ff49c10
+      md5: 5d03759ea5a3fb6ba37462b0970ef655
       size: 8797656
     - path: data/features/lemma_wo_stpwrd/tfidf_bigram_corpus.pkl
       hash: md5
@@ -497,7 +501,7 @@ stages:
     deps:
     - path: data/features/lemma_wo_stpwrd/dictionary_bigram.pkl
       hash: md5
-      md5: 58d32090cccb02319f9e1a7d2ff49c10
+      md5: 5d03759ea5a3fb6ba37462b0970ef655
       size: 8797656
     - path: data/features/lemma_wo_stpwrd/tfidf_bigram_corpus.pkl
       hash: md5
@@ -548,11 +552,11 @@ stages:
     deps:
     - path: data/features/lemma_wo_stpwrd/dictionary_bigram.pkl
       hash: md5
-      md5: 58d32090cccb02319f9e1a7d2ff49c10
+      md5: 5d03759ea5a3fb6ba37462b0970ef655
       size: 8797656
     - path: models/lemma_wo_stpwrd/lda_tfidf_bigram_model.pkl
       hash: md5
-      md5: 8d67289fe9e0345ad3d57c67e8e68276
+      md5: c79055520dd815d8ed151fe4535eebf1
       size: 1076592
     - path: src/evaluate_topic_model.py
       hash: md5

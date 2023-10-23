@@ -9,7 +9,7 @@ feature_engineering:
   bow: true
   tfidf: true
   ngram: bigram                           # one of 'unigram', 'bigram'
-  bert: false
+  bert: true
   bert_pretrained_model: bert-base-uncased
 clustering_bert:
   algorithm: kmeans                       # one of 'kmeans', 'dbscan', 'hierarchical'

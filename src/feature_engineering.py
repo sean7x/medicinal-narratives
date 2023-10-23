@@ -11,12 +11,12 @@ import pickle
 
 def main(procd_data_path, procd_text, bow, tfidf, ngram, bert, bert_pretrained_model, RANDOM_SEED):
     with Live(dir='feature_engineering') as live:
-        # Load preprocessed text data
-        procd_data = pd.read_csv(Path(procd_data_path))[procd_text].apply(lambda x: eval(x))
-        procd_data = procd_data[procd_data.apply(lambda row: len(row) > 0)]
-
         # BERT Embeddings
         if bert:
+            # Load preprocessed text data for bert, using 'lemma_w_stpwrd'
+            procd_data = pd.read_csv(Path(procd_data_path))['lemma_w_stpwrd'].apply(lambda x: eval(x))
+            procd_data = procd_data[procd_data.apply(lambda row: len(row) > 0)]
+
             tokenizer = BertTokenizer.from_pretrained(bert_pretrained_model)
             bert_model = BertModel.from_pretrained(bert_pretrained_model)
             # Move model to GPU if available
@@ -49,11 +49,15 @@ def main(procd_data_path, procd_text, bow, tfidf, ngram, bert, bert_pretrained_m
                 get_bert_embeddings(doc).cpu().detach().numpy() for doc in tqdm(procd_data, desc='Generating BERT Embeddings')
             ]
 
-            with open(f'data/features/{procd_text}/bert_embeddings.pkl', 'wb') as f:
+            with open(f'data/features/bert_embeddings.pkl', 'wb') as f:
                 pickle.dump(bert_embeddings, f)
         
         # Extract BOW and TF-IDF features
         if bow or tfidf:
+            # Load preprocessed text data
+            procd_data = pd.read_csv(Path(procd_data_path))[procd_text].apply(lambda x: eval(x))
+            procd_data = procd_data[procd_data.apply(lambda row: len(row) > 0)]
+
             # Add bigrams
             if ngram == 'bigram':
                 phrase_model = Phrases(procd_data, min_count=1, threshold=1, connector_words=ENGLISH_CONNECTOR_WORDS)

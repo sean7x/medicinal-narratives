@@ -44,18 +44,21 @@ stages:
     - data/features/${procd_text}/tfidf_${feature_engineering.ngram}_corpus.pkl:
         cache: true
         persist: true
+    - data/features/bert_embeddings.pkl:
+        cache: true
+        persist: true
   #clustering_bert_train:
-  #  cmd: python src/clustering.py --model_path data/features/${procd_text}/bert_embeddings.pkl
+  #  cmd: python src/clustering.py --model_path data/features/bert_embeddings.pkl
   #    --log_dir clustering_bert
   #  deps:
-  #  - data/features/${procd_text}/bert_embeddings.pkl
+  #  - data/features/bert_embeddings.pkl
   #  - src/clustering.py
   #  params:
   #  - RANDOM_SEED
   #  - procd_text
   #  - clustering_bert
     #outs:
-    #- models/${procd_text}/bert_${clustering_bert.algorithm}.pkl:
+    #- models/bert_${clustering_bert.algorithm}.pkl:
     #    cache: false
     #    persist: true
   topic_modeling:
@@ -65,7 +68,7 @@ stages:
     - data/preprocessed/procd_${train_data_path}.csv
     - data/features/${procd_text}/${topic_modeling.feature}_${feature_engineering.ngram}_corpus.pkl
     - data/features/${procd_text}/dictionary_${feature_engineering.ngram}.pkl
-    #- models/${procd_text}/bert_${clustering_bert.algorithm}.pkl
+    #- models/bert_${clustering_bert.algorithm}.pkl
     - src/topic_modeling.py
     params:
     - RANDOM_SEED
