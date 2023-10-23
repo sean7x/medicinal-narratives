@@ -29,6 +29,11 @@ if __name__ == '__main__':
         # Load the dictionary
         dictionary = Dictionary.load(args.dictionary_path)
         
+        # Extract the topic keywords
+        topic_keywords = pd.DataFrame(topic_model.get_topics())
+        topic_keywords.columns = dictionary.values()
+        topic_keywords.to_csv(f"data/evaluate/topic_keywords.csv", index=False)
+
         # Set the paths to the preprocessed data
         ngram = params['feature_engineering']['ngram']
         if ngram == 'unigram':
@@ -89,11 +94,6 @@ if __name__ == '__main__':
             #dominant_topic = topics_dist.apply(lambda row: row.idxmax(), axis=1)
             dominant_topic = topics_dist.idxmax(axis=1)
             dominant_topic.to_csv(f"data/evaluate/dominant_topic_{type}.csv", index=False)
-
-            # Extract the topic keywords
-            topic_keywords = pd.DataFrame(topic_model.get_topics())
-            topic_keywords.columns = dictionary.values()
-            topic_keywords.to_csv(f"data/evaluate/topic_keywords_{type}.csv", index=False)
 
             # Extract the topic coherence
             topic_coherence = pd.DataFrame([coherence_model.get_coherence_per_topic()])

@@ -96,6 +96,8 @@ stages:
     - models/${procd_text}/${topic_modeling.algorithm}_${topic_modeling.feature}_${feature_engineering.ngram}_model.pkl
     - data/features/${procd_text}/dictionary_${feature_engineering.ngram}.pkl
     - src/evaluate_topic_model.py
+    outs:
+    - data/evaluate/topic_keywords.csv
 metrics:
 - cross_validation/metrics.json
 - feature_engineering/metrics.json

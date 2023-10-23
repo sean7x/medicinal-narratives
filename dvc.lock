@@ -564,5 +564,10 @@ stages:
       size: 954275
     - path: src/evaluate_topic_model.py
       hash: md5
-      md5: fa3d3ea0191f22847f1175e6bb9fc5d2
-      size: 5165
+      md5: c2bb465a01335c4bc25f25fea8d0453b
+      size: 5142
+    outs:
+    - path: data/evaluate/topic_keywords.csv
+      hash: md5
+      md5: c94cd5c0c7d710eb6969d5ef18897f2a
+      size: 55820371
