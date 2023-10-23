@@ -1,5 +1,0 @@
-Preprocessed Text: lemma_w_stpwrd
-ngram: bigram
-Feature: tfidf
-Topic Modeling Algorithm: lda
-Num of Topics: 18

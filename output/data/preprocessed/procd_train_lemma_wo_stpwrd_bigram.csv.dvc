@@ -1,5 +1,0 @@
-outs:
-- md5: 2a85bc29c8761d87bb43357b47a45141
-  size: 49568412
-  hash: md5
-  path: procd_train_lemma_wo_stpwrd_bigram.csv
