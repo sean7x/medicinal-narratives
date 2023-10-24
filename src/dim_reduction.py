@@ -11,6 +11,8 @@ if __name__ == '__main__':
     pca = PCA(n_components=n_components)
     reduced_embeddings = pca.fit_transform(np.vstack(bert_embeddings))
     #reduced_embeddings = pca.fit_transform(bert_embeddings)
+    # Restore the original shape of the embeddings
+    reduced_embeddings = np.array([np.array(embedding) for embedding in np.split(reduced_embeddings, len(bert_embeddings))])
 
     print("Explained Variance Ratio: {}".format(pca.explained_variance_ratio_))
     print("Total Variance Explained: {}".format(np.sum(pca.explained_variance_ratio_)))
